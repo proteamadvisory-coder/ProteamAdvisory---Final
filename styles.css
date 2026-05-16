@@ -1,0 +1,1710 @@
+/* =========================================================
+   PROTEAM ADVISORY — Soft Refresh v3.0 (May 2026)
+   Cyan · Yellow · Glass — bright, airy, glossy
+   Palette: #03AED2 · #68D2E8 · #FDDE55 · #FEEFAD
+   ========================================================= */
+
+:root {
+  /* COLOR — Cyan / Yellow palette · Glass surfaces
+     Deep teal replaces all dark blue · Cyan/yellow replaces all rose-pink
+     Backgrounds are airy cream-cyan, never lavender or pure white       */
+
+  /* "Navy" variables now carry deep TEAL — no dark blue anywhere */
+  --navy:        #08515E;   /* Deep teal — primary dark anchor (text + dark surfaces) */
+  --navy-deep:   #053B45;   /* Deepest teal — dark section gradients */
+  --navy-soft:   #1B7787;   /* Mid teal — secondary text */
+  --navy-light:  #D6F0F4;   /* Very light cyan tint — subtle surface */
+
+  /* "Amber" variables now carry CYAN — primary brand accent (replaces rose-pink) */
+  --amber:        #03AED2;  /* Vivid cyan — primary accent (from palette) */
+  --amber-bright: #68D2E8;  /* Soft cyan — hover / highlight (from palette) */
+  --rose-deep:    #F5C022;  /* Deep yellow — accent for emphasis text */
+
+  /* Yellow — second accent family from palette */
+  --yellow:       #FDDE55;  /* Bright yellow (from palette) */
+  --yellow-soft:  #FEEFAD;  /* Pale yellow (from palette) */
+
+  /* Backgrounds — light, airy, hint of warm cream */
+  --paper:       #F6FCFD;   /* Off-white with faint cyan breath */
+  --cream:       #FFF9E1;   /* Soft warm cream — derived from pale yellow */
+  --cream-warm:  #FEEFAD;   /* Pale yellow (from palette) — warm surface */
+
+  /* Text */
+  --muted:       #6B8A92;   /* Muted teal-grey */
+  --ink:         #08515E;
+
+  /* Lines / borders — semi-transparent deep teal */
+  --line:        rgba(8, 81, 94, 0.10);
+  --line-cream:  rgba(255, 255, 255, 0.18);
+
+  /* Background vignette colours (used in body::before) */
+  --vignette-cyan:   rgba(104, 210, 232, 0.22);
+  --vignette-yellow: rgba(253, 222, 85, 0.18);
+  /* Legacy aliases kept for compatibility with old rules */
+  --vignette-blue: rgba(104, 210, 232, 0.22);
+  --vignette-rose: rgba(253, 222, 85, 0.18);
+
+  /* Glass + gloss tokens */
+  --glass-bg:        rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.72);
+  --glass-bg-cream:  rgba(255, 249, 225, 0.55);
+  --glass-border:    rgba(255, 255, 255, 0.65);
+  --glass-blur:      18px;
+  --gloss-highlight: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 60%);
+  --gloss-edge:      linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent);
+
+  /* TYPE — unchanged */
+  --serif: 'Fraunces', 'Times New Roman', serif;
+  --sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'Geist Mono', 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+
+  /* Radius — soft rounded corners everywhere */
+  --radius:    14px;
+  --radius-sm:  8px;
+  --radius-lg: 20px;
+
+  /* Shadow scale — tinted with deep teal */
+  --shadow-sm: 0 2px 8px rgba(8,81,94,0.08), 0 1px 3px rgba(8,81,94,0.05);
+  --shadow-md: 0 6px 24px rgba(8,81,94,0.10), 0 2px 8px rgba(8,81,94,0.06);
+  --shadow-lg: 0 16px 48px rgba(8,81,94,0.14), 0 4px 16px rgba(8,81,94,0.08);
+  --shadow-cyan: 0 12px 32px rgba(3,174,210,0.22), 0 4px 12px rgba(3,174,210,0.12);
+
+  --max-w: 1320px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--navy);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
+}
+/* ── Global cyan-yellow vignette + airy gradient ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 8% 12%, var(--vignette-cyan) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 50% at 95% 88%, var(--vignette-yellow) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 35% at 85% 8%,  rgba(3, 174, 210, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 45% at 20% 90%, rgba(254, 239, 173, 0.30) 0%, transparent 70%);
+}
+body > * { position: relative; z-index: 1; }
+
+/* Kill the browser's default yellow tap-highlight on every interactive
+   element across all pages. Without this, mobile browsers paint a stuck
+   yellow/amber translucent overlay on tapped links and buttons that
+   doesn't fade until you tap somewhere else. */
+*, *::before, *::after { -webkit-tap-highlight-color: transparent; }
+
+/* Default focus reset: outlines only for keyboard focus, not for tap/click.
+   Individual components can override with their own :focus-visible style. */
+a:focus, button:focus, input:focus, select:focus, textarea:focus, [tabindex]:focus { outline: none; }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: var(--radius-sm); }
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ---------- TOP UTILITY BAR ---------- */
+@media (max-width: 768px) {
+  }
+
+/* ---------- HEADER / NAV ---------- */
+header {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  backdrop-filter: blur(12px);
+}
+
+/* Anchor scroll offset — keep target rows clear of the sticky header
+   when clicking links like services.html#sam-maturity from the Services
+   dropdown. */
+.svc-row[id],
+.svc-group-label[id],
+section[id] {
+  scroll-margin-top: 100px;
+}
+@media (max-width: 1080px) {
+  .svc-row[id],
+  .svc-group-label[id],
+  section[id] {
+    scroll-margin-top: 76px;
+  }
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  gap: 16px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 44px;
+  letter-spacing: -0.03em;
+  color: var(--navy);
+  flex-shrink: 0;
+}
+.logo-globe {
+  width: 22px;
+  height: 22px;
+  color: var(--navy);
+  flex-shrink: 0;
+  opacity: 0.85;
+  margin-bottom: 1px;
+}
+.logo-lockup {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 2px;
+}
+.logo-advisory {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: none;
+  color: var(--muted);
+  padding-left: 1px;
+}
+.logo-text {
+  /* wordmark */
+  text-transform: lowercase;
+}
+.logo-cap {
+  text-transform: uppercase;
+}
+.logo-text::after {
+  content: '.';
+  color: var(--amber);
+  font-weight: 600;
+}
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+  align-items: center;
+}
+.nav-links > li { position: relative; }
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--navy);
+  position: relative;
+  padding: 6px 0;
+  transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after { width: 100%; }
+
+/* --- Services mega-menu dropdown (desktop) --- */
+.nav-links .has-mega > a .caret {
+  width: 12px; height: 12px;
+  transition: transform 0.25s ease;
+  opacity: 0.7;
+}
+.nav-links .has-mega.mega-open > a .caret,
+.nav-links .has-mega:focus-within > a .caret { transform: rotate(180deg); }
+
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  margin-top: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 32px 36px;
+  min-width: 1060px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 250;
+}
+/* invisible bridge — always active, covers the full seam between nav item and dropdown */
+.nav-links .has-mega::after {
+  content: '';
+  position: absolute;
+  top: 100%; left: -20px; right: -20px;
+  height: 20px;
+  pointer-events: auto;
+  z-index: 249;
+}
+
+.nav-links .has-mega.mega-open .mega-menu,
+.nav-links .has-mega:focus-within .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.mega-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 28px;
+}
+.mega-col { min-width: 170px; }
+.mega-head {
+  display: block !important;
+  font-family: var(--sans);
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber) !important;
+  padding: 0 0 10px 0 !important;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.mega-head::after { display: none !important; }
+.mega-head:hover { color: var(--amber-bright) !important; }
+.mega-col ul { list-style: none; }
+.mega-col ul li { margin: 0; }
+.mega-col ul li a {
+  display: block !important;
+  padding: 8px 0 !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  color: var(--navy) !important;
+  line-height: 1.4;
+  transition: color 0.2s, padding-left 0.2s;
+}
+.mega-col ul li a::after { display: none !important; }
+.mega-col ul li a:hover {
+  color: var(--amber) !important;
+  padding-left: 4px !important;
+}
+.mega-col ul li.coming-soon a {
+  color: var(--muted) !important;
+  cursor: default;
+  font-style: italic;
+}
+.mega-col ul li.coming-soon a:hover { color: var(--muted) !important; padding-left: 0 !important; }
+
+.nav-cta {
+  background: var(--navy);
+  color: var(--paper);
+  padding: 12px 22px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-cta:hover {
+  background: var(--amber);
+  color: var(--navy-deep);
+  transform: translateY(-1px);
+}
+.nav-cta::after { content: '→'; transition: transform 0.25s ease; }
+.nav-cta:hover::after { transform: translateX(3px); }
+
+/* Hamburger — compact, mobile-friendly */
+.menu-toggle {
+  display: none;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  flex-direction: column;
+  gap: 4px;
+}
+.menu-toggle:hover { background: var(--cream-warm); }
+.menu-toggle .bar {
+  display: block;
+  width: 16px;
+  height: 1.5px;
+  background: var(--navy);
+  border-radius: var(--radius-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+/* When the drawer is open, lift the toggle (X) out of the header's
+   stacking context so it remains visible above the full-screen drawer
+   and gives the user a clear way to close it. */
+.menu-toggle.open {
+  position: fixed;
+  top: 14px;
+  right: 20px;
+  z-index: 401;
+}
+.menu-toggle.open .bar { background: var(--cream); }
+.menu-toggle.open .bar:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.menu-toggle.open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.menu-toggle.open .bar:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+/* Mobile nav drawer */
+.mobile-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--navy-deep);
+  /* Raised above the sticky header (z-index 200) so the drawer fully
+     covers the page chrome when open — this is what makes the
+     hamburger UI look consistent across every page. */
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  padding: 78px 20px 40px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  /* Use visibility+pointer-events instead of display:none so CSS
+     transitions (opacity, transform) fire reliably on all browsers
+     including iOS Safari, where display:none suppresses transitions. */
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
+  opacity: 0;
+  transform: translateX(100%);
+}
+.mobile-nav.is-open {
+  visibility: visible;
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s;
+}
+.mobile-nav-links {
+  list-style: none;
+  border-top: 1px solid var(--line-cream);
+  margin-bottom: 28px;
+}
+.mobile-nav-links > li { border-bottom: 1px solid var(--line-cream); }
+.mobile-nav-links > li > a,
+.mobile-nav-links > li > .sub-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 0;
+  font-family: var(--sans);
+  font-size: clamp(20px, 5.5vw, 28px);
+  font-weight: 500;
+  color: var(--cream);
+  letter-spacing: -0.025em;
+  transition: color 0.2s;
+  text-align: left;
+}
+.mobile-nav-links > li > a:hover,
+.mobile-nav-links > li > .sub-toggle:hover,
+.mobile-nav-links > li > a.active { color: var(--amber-bright); }
+.mobile-nav-links > li > a > span { font-size: 0.55em; opacity: 0.5; }
+
+/* Sub-menu (accordion) — Services dropdown */
+.mobile-nav-links .sub-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.mobile-nav-links .sub-toggle .caret,
+.mobile-nav-links .sub-toggle-2 .caret {
+  width: 18px;
+  height: 18px;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+.mobile-nav-links .sub-toggle[aria-expanded="true"] .caret,
+.mobile-nav-links .sub-toggle-2[aria-expanded="true"] .caret {
+  transform: rotate(180deg);
+}
+.mobile-nav-links .sub-toggle[aria-expanded="true"],
+.mobile-nav-links .sub-toggle-2[aria-expanded="true"] { color: var(--amber-bright); }
+
+.mobile-nav-links .sub-menu,
+.mobile-nav-links .sub-menu-2 {
+  list-style: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mobile-nav-links .sub-menu.is-open { max-height: 1600px; }
+.mobile-nav-links .sub-menu-2.is-open { max-height: 800px; }
+
+.mobile-nav-links .sub-menu > li {
+  border-top: 1px solid var(--line-cream);
+}
+.mobile-nav-links .sub-menu > li:first-child { border-top: none; }
+
+.mobile-nav-links .sub-menu > li > a,
+.mobile-nav-links .sub-menu > li > .sub-toggle-2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 0 14px 18px;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--cream);
+  opacity: 0.9;
+  transition: color 0.2s, opacity 0.2s;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.mobile-nav-links .sub-menu > li > a:hover,
+.mobile-nav-links .sub-menu > li > .sub-toggle-2:hover { color: var(--amber-bright); opacity: 1; }
+
+.mobile-nav-links .sub-menu-2 {
+  background: rgba(255, 255, 255, 0.025);
+}
+.mobile-nav-links .sub-menu-2 > li > a {
+  display: block;
+  padding: 12px 0 12px 38px;
+  font-family: var(--sans);
+  font-size: 14.5px;
+  font-weight: 400;
+  color: var(--cream);
+  opacity: 0.75;
+  transition: color 0.2s, opacity 0.2s, padding-left 0.2s;
+  border-top: 1px solid var(--line-cream);
+}
+.mobile-nav-links .sub-menu-2 > li:first-child > a { border-top: none; }
+.mobile-nav-links .sub-menu-2 > li > a:hover {
+  color: var(--amber-bright);
+  opacity: 1;
+  padding-left: 44px;
+}
+
+.mobile-nav-cta {
+  background: var(--amber);
+  color: #fff;
+  padding: 16px 26px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.mobile-nav-cta:hover { background: var(--amber-bright); }
+.mobile-nav-contact {
+  padding-top: 24px;
+  border-top: 1px solid var(--line-cream);
+}
+.mobile-nav-contact a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(244,239,230,0.65);
+  font-size: 13px;
+  margin-bottom: 12px;
+  transition: color 0.2s;
+}
+.mobile-nav-contact a:hover { color: var(--amber-bright); }
+.mobile-nav-contact svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+@media (max-width: 1080px) {
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .menu-toggle { display: flex; }
+  .nav { padding: 14px 0; }
+  .logo { font-size: 32px; }
+  .logo-advisory { font-size: 9px; letter-spacing: 0.16em; }
+}
+
+@media (max-width: 480px) {
+  .menu-toggle { width: 28px; height: 28px; gap: 3px; }
+  .menu-toggle .bar { width: 14px; height: 1.5px; }
+  .menu-toggle.open { top: 16px; right: 16px; }
+  .menu-toggle.open .bar:nth-child(1) { transform: translateY(4.5px) rotate(45deg); }
+  .menu-toggle.open .bar:nth-child(3) { transform: translateY(-4.5px) rotate(-45deg); }
+  .logo { font-size: 24px; }
+  .logo-advisory { font-size: 7.5px; letter-spacing: 0.14em; }
+  .nav { padding: 12px 0; }
+  .container { padding: 0 18px; }
+  .mobile-nav { padding: 66px 18px 36px; }
+}
+
+/* ---------- BUTTONS ---------- */
+.btn-primary {
+  background: var(--navy);
+  color: var(--paper);
+  padding: 16px 28px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.25s ease;
+}
+.btn-primary:hover {
+  background: var(--amber);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -8px rgba(3,174,210,0.4);
+}
+.btn-primary::after { content: '→'; transition: transform 0.25s ease; }
+.btn-primary:hover::after { transform: translateX(4px); }
+.btn-ghost {
+  color: var(--navy);
+  padding: 16px 0;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--navy);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.25s ease;
+}
+.btn-ghost:hover { color: var(--amber); border-color: var(--amber); }
+.btn-amber {
+  background: linear-gradient(135deg, var(--amber) 0%, var(--amber-bright) 100%);
+  color: #fff;
+  padding: 18px 30px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-cyan), inset 0 1px 0 rgba(255,255,255,0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-amber::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gloss-highlight);
+  pointer-events: none;
+  opacity: 0.5;
+}
+.btn-amber:hover {
+  background: linear-gradient(135deg, var(--amber-bright) 0%, var(--amber) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px -8px rgba(3, 174, 210, 0.5), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+.btn-amber::after { content: '→'; transition: transform 0.25s; position: relative; z-index: 1; }
+.btn-amber:hover::after { transform: translateX(4px); }
+.btn-line {
+  color: var(--cream);
+  padding: 18px 0;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--cream);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-line:hover { color: var(--amber-bright); border-color: var(--amber-bright); }
+
+/* ---------- INNER PAGE HERO ---------- */
+.page-hero {
+  background: linear-gradient(160deg, var(--paper) 0%, var(--cream) 100%);
+  padding: 72px 0 88px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(11,31,58,0.07) 1px, transparent 0);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  pointer-events: none;
+}
+.page-hero .container { position: relative; z-index: 1; }
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 28px;
+  letter-spacing: 0.02em;
+  flex-wrap: wrap;
+}
+.breadcrumb a:hover { color: var(--amber); }
+.breadcrumb .sep { opacity: 0.4; }
+.breadcrumb .current { color: var(--navy); }
+.page-hero-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 80px;
+  align-items: end;
+}
+.page-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.page-hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--amber); }
+.page-hero h1 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(36px, 5.6vw, 76px);
+  line-height: 1.0;
+  letter-spacing: -0.035em;
+  color: var(--navy);
+}
+.page-hero h1 em {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--amber);
+  font-variation-settings: "opsz" 144;
+  letter-spacing: -0.01em;
+}
+.page-hero-lede {
+  font-family: var(--sans);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 460px;
+}
+@media (max-width: 960px) {
+  .page-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .page-hero { padding: 50px 0 60px; }
+  .page-hero-lede { max-width: 100%; font-size: 18px; }
+}
+
+/* ---------- SECTIONS ---------- */
+section { padding: 0px 0; }
+.section-head { margin-bottom: 64px; max-width: 760px; }
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 24px;
+}
+.section-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--amber); }
+.section-title {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(30px, 4.5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--navy);
+}
+.section-title em {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--amber);
+  font-variation-settings: "opsz" 144;
+  letter-spacing: -0.01em;
+}
+.section-lede {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--navy-soft);
+  margin-top: 24px;
+  max-width: 620px;
+}
+
+@media (max-width: 768px) {
+  section { padding: 70px 0; }
+  .section-head { margin-bottom: 44px; }
+  .container { padding: 0 20px; }
+  .section-lede { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  section { padding: 56px 0; }
+  .container { padding: 0 16px; }
+}
+
+/* ---------- CTA SECTION ---------- */
+.cta {
+  background: linear-gradient(145deg, var(--navy-deep) 0%, #0A6677 55%, #0F8198 100%);
+  color: var(--cream);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.cta::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, var(--amber) 0%, transparent 60%);
+  opacity: 0.25;
+  border-radius: 50%;
+}
+.cta::after {
+  content: '';
+  position: absolute;
+  bottom: -40%; left: -8%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, var(--yellow) 0%, transparent 60%);
+  opacity: 0.15;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.cta-inner {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+}
+.cta h2 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(30px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+.cta h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--amber-bright);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.cta p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(244, 239, 230, 0.75);
+  margin-bottom: 36px;
+  max-width: 540px;
+}
+.cta-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.cta-detail {
+  background: rgba(244, 239, 230, 0.06);
+  border: 1px solid var(--line-cream);
+  padding: 36px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.cta-detail h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+  color: var(--cream);
+}
+.cta-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.cta-list li {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  color: rgba(244, 239, 230, 0.85);
+  line-height: 1.5;
+}
+.cta-list li::before { content: '✓'; color: var(--amber-bright); flex-shrink: 0; font-weight: 600; }
+@media (max-width: 960px) {
+  .cta-inner { grid-template-columns: 1fr; gap: 50px; }
+  .cta { padding: 80px 0; }
+  .cta p { font-size: 16px; max-width: 100%; }
+}
+@media (max-width: 600px) {
+  .cta { padding: 64px 0; }
+  .cta-detail { padding: 24px 20px; }
+  .cta-actions { flex-direction: column; align-items: stretch; }
+  .cta-actions a { justify-content: center; text-align: center; }
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 60%, #0F7B8E 100%);
+  color: var(--cream);
+  border-top: 1px solid var(--line-cream);
+  padding: 80px 0 32px;
+  position: relative;
+  overflow: hidden;
+}
+footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 50% 40% at 90% 0%, rgba(104, 210, 232, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 35% at 5% 100%, rgba(253, 222, 85, 0.10) 0%, transparent 60%);
+}
+footer > * { position: relative; z-index: 1; }
+.foot-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+.foot-brand h3 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  margin: 16px 0;
+}
+.foot-brand p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(244, 239, 230, 0.65);
+  max-width: 320px;
+}
+.foot-col h5 {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(245, 246, 248, 0.55);
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+.foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.foot-col a { font-size: 14px; color: rgba(244, 239, 230, 0.7); transition: color 0.2s; }
+.foot-col a:hover { color: var(--amber-bright); }
+.foot-col ul li.foot-col-group { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244, 239, 230, 0.3); margin-top: 12px; font-family: var(--mono); pointer-events: none; }
+.foot-col ul li.foot-col-group:first-child { margin-top: 0; }
+.foot-col address {
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(244, 239, 230, 0.7);
+}
+.foot-bot {
+  border-top: 1px solid var(--line-cream);
+  padding-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  font-size: 13px;
+  color: rgba(244, 239, 230, 0.5);
+  flex-wrap: wrap;
+}
+.foot-bot a:hover { color: var(--amber-bright); }
+@media (max-width: 960px) {
+  .foot-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .foot-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  footer { padding: 56px 0 24px; }
+  .foot-grid { grid-template-columns: 1fr; gap: 32px; }
+  .foot-brand { grid-column: auto; }
+  .foot-bot { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+
+/* ---------- SCROLL REVEAL ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-stagger.in > *:nth-child(1) { transition-delay: 0s; }
+.reveal-stagger.in > *:nth-child(2) { transition-delay: 0.1s; }
+.reveal-stagger.in > *:nth-child(3) { transition-delay: 0.2s; }
+.reveal-stagger.in > *:nth-child(4) { transition-delay: 0.3s; }
+.reveal-stagger.in > *:nth-child(5) { transition-delay: 0.4s; }
+.reveal-stagger.in > *:nth-child(6) { transition-delay: 0.5s; }
+.reveal-stagger.in > *:nth-child(7) { transition-delay: 0.6s; }
+.reveal-stagger.in > * { opacity: 1; transform: translateY(0); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+
+/* ===== FOOTER SOCIAL ICONS ===== */
+.foot-social {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(244, 239, 230, 0.12);
+}
+.foot-social-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 230, 0.5);
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+.foot-social-icons {
+  display: flex;
+  gap: 10px;
+}
+.foot-social-icons a {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(244, 239, 230, 0.22);
+  border-radius: 50%;
+  color: var(--cream);
+  transition: all 0.22s ease;
+}
+.foot-social-icons a:hover {
+  background: var(--amber);
+  color: var(--navy);
+  border-color: var(--amber);
+  transform: translateY(-2px);
+}
+.foot-social-icons svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* =========================================================
+   SHARE ICONS — inline compact (cards + article header)
+   ========================================================= */
+
+/* Row wrapper: "Read the case →" + share icons side by side */
+.insight-link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  gap: 12px;
+}
+/* Card inline share cluster */
+.card-share-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+/* Shared compact icon style (.csi) used on both cards and article header */
+.csi {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  border-radius: 50%;
+  text-decoration: none;
+  transition: color 0.18s ease, transform 0.18s ease;
+  flex-shrink: 0;
+}
+.csi svg {
+  width: 13px;
+  height: 13px;
+  pointer-events: none;
+}
+.csi:hover { transform: translateY(-2px); }
+.csi.share-li:hover { color: #0A66C2; }
+.csi.share-tw:hover { color: #000; }
+.csi.share-fb:hover { color: #1877F2; }
+.csi.share-wa:hover { color: #25D366; }
+
+/* Article header share — right-aligned in the meta row */
+.article-share-icons {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* =========================================================
+   GLASS / GLOSS LAYER — v3.0
+   Applies frosted-glass + glossy highlight to common card,
+   surface, and accent classes used across all pages.
+   ========================================================= */
+
+/* --- Card surfaces: frosted glass with subtle top-edge gloss --- */
+.cs-card,
+.svc-card,
+.carousel-card,
+.proof-stat-card,
+.team-card,
+.insight-card,
+.article-card,
+.feature-card,
+.value-card,
+.method-card,
+.process-card,
+.zy-outcome-card,
+.fx-recovery-card,
+.sn-recovery-card,
+.asp-outcome-card,
+.rm-proof-stat,
+.sm-proof-stat,
+.hl-proof-stat {
+  background: linear-gradient(135deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.55) 100%) !important;
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  box-shadow:
+    0 8px 32px rgba(8, 81, 94, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(8, 81, 94, 0.04) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top-edge gloss line on cards */
+.cs-card::after,
+.svc-card::after,
+.carousel-card::after,
+.proof-stat-card::after,
+.team-card::after,
+.insight-card::after,
+.zy-outcome-card::after,
+.fx-recovery-card::after,
+.sn-recovery-card::after,
+.asp-outcome-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 8%; right: 8%;
+  height: 1px;
+  background: var(--gloss-edge);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Hover: brighter glass + cyan-tinted glow */
+.cs-card:hover,
+.svc-card:hover,
+.carousel-card:hover,
+.team-card:hover,
+.insight-card:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.72) 100%) !important;
+  border-color: rgba(3, 174, 210, 0.4) !important;
+  box-shadow:
+    0 20px 48px rgba(8, 81, 94, 0.14),
+    0 0 0 1px rgba(3, 174, 210, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+  transform: translateY(-3px);
+}
+
+/* --- Section surfaces: light glassy lift on alternating sections --- */
+.cs-summary,
+.testimonials,
+section.insights-cta,
+section.featured-band {
+  background: linear-gradient(180deg,
+    rgba(214, 240, 244, 0.45) 0%,
+    rgba(254, 239, 173, 0.20) 100%) !important;
+  position: relative;
+}
+
+/* --- Hero gradient backgrounds: cyan-cream-yellow wash --- */
+.page-hero {
+  background:
+    radial-gradient(ellipse 60% 50% at 100% 0%, rgba(104, 210, 232, 0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 45% at 0% 100%, rgba(254, 239, 173, 0.55) 0%, transparent 65%),
+    linear-gradient(160deg, var(--paper) 0%, var(--cream) 100%) !important;
+}
+
+/* --- Eyebrow / section-eyebrow accent: cyan glow --- */
+.section-eyebrow,
+.page-hero-eyebrow {
+  color: var(--amber) !important;
+}
+
+/* --- Italic em accents stay cyan (overrides any leftover rose tones) --- */
+h1 em, h2 em, h3 em, .section-title em, .page-hero h1 em {
+  color: var(--amber) !important;
+}
+
+/* --- Stat numbers: cyan gradient text --- */
+.cs-stat .num,
+.proof-stat-num span,
+.cs-card-result-num span,
+.zy-outcome-num span,
+.fx-rc-num span,
+.sn-rc-num span,
+.asp-outcome-num span {
+  background: linear-gradient(135deg, var(--amber) 0%, var(--navy-soft) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--amber) !important;
+}
+
+/* --- Top nav glass effect --- */
+nav.main-nav,
+header.nav,
+.site-header,
+.top-nav {
+  background: rgba(246, 252, 253, 0.72) !important;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 0 rgba(8, 81, 94, 0.06);
+}
+
+/* --- CTA detail glass panel (sits on dark teal CTA) --- */
+.cta-detail {
+  background: rgba(255, 255, 255, 0.10) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.20) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+/* --- Tag/badge pills: glossy cyan --- */
+.cs-card-tag,
+.tag,
+.pill,
+.badge {
+  background: linear-gradient(135deg, rgba(3, 174, 210, 0.18) 0%, rgba(104, 210, 232, 0.28) 100%);
+  color: var(--navy) !important;
+  border: 1px solid rgba(3, 174, 210, 0.30);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(6px);
+}
+
+/* --- Avatar circles: cyan-yellow gradient --- */
+.team-avatar,
+.proof-avatar,
+.cc-avatar,
+.zy-proof-avatar,
+.fx-proof-avatar,
+.sn-proof-avatar,
+.asp-proof-avatar,
+.rm-proof-av,
+.sm-proof-av,
+.hl-proof-av {
+  background: linear-gradient(135deg, var(--amber) 0%, var(--yellow) 100%) !important;
+  color: var(--navy-deep) !important;
+  box-shadow:
+    0 4px 12px rgba(3, 174, 210, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+/* --- Phase / step number circles get the cyan glow --- */
+.phase-dot,
+.svc-step .num,
+.process-step .num,
+.proc-step .num {
+  background: linear-gradient(135deg, var(--amber) 0%, var(--amber-bright) 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(3, 174, 210, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* --- Anchor color helpers: any element still using the old rose tone --- */
+[style*="rgba(224,122,143"],
+[style*="rgba(224, 122, 143"] {
+  /* leave as-is, only color refs in inline gradients */
+}
+
+/* --- Disable the deep-blue overlay anywhere it leaked in --- */
+section[style*="background: var(--navy)"],
+div[style*="background: var(--navy)"],
+section[style*="background:var(--navy)"],
+div[style*="background:var(--navy)"] {
+  background:
+    linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 60%, #0F7B8E 100%) !important;
+}
+
+/* --- Smooth scroll-into-view animation polish for revealed cards --- */
+.reveal { transition: opacity 0.6s ease, transform 0.6s ease; }
+
+/* --- Selection: cyan highlight --- */
+::selection {
+  background: var(--amber-bright);
+  color: var(--navy-deep);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UNIFIED PROOF SECTION — v3.1
+   ──────────────────────────────────────────────────────────────────────────
+   The user loved the Proof section on Service 10 (Cloud FinOps · Helpdesk).
+   This block applies that exact treatment — italic quote + dark-teal stat
+   card with cyan radial glow + huge stat number + gap-animated link — to
+   every other service page's proof section.
+
+   Variants harmonised:
+     .proof / .zy-proof / .asp-proof / .fx-proof / .sn-proof
+     .hl-proof / .rm-proof / .sm-proof
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Section wrapper ─────────────────────────────────────────── */
+.proof,
+.zy-proof,
+.asp-proof,
+.fx-proof,
+.sn-proof,
+.hl-proof,
+.rm-proof,
+.sm-proof {
+  background: var(--paper) !important;
+  padding: 120px 0 !important;
+  position: relative;
+  color: var(--navy) !important;
+  border-top: none !important;
+  border-bottom: 1px solid var(--line) !important;
+}
+
+/* Kill any dark hero overlays that some custom proofs added */
+.zy-proof::before, .zy-proof::after,
+.asp-proof::before, .asp-proof::after,
+.fx-proof::before, .fx-proof::after,
+.sn-proof::before, .sn-proof::after,
+.hl-proof::before, .hl-proof::after,
+.rm-proof::before, .rm-proof::after,
+.sm-proof::before, .sm-proof::after {
+  display: none !important;
+}
+
+/* ── 2. Two-column grid (1fr : 1.2fr) ──────────────────────────── */
+.proof-grid,
+.zy-proof-grid,
+.asp-proof-grid,
+.fx-proof-grid,
+.sn-proof-grid,
+.hl-proof-grid,
+.rm-proof-grid,
+.sm-proof-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1.2fr !important;
+  gap: 64px !important;
+  align-items: center !important;
+}
+@media (max-width: 900px) {
+  .proof-grid,
+  .zy-proof-grid,
+  .asp-proof-grid,
+  .fx-proof-grid,
+  .sn-proof-grid,
+  .hl-proof-grid,
+  .rm-proof-grid,
+  .sm-proof-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+}
+
+/* ── 3. Big italic quote, cyan em accents ──────────────────────── */
+.proof-quote,
+.zy-proof-quote,
+.asp-proof-quote,
+.fx-proof-quote,
+.sn-proof-quote,
+.hl-proof-quote,
+.rm-proof-quote,
+.sm-proof-quote {
+  font-family: var(--sans) !important;
+  font-weight: 400 !important;
+  font-size: clamp(28px, 3.6vw, 42px) !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.015em !important;
+  color: var(--navy) !important;
+  font-variation-settings: "opsz" 144 !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--navy) !important;
+}
+.proof-quote em,
+.zy-proof-quote em,
+.asp-proof-quote em,
+.fx-proof-quote em,
+.sn-proof-quote em,
+.hl-proof-quote em,
+.rm-proof-quote em,
+.sm-proof-quote em {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  color: var(--amber) !important;
+  font-weight: 400 !important;
+  font-variation-settings: "opsz" 144 !important;
+  -webkit-text-fill-color: var(--amber) !important;
+}
+
+/* Optional body line some pages have under the quote */
+.hl-proof-body,
+.rm-proof-body,
+.sm-proof-body {
+  font-size: 16px !important;
+  line-height: 1.7 !important;
+  color: var(--navy-soft) !important;
+  margin-top: 20px !important;
+}
+
+/* ── 4. Attribution row ────────────────────────────────────────── */
+.proof-attribution,
+.zy-proof-attribution,
+.asp-proof-attribution,
+.fx-proof-attr,
+.sn-proof-attr,
+.hl-proof-attr,
+.rm-proof-attr,
+.sm-proof-attr {
+  margin-top: 32px !important;
+  padding-top: 24px !important;
+  border-top: 1px solid var(--line) !important;
+  display: flex !important;
+  gap: 16px !important;
+  align-items: center !important;
+}
+
+/* ── 5. Avatar circle: dark teal bg, light-cyan italic initials ─ */
+.proof-avatar,
+.zy-proof-avatar,
+.asp-proof-avatar,
+.fx-proof-avatar,
+.sn-proof-avatar,
+.hl-proof-av,
+.rm-proof-av,
+.sm-proof-av {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  background: var(--navy) !important;
+  color: var(--amber-bright) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: var(--sans) !important;
+  font-style: italic !important;
+  font-size: 20px !important;
+  font-variation-settings: "opsz" 144 !important;
+  box-shadow: none !important;
+  flex-shrink: 0;
+}
+
+/* ── 6. Name + role ────────────────────────────────────────────── */
+.proof-name,
+.zy-proof-name,
+.asp-proof-name,
+.fx-proof-name,
+.sn-proof-name,
+.hl-proof-name,
+.rm-proof-name,
+.sm-proof-name {
+  font-weight: 600 !important;
+  color: var(--navy) !important;
+  font-family: var(--sans) !important;
+  font-size: 15px !important;
+}
+.proof-role,
+.zy-proof-role,
+.asp-proof-role,
+.fx-proof-role,
+.sn-proof-role,
+.hl-proof-role,
+.rm-proof-role,
+.sm-proof-role {
+  font-size: 13px !important;
+  color: var(--muted) !important;
+  margin-top: 2px !important;
+  font-family: var(--sans) !important;
+}
+
+/* ── 7. THE DARK TEAL STAT CARD with cyan radial glow ──────────── */
+.proof-stat-card,
+.zy-outcome-card,
+.asp-outcome-card,
+.fx-recovery-card,
+.sn-recovery-card,
+.hl-proof-stat,
+.rm-proof-stat,
+.sm-proof-stat {
+  background: var(--navy) !important;
+  color: var(--cream) !important;
+  padding: 56px 48px !important;
+  border-radius: 8px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 18px 48px rgba(8, 81, 94, 0.22), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+  transform: none;
+}
+
+/* Radial cyan glow behind the number — subtle pulse animation */
+.proof-stat-card::before,
+.zy-outcome-card::before,
+.asp-outcome-card::before,
+.fx-recovery-card::before,
+.sn-recovery-card::before,
+.hl-proof-stat::before,
+.rm-proof-stat::before,
+.sm-proof-stat::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -50% !important;
+  right: -30% !important;
+  width: 400px !important;
+  height: 400px !important;
+  background: radial-gradient(circle, var(--amber) 0%, transparent 70%) !important;
+  opacity: 0.22 !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
+  animation: proofGlowPulse 6s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+/* Kill the v3 glass-layer top-edge highlight on these cards (would clash) */
+.proof-stat-card::after,
+.zy-outcome-card::after,
+.asp-outcome-card::after,
+.fx-recovery-card::after,
+.sn-recovery-card::after,
+.hl-proof-stat::after,
+.rm-proof-stat::after,
+.sm-proof-stat::after {
+  content: none !important;
+}
+
+/* Stack inner content above the glow */
+.proof-stat-card > *,
+.zy-outcome-card > *,
+.asp-outcome-card > *,
+.fx-recovery-card > *,
+.sn-recovery-card > *,
+.hl-proof-stat > *,
+.rm-proof-stat > *,
+.sm-proof-stat > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── 8. Tiny uppercase eyebrow label ───────────────────────────── */
+.proof-stat-label,
+.zy-outcome-tag,
+.asp-outcome-tag,
+.fx-rc-label,
+.sn-rc-label,
+.hl-proof-stat-tag,
+.rm-proof-stat-tag,
+.sm-proof-stat-tag {
+  font-family: var(--mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+  color: var(--amber-bright) !important;
+  margin-bottom: 24px !important;
+  display: block !important;
+  font-weight: 500 !important;
+}
+
+/* ── 9. HUGE display stat number, cyan accent on <span> ────────── */
+.proof-stat-num,
+.zy-outcome-num,
+.asp-outcome-num,
+.fx-rc-num,
+.sn-rc-num,
+.hl-proof-stat-num,
+.rm-proof-stat-num,
+.sm-proof-stat-num {
+  font-family: var(--sans) !important;
+  font-weight: 300 !important;
+  font-size: clamp(72px, 9vw, 120px) !important;
+  line-height: 0.9 !important;
+  color: var(--cream) !important;
+  margin-bottom: 24px !important;
+  letter-spacing: -0.04em !important;
+  font-variation-settings: "opsz" 144 !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: var(--cream) !important;
+}
+.proof-stat-num span,
+.zy-outcome-num span,
+.asp-outcome-num span,
+.fx-rc-num span,
+.sn-rc-num span,
+.hl-proof-stat-num span,
+.rm-proof-stat-num span,
+.sm-proof-stat-num span {
+  color: var(--amber-bright) !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--amber-bright) !important;
+}
+
+/* ── 10. Body description in muted cream ───────────────────────── */
+.proof-stat-desc,
+.zy-outcome-desc,
+.asp-outcome-desc,
+.fx-rc-desc,
+.sn-rc-desc,
+.hl-proof-stat-desc,
+.rm-proof-stat-desc,
+.sm-proof-stat-desc {
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  color: rgba(240, 242, 245, 0.80) !important;
+  margin-bottom: 32px !important;
+}
+
+/* ── 11. Outgoing link with gap-animation on hover ─────────────── */
+.proof-stat-link,
+.proof-cta-link,
+.zy-outcome-link,
+.asp-outcome-link,
+.fx-rc-link,
+.sn-rc-link,
+.hl-proof-stat-link,
+.rm-proof-stat-link,
+.sm-proof-stat-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--amber-bright) !important;
+  border-bottom: 1px solid var(--amber-bright) !important;
+  padding-bottom: 4px !important;
+  transition: gap 0.3s ease, color 0.3s ease !important;
+  background: none !important;
+}
+.proof-stat-link:hover,
+.proof-cta-link:hover,
+.zy-outcome-link:hover,
+.asp-outcome-link:hover,
+.fx-rc-link:hover,
+.sn-rc-link:hover,
+.hl-proof-stat-link:hover,
+.rm-proof-stat-link:hover,
+.sm-proof-stat-link:hover {
+  gap: 16px !important;
+  color: #fff !important;
+}
+
+/* ── 12. Inner wrapper that some pages use ─────────────────────── */
+.proof-stat-inner { position: relative; z-index: 1; }
+
+/* ── 13. Keyframe: subtle cyan glow pulse on the stat card ─────── */
+@keyframes proofGlowPulse {
+  0%   { opacity: 0.18; transform: scale(1)    translate(0, 0); }
+  50%  { opacity: 0.30; transform: scale(1.08) translate(-2%, 2%); }
+  100% { opacity: 0.22; transform: scale(1.04) translate(1%, -1%); }
+}
+
+/* ── 14. Honour reduced motion ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .proof-stat-card::before,
+  .zy-outcome-card::before,
+  .asp-outcome-card::before,
+  .fx-recovery-card::before,
+  .sn-recovery-card::before,
+  .hl-proof-stat::before,
+  .rm-proof-stat::before,
+  .sm-proof-stat::before {
+    animation: none !important;
+  }
+}
+
+/* ── 15. Eyebrow label in the section header consistency ──────── */
+.proof .section-eyebrow,
+.zy-proof .section-eyebrow,
+.asp-proof .section-eyebrow,
+.fx-proof .section-eyebrow,
+.sn-proof .section-eyebrow,
+.hl-proof .section-eyebrow,
+.rm-proof .section-eyebrow,
+.sm-proof .section-eyebrow,
+.proof .section-tag,
+.proof .st-eyebrow,
+.zy-section-tag,
+.asp-section-tag,
+.fx-section-tag,
+.sn-section-tag,
+.hl-section-tag,
+.rm-section-tag,
+.sm-section-tag,
+.hl-proof .st-eyebrow,
+.rm-proof .st-eyebrow,
+.sm-proof .st-eyebrow {
+  color: var(--amber) !important;
+  font-family: var(--mono) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 16px !important;
+  display: block;
+}
+
+/* ── 16. H2 title legibility on the now-light proof bg ──────────
+   Some custom proof sections (zylo, snow, etc.) have inline
+   style="color: var(--cream)" on their h2 — that text would be
+   nearly invisible on the new light paper bg. Override here.    */
+.proof h2,
+.zy-proof h2,
+.asp-proof h2,
+.fx-proof h2,
+.sn-proof h2,
+.hl-proof h2,
+.rm-proof h2,
+.sm-proof h2 {
+  color: var(--navy) !important;
+}
+.proof h2 em,
+.zy-proof h2 em,
+.asp-proof h2 em,
+.fx-proof h2 em,
+.sn-proof h2 em,
+.hl-proof h2 em,
+.rm-proof h2 em,
+.sm-proof h2 em {
+  color: var(--amber) !important;
+}
+
+/* The .st-h section header used by hl/rm/sm proofs */
+.hl-proof .st-h, .rm-proof .st-h, .sm-proof .st-h {
+  color: var(--navy) !important;
+}
+.hl-proof .st-h em, .rm-proof .st-h em, .sm-proof .st-h em {
+  color: var(--amber) !important;
+}
