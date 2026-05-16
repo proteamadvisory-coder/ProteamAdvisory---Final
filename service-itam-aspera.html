@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>USU SmartTrack (Aspera) Services — Proteam Advisory</title>
+<meta name="description" content="USU SmartTrack (formerly Aspera) implementation, optimisation, and remediation. Engine configuration for major publishers, deep SAP measurement specialism, and recovery of stalled deployments." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<style>
+/* ============================================================
+   ASPERA / USU SMARTTRACK — PRECISION MEASUREMENT ENGINE
+   Motion Identity: Compliance Grid Scan
+   A field of license data nodes swept by a precision beam —
+   each publisher revealed, measured, and made defensible.
+   Visual metaphor: SmartTrack turns the unknown into auditable truth.
+   ============================================================ */
+
+/* ── COLOR VARS (v3.0 — cyan/yellow palette, no dark blue) ── */
+:root {
+  --asp-gold:        #03AED2;
+  --asp-gold-bright: #68D2E8;
+  --asp-gold-dim:    rgba(3,174,210,0.12);
+  --asp-dark:        #053B45;
+}
+
+/* ── HERO ── */
+.asp-hero {
+  background: var(--asp-dark);
+  position: relative;
+  overflow: hidden;
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 0 80px;
+  border-bottom: none;
+}
+
+
+/* Crosshair grid overlay — precision measurement aesthetic */
+.asp-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(196,148,42,0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,148,42,0.028) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* Radial vignette for content legibility */
+.asp-hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 100% 80% at 40% 65%, transparent 15%, rgba(12,21,32,0.78) 100%);
+  pointer-events: none;
+}
+
+.asp-hero .container {
+  position: relative;
+  z-index: 10;
+}
+
+/* ── BREADCRUMB ── */
+.asp-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(240,242,245,0.35);
+  margin-bottom: 48px;
+  letter-spacing: 0.05em;
+}
+.asp-breadcrumb a { color: rgba(240,242,245,0.35); }
+.asp-breadcrumb a:hover { color: var(--asp-gold); }
+.asp-breadcrumb .sep { opacity: 0.25; }
+.asp-breadcrumb .current { color: var(--asp-gold); }
+
+/* ── EYEBROW ── */
+.asp-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--asp-gold);
+  margin-bottom: 28px;
+}
+.asp-eyebrow::before {
+  content: '';
+  width: 32px; height: 1px;
+  background: var(--asp-gold);
+  opacity: 0.6;
+}
+
+/* ── HEADLINE ── */
+.asp-hero-headline {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(40px, 5.8vw, 82px);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  max-width: 860px;
+  margin-bottom: 32px;
+}
+.asp-hero-headline em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--asp-gold);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+
+.asp-hero-sub {
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(240,242,245,0.58);
+  max-width: 520px;
+  margin-bottom: 48px;
+}
+
+/* ── PUBLISHER SCAN TICKER ── */
+.asp-ticker {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 22px;
+  background: rgba(12,21,32,0.75);
+  border: 1px solid rgba(196,148,42,0.18);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(12px);
+  width: fit-content;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.asp-ticker-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,242,245,0.3);
+}
+.asp-ticker-pubs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.asp-ticker-pub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--asp-gold);
+  padding: 4px 10px;
+  border: 1px solid rgba(196,148,42,0.22);
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  animation: asp-pub-scan 0.45s ease forwards;
+  position: relative;
+  overflow: hidden;
+}
+.asp-ticker-pub::after {
+  content: '';
+  position: absolute;
+  left: -100%;
+  top: 0; bottom: 0;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(196,148,42,0.15), transparent);
+  animation: asp-sweep 1.8s ease forwards;
+}
+.asp-ticker-pub:nth-child(1) { animation-delay: 0.4s; }
+.asp-ticker-pub:nth-child(1)::after { animation-delay: 0.4s; }
+.asp-ticker-pub:nth-child(2) { animation-delay: 1.0s; }
+.asp-ticker-pub:nth-child(2)::after { animation-delay: 1.0s; }
+.asp-ticker-pub:nth-child(3) { animation-delay: 1.7s; }
+.asp-ticker-pub:nth-child(3)::after { animation-delay: 1.7s; }
+.asp-ticker-pub:nth-child(4) { animation-delay: 2.4s; }
+.asp-ticker-pub:nth-child(4)::after { animation-delay: 2.4s; }
+@keyframes asp-pub-scan {
+  0%   { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes asp-sweep {
+  0%   { left: -100%; }
+  100% { left: 200%; }
+}
+
+.asp-ticker-divider {
+  width: 1px; height: 32px;
+  background: rgba(196,148,42,0.12);
+}
+.asp-ticker-stat {
+  display: flex; flex-direction: column; gap: 3px;
+}
+.asp-ticker-stat-num {
+  font-family: var(--mono); font-size: 13px;
+  color: var(--cream); font-weight: 500;
+}
+.asp-ticker-stat-lbl {
+  font-family: var(--mono); font-size: 10px;
+  color: rgba(240,242,245,0.3); letter-spacing: 0.05em;
+}
+.asp-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--asp-gold);
+  box-shadow: 0 0 10px var(--asp-gold);
+  flex-shrink: 0;
+  animation: asp-pulse 2.6s ease-in-out infinite;
+}
+@keyframes asp-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(1.6); }
+}
+
+/* ── HERO ACTIONS ── */
+.asp-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+.btn-cmd-asp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--asp-gold);
+  color: var(--asp-dark);
+  padding: 16px 28px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--radius);
+  transition: all 0.25s ease;
+}
+.btn-cmd-asp:hover {
+  background: var(--asp-gold-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -8px rgba(196,148,42,0.4);
+}
+.btn-cmd-asp::after { content: '→'; transition: transform 0.25s; }
+.btn-cmd-asp:hover::after { transform: translateX(4px); }
+
+.btn-ghost-asp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(240,242,245,0.5);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(240,242,245,0.18);
+  padding-bottom: 2px;
+  transition: all 0.25s;
+}
+.btn-ghost-asp:hover { color: var(--asp-gold); border-color: var(--asp-gold); }
+
+/* ── STAT ROW ── */
+.asp-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(196,148,42,0.14);
+  padding-top: 48px;
+}
+.asp-stat {
+  padding-right: 40px;
+  border-right: 1px solid rgba(196,148,42,0.09);
+}
+.asp-stat:first-child { padding-left: 0; }
+.asp-stat:last-child  { border-right: none; padding-right: 0; padding-left: 40px; }
+.asp-stat:nth-child(2) { padding-left: 40px; }
+.asp-stat-num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 52px;
+  line-height: 0.9;
+  color: var(--asp-gold);
+  letter-spacing: -0.04em;
+  margin-bottom: 10px;
+  font-variation-settings: "opsz" 144;
+}
+.asp-stat-lbl {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(240,242,245,0.42);
+}
+@media (max-width: 768px) {
+  .asp-stat-row { grid-template-columns: 1fr; gap: 28px; border: none; }
+  .asp-stat { border: none; padding: 0 !important; }
+}
+
+/* ── SECTION TAG ── */
+.asp-section-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--asp-gold);
+  opacity: 0.8;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.asp-section-tag::before { content: '//'; opacity: 0.45; }
+
+/* ── OVERVIEW ── */
+.asp-overview {
+  background: var(--navy);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.asp-overview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.asp-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+  position: relative;
+}
+.asp-overview-grid h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 24px;
+}
+.asp-overview-grid h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--asp-gold);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.asp-overview-grid p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: rgba(240,242,245,0.6);
+  margin-bottom: 18px;
+}
+.asp-overview-grid p strong { color: var(--cream); font-weight: 600; }
+
+/* Publisher measurement depth visual */
+.asp-depth-visual {
+  background: rgba(12,21,32,0.65);
+  border: 1px solid rgba(196,148,42,0.14);
+  border-radius: var(--radius-sm);
+  padding: 32px;
+  margin-top: 20px;
+}
+.asp-depth-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,242,245,0.28);
+  margin-bottom: 24px;
+}
+.asp-depth-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.asp-depth-pub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(240,242,245,0.5);
+  width: 72px;
+  flex-shrink: 0;
+}
+.asp-depth-track {
+  flex: 1;
+  height: 5px;
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.asp-depth-fill {
+  height: 100%;
+  border-radius: var(--radius-sm);
+  width: 0;
+  transition: width 1.6s cubic-bezier(0.25, 1, 0.3, 1);
+}
+.asp-depth-fill.visible { width: var(--bar-w); }
+.asp-depth-fill.primary { background: linear-gradient(90deg, var(--asp-gold), var(--asp-gold-bright)); }
+.asp-depth-fill.secondary { background: rgba(255,255,255,0.12); }
+.asp-depth-pct {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(240,242,245,0.35);
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.asp-depth-note {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(240,242,245,0.22);
+  margin-top: 18px;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 960px) {
+  .asp-overview-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ── WORKSTREAMS ── */
+.asp-workstreams {
+  background: var(--paper);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.asp-ws-header {
+  max-width: 720px;
+  margin-bottom: 60px;
+}
+.asp-ws-header h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--navy);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 16px;
+}
+.asp-ws-header h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--asp-gold);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.asp-ws-header p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.asp-ws-header .asp-section-tag { color: var(--asp-gold); }
+
+/* 3-column grid — top-border reveal on hover (distinct from Zylo's left-border) */
+.asp-ws-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.asp-ws-item {
+  background: var(--paper);
+  padding: 40px 36px;
+  position: relative;
+  transition: background 0.35s ease;
+  overflow: hidden;
+}
+/* Top-border slide-in — different from Zylo's left-border */
+.asp-ws-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--asp-gold), var(--asp-gold-bright));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+/* Corner accent — precision feel */
+.asp-ws-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 0 20px 20px;
+  border-color: transparent transparent rgba(196,148,42,0.0) transparent;
+  transition: border-color 0.35s ease;
+}
+.asp-ws-item:hover { background: rgba(196,148,42,0.03); }
+.asp-ws-item:hover::before { transform: scaleX(1); }
+.asp-ws-item:hover::after { border-color: transparent transparent rgba(196,148,42,0.18) transparent; }
+
+.asp-ws-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--asp-gold);
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+.asp-ws-icon {
+  width: 34px; height: 34px;
+  margin-bottom: 16px;
+  color: var(--asp-gold);
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+.asp-ws-item:hover .asp-ws-icon { opacity: 1; }
+.asp-ws-item h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--navy);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 144;
+}
+.asp-ws-item p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--navy-soft);
+}
+@media (max-width: 960px) { .asp-ws-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .asp-ws-grid { grid-template-columns: 1fr; } }
+
+/* ── PROCESS ── */
+.asp-process {
+  background: var(--cream);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.asp-process-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 100px;
+  align-items: start;
+}
+.asp-process-sticky {
+  position: sticky;
+  top: 120px;
+}
+.asp-process-sticky h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(32px, 3.5vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--navy);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 20px;
+}
+.asp-process-sticky h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--asp-gold);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.asp-process-sticky p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.asp-process-sticky .asp-section-tag { color: var(--asp-gold); }
+
+.asp-steps { display: flex; flex-direction: column; }
+.asp-step {
+  border-bottom: 1px solid var(--line);
+  padding: 40px 0;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 32px;
+  align-items: start;
+  transition: padding-left 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+  position: relative;
+  cursor: default;
+}
+.asp-step::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--asp-gold), transparent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+.asp-step:hover { padding-left: 16px; }
+.asp-step:hover::before { transform: scaleY(1); }
+.asp-step-num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 48px;
+  line-height: 0.9;
+  color: var(--asp-gold);
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 144;
+  opacity: 0.45;
+  transition: opacity 0.3s;
+}
+.asp-step:hover .asp-step-num { opacity: 1; }
+.asp-step h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--navy);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 144;
+}
+.asp-step p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--navy-soft);
+}
+.asp-step-timeline {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--asp-gold);
+  margin-top: 10px;
+  opacity: 0.65;
+}
+@media (max-width: 960px) {
+  .asp-process-grid { grid-template-columns: 1fr; gap: 40px; }
+  .asp-process-sticky { position: static; }
+}
+
+/* ── PROOF ── */
+.asp-proof {
+  background: var(--asp-dark);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.asp-proof::before {
+  content: '';
+  position: absolute;
+  top: -15%; right: -8%;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(196,148,42,0.055) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.asp-proof::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(196,148,42,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,148,42,0.018) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.asp-proof-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.asp-proof-quote {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(26px, 3.2vw, 40px);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 36px;
+}
+.asp-proof-quote em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--asp-gold);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.asp-proof-attribution {
+  padding-top: 28px;
+  border-top: 1px solid rgba(196,148,42,0.14);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.asp-proof-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(196,148,42,0.12);
+  border: 1px solid rgba(196,148,42,0.22);
+  color: var(--asp-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  font-style: italic;
+  font-size: 16px;
+  font-variation-settings: "opsz" 144;
+}
+.asp-proof-name { font-weight: 600; color: var(--cream); font-size: 14px; }
+.asp-proof-role { font-size: 12px; color: rgba(240,242,245,0.38); margin-top: 2px; font-family: var(--mono); }
+
+/* Outcome card */
+.asp-outcome-card {
+  background: rgba(20,30,43,0.7);
+  border: 1px solid rgba(196,148,42,0.18);
+  border-radius: var(--radius-sm);
+  padding: 48px 44px;
+  position: relative;
+  overflow: hidden;
+}
+.asp-outcome-card::before {
+  content: '';
+  position: absolute;
+  bottom: -40%; left: -20%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(196,148,42,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.asp-outcome-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--asp-gold);
+  margin-bottom: 24px;
+  opacity: 0.8;
+  position: relative;
+}
+.asp-outcome-num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(60px, 8vw, 100px);
+  line-height: 0.85;
+  color: var(--cream);
+  margin-bottom: 24px;
+  letter-spacing: -0.05em;
+  font-variation-settings: "opsz" 144;
+  position: relative;
+}
+.asp-outcome-num span { color: var(--asp-gold); }
+.asp-outcome-desc {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(240,242,245,0.52);
+  margin-bottom: 32px;
+  position: relative;
+}
+.asp-outcome-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--asp-gold);
+  border-bottom: 1px solid rgba(196,148,42,0.28);
+  padding-bottom: 4px;
+  position: relative;
+  transition: gap 0.3s ease;
+}
+.asp-outcome-link:hover { gap: 16px; }
+@media (max-width: 960px) { .asp-proof-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+/* ── ADJACENT SERVICES ── */
+.asp-adjacent {
+  background: var(--paper);
+  padding: 110px 0;
+}
+.asp-adj-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+.asp-adj-card {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  padding: 40px 36px;
+  border-radius: var(--radius-sm);
+  transition: all 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.asp-adj-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--asp-gold), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+.asp-adj-card:hover { background: var(--navy); transform: translateY(-6px); box-shadow: 0 20px 48px -12px rgba(12,21,32,0.35); }
+.asp-adj-card:hover::before { transform: scaleX(1); }
+.asp-adj-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--asp-gold);
+  margin-bottom: 16px;
+  opacity: 0.65;
+}
+.asp-adj-card h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+  transition: color 0.3s;
+  font-variation-settings: "opsz" 144;
+}
+.asp-adj-card:hover h4 { color: var(--cream); }
+.asp-adj-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--navy-soft);
+  margin-bottom: 24px;
+  flex: 1;
+  transition: color 0.3s;
+}
+.asp-adj-card:hover p { color: rgba(240,242,245,0.52); }
+.asp-adj-lnk {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--navy);
+  transition: color 0.3s, gap 0.3s;
+}
+.asp-adj-card:hover .asp-adj-lnk { color: var(--asp-gold); gap: 12px; }
+@media (max-width: 768px) { .asp-adj-grid { grid-template-columns: 1fr; } }
+
+/* ── REVEAL SYSTEM ── */
+.asp-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.85s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.asp-reveal.in { opacity: 1; transform: translateY(0); }
+
+.asp-reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.asp-reveal-stagger.in > *:nth-child(1) { transition-delay: 0s; }
+.asp-reveal-stagger.in > *:nth-child(2) { transition-delay: 0.08s; }
+.asp-reveal-stagger.in > *:nth-child(3) { transition-delay: 0.16s; }
+.asp-reveal-stagger.in > *:nth-child(4) { transition-delay: 0.24s; }
+.asp-reveal-stagger.in > *:nth-child(5) { transition-delay: 0.32s; }
+.asp-reveal-stagger.in > *:nth-child(6) { transition-delay: 0.40s; }
+.asp-reveal-stagger.in > * { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-lockup">
+        <span class="logo-text"><span class="logo-cap">P</span>roteam</span>
+        <span class="logo-advisory">Advisory Solutions LLP</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-mega">
+        <a href="services.html" class="active">Services <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="mega-menu" role="menu" aria-label="Services">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <a href="services.html#sam" class="mega-head">Software Asset Management</a>
+              <ul>
+                <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+                <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+                <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ham" class="mega-head">Hardware Asset Management</a>
+              <ul>
+                <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+                <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#finops" class="mega-head">Cloud FinOps</a>
+              <ul>
+                <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+                <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ai-transformation" class="mega-head">AI Transformation Services</a>
+              <ul>
+                <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+                <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#itam-tech" class="mega-head">ITAM Technology</a>
+              <ul>
+                <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+                <li><a href="service-itam-flexera.html">Flexera</a></li>
+                <li><a href="service-itam-snow.html">Snow</a></li>
+                <li><a href="service-itam-zylo.html">Zylo</a></li>
+                <li><a href="service-itam-aspera.html">Aspera</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Free Consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <ul class="mobile-nav-links">
+    <li><a href="index.html">Home <span>&rarr;</span></a></li>
+    <li class="has-sub">
+      <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="m-svc-sub">
+        Services
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul id="m-svc-sub" class="sub-menu">
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-sam-sub">
+            Software Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-sam-sub" class="sub-menu-2">
+            <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+            <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+            <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ham-sub">
+            Hardware Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ham-sub" class="sub-menu-2">
+            <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+            <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-finops-sub">
+            Cloud FinOps
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-finops-sub" class="sub-menu-2">
+            <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+            <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ai-sub">
+            AI Transformation Services
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ai-sub" class="sub-menu-2">
+            <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+            <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-itam-sub">
+            ITAM Technology
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-itam-sub" class="sub-menu-2">
+            <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+            <li><a href="service-itam-flexera.html">Flexera</a></li>
+            <li><a href="service-itam-snow.html">Snow</a></li>
+            <li><a href="service-itam-zylo.html">Zylo</a></li>
+            <li><a href="service-itam-aspera.html">Aspera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="case-studies.html">Case Studies <span>&rarr;</span></a></li>
+    <li><a href="about.html">About <span>&rarr;</span></a></li>
+    <li><a href="insights.html">Insights <span>&rarr;</span></a></li>
+    <li><a href="contact.html">Contact <span>&rarr;</span></a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta">Book Free Consultation &rarr;</a>
+  <div class="mobile-nav-contact">
+    <a href="tel:+919676889797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      +91 9676 889 797
+    </a>
+    <a href="mailto:vpatel@proteamadvisory.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      vpatel@proteamadvisory.com
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="asp-hero">
+  <div class="asp-hero-vignette"></div>
+
+  <div class="container">
+    <div class="asp-breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="services.html">Services</a>
+      <span class="sep">/</span>
+      <span class="current">Aspera / SmartTrack</span>
+    </div>
+
+    <div class="asp-eyebrow">Service 16 · ITAM Technology</div>
+
+    <h1 class="asp-hero-headline">
+      USU <em>SmartTrack</em> (Aspera)<br>implementation &amp; remediation.
+    </h1>
+
+    <p class="asp-hero-sub">
+      Engine configuration, deep SAP measurement specialism, inventory source design, and recovery of long-running deployments that have drifted.
+    </p>
+
+    <!-- Publisher scan ticker -->
+    <div class="asp-ticker">
+      <div class="asp-dot"></div>
+      <div class="asp-ticker-label">Engines measured</div>
+      <div class="asp-ticker-pubs">
+        <span class="asp-ticker-pub">SAP</span>
+        <span class="asp-ticker-pub">ORACLE</span>
+        <span class="asp-ticker-pub">IBM</span>
+        <span class="asp-ticker-pub">MICROSOFT</span>
+      </div>
+      <div class="asp-ticker-divider"></div>
+      <div class="asp-ticker-stat">
+        <span class="asp-ticker-stat-num">30+</span>
+        <span class="asp-ticker-stat-lbl">Deployments</span>
+      </div>
+      <div class="asp-ticker-divider"></div>
+      <div class="asp-ticker-stat">
+        <span class="asp-ticker-stat-num">12yr</span>
+        <span class="asp-ticker-stat-lbl">Platform depth</span>
+      </div>
+    </div>
+
+    <div class="asp-hero-actions">
+      <a href="contact.html" class="btn-cmd-asp">Book free consultation</a>
+      <a href="case-studies.html" class="btn-ghost-asp">See case studies</a>
+    </div>
+
+    <!-- Stat row -->
+    <div class="asp-stat-row asp-reveal">
+      <div class="asp-stat">
+        <div class="asp-stat-num">12+</div>
+        <div class="asp-stat-lbl">Years of Aspera and USU SmartTrack experience — particularly deep on SAP measurement.</div>
+      </div>
+      <div class="asp-stat">
+        <div class="asp-stat-num">30+</div>
+        <div class="asp-stat-lbl">Aspera and SmartTrack deployments delivered or remediated globally.</div>
+      </div>
+      <div class="asp-stat">
+        <div class="asp-stat-num">8–14wk</div>
+        <div class="asp-stat-lbl">Typical timeline for a remediation to lift the deployment into trusted output.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="asp-overview">
+  <div class="container">
+    <div class="asp-overview-grid">
+      <div class="asp-reveal">
+        <div class="asp-section-tag">The problem we solve</div>
+        <h2>Aspera is the <em>specialist tool</em> for the specialist publishers.</h2>
+        <p>USU SmartTrack — formerly Aspera SmartTrack, before USU's acquisition — has carved out a particular niche as the most capable platform for the most complex publishers. Particularly SAP, where the depth of engine measurement and the licensing logic is unmatched by general-purpose ITAM tools.</p>
+        <p>That depth comes with implementation complexity. SmartTrack rewards careful configuration of the publisher-specific engines, accurate contractual entitlement modelling, and clean inventory source design. <strong>Out-of-the-box SmartTrack rarely produces trustworthy positions in the first month.</strong></p>
+        <p>We've delivered or remediated 30+ deployments across the Aspera and SmartTrack era. We're particularly deep on the SAP engine — including the LAW and USMM measurement flows, indirect access analysis, and the digital access licensing model. <strong>Vendor-independent.</strong> No reseller relationship with USU.</p>
+      </div>
+
+      <div class="asp-reveal">
+        <!-- Publisher measurement depth visual -->
+        <div class="asp-depth-visual" id="asp-depth-bars">
+          <div class="asp-depth-label">SmartTrack engine depth vs. general ITAM tools</div>
+
+          <div class="asp-depth-row">
+            <div class="asp-depth-pub">SAP</div>
+            <div class="asp-depth-track">
+              <div class="asp-depth-fill primary" style="--bar-w: 94%"></div>
+            </div>
+            <div class="asp-depth-pct">94%</div>
+          </div>
+          <div class="asp-depth-row" style="margin-bottom: 18px;">
+            <div class="asp-depth-pub" style="color: rgba(240,242,245,0.2);"></div>
+            <div class="asp-depth-track">
+              <div class="asp-depth-fill secondary" style="--bar-w: 31%"></div>
+            </div>
+            <div class="asp-depth-pct" style="color: rgba(240,242,245,0.18);">31%</div>
+          </div>
+
+          <div class="asp-depth-row">
+            <div class="asp-depth-pub">Oracle</div>
+            <div class="asp-depth-track">
+              <div class="asp-depth-fill primary" style="--bar-w: 88%"></div>
+            </div>
+            <div class="asp-depth-pct">88%</div>
+          </div>
+          <div class="asp-depth-row" style="margin-bottom: 18px;">
+            <div class="asp-depth-pub" style="color: rgba(240,242,245,0.2);"></div>
+            <div class="asp-depth-track">
+              <div class="asp-depth-fill secondary" style="--bar-w: 38%"></div>
+            </div>
+            <div class="asp-depth-pct" style="color: rgba(240,242,245,0.18);">38%</div>
+          </div>
+
+          <div class="asp-depth-row">
+            <div class="asp-depth-pub">IBM</div>
+            <div class="asp-depth-track">
+              <div class="asp-depth-fill primary" style="--bar-w: 82%"></div>
+            </div>
+            <div class="asp-depth-pct">82%</div>
+          </div>
+          <div class="asp-depth-row">
+            <div class="asp-depth-pub" style="color: rgba(240,242,245,0.2);"></div>
+            <div class="asp-depth-track">
+              <div class="asp-depth-fill secondary" style="--bar-w: 45%"></div>
+            </div>
+            <div class="asp-depth-pct" style="color: rgba(240,242,245,0.18);">45%</div>
+          </div>
+
+          <div class="asp-depth-note">
+            <span style="color: var(--asp-gold); opacity:0.7;">■</span> SmartTrack &nbsp;&nbsp;
+            <span style="color: rgba(255,255,255,0.3);">■</span> General ITAM tool (est.)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKSTREAMS -->
+<section class="asp-workstreams">
+  <div class="container">
+    <div class="asp-ws-header asp-reveal">
+      <div class="asp-section-tag">What's included</div>
+      <h2>Six workstreams. <em>Especially the complex publishers.</em></h2>
+      <p>Whether you're standing up SmartTrack, extending coverage to additional publishers, or recovering a deployment that's drifted — engagements cover these areas.</p>
+    </div>
+
+    <div class="asp-ws-grid asp-reveal-stagger">
+
+      <div class="asp-ws-item">
+        <div class="asp-ws-num">— 01</div>
+        <svg class="asp-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <h4>Engine configuration</h4>
+        <p>Publisher-specific engine tuning — SAP, Oracle, IBM, Microsoft. Each engine has its own measurement logic and configuration depth. Production-grade SmartTrack has each engine tuned against your specific contractual position.</p>
+      </div>
+
+      <div class="asp-ws-item">
+        <div class="asp-ws-num">— 02</div>
+        <svg class="asp-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/></svg>
+        <h4>SAP measurement specialism</h4>
+        <p>Deep SAP-specific configuration. LAW and USMM measurement flow design, indirect access analysis, digital access licensing model implementation, S/4HANA migration impact analysis. SmartTrack's SAP capability is its strongest feature — we make sure clients actually use it.</p>
+      </div>
+
+      <div class="asp-ws-item">
+        <div class="asp-ws-num">— 03</div>
+        <svg class="asp-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <h4>Inventory source integration</h4>
+        <p>Configuration of inventory sources, including the often-overlooked sources — SAP system tables, Oracle audit scripts, IBM ILMT exports. Many SmartTrack deployments fail because the input data lineage isn't trustworthy.</p>
+      </div>
+
+      <div class="asp-ws-item">
+        <div class="asp-ws-num">— 04</div>
+        <svg class="asp-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <h4>Contract &amp; entitlement model</h4>
+        <p>Loading your contractual position with the granularity SmartTrack needs to produce defensible positions. Particularly important for SAP and Oracle, where the contract structure is sufficiently complex that generic entitlement loads produce wrong answers.</p>
+      </div>
+
+      <div class="asp-ws-item">
+        <div class="asp-ws-num">— 05</div>
+        <svg class="asp-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <h4>Reporting &amp; operational model</h4>
+        <p>Designing the operational reports, audit-defence packs, and review cadences. SmartTrack produces extraordinary depth of data; the discipline is in turning it into actionable governance, not just more dashboards.</p>
+      </div>
+
+      <div class="asp-ws-item">
+        <div class="asp-ws-num">— 06</div>
+        <svg class="asp-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <h4>Recovery &amp; remediation</h4>
+        <p>For underperforming deployments — long-running SmartTrack environments that have drifted, or initial deployments that never produced trustworthy output. Structured diagnostic, prioritised fix sequence, hand-back.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="asp-process">
+  <div class="container">
+    <div class="asp-process-grid">
+      <!-- Sticky left column -->
+      <div class="asp-process-sticky">
+        <div class="asp-section-tag">How we work</div>
+        <h2>A four-stage delivery. <em>Depth over breadth.</em></h2>
+        <p>Engagements run 8–16 weeks depending on scope. SAP-only engagements often run faster; multi-publisher build-outs run longer.</p>
+      </div>
+
+      <!-- Steps -->
+      <div class="asp-steps asp-reveal-stagger">
+        <div class="asp-step">
+          <div class="asp-step-num">01</div>
+          <div>
+            <h4>Discover &amp; scope</h4>
+            <p>Free consultation. We agree scope — net-new SmartTrack stand-up, publisher expansion (especially SAP coverage), or remediation of a drifted deployment. Stakeholders, metrics, timeline.</p>
+            <div class="asp-step-timeline">Week 1–2</div>
+          </div>
+        </div>
+        <div class="asp-step">
+          <div class="asp-step-num">02</div>
+          <div>
+            <h4>Diagnose &amp; design</h4>
+            <p>For new deployments, full design. For remediations, structured diagnostic — engine configuration health, contract load accuracy, inventory source quality, and the integration with your wider SAM environment.</p>
+            <div class="asp-step-timeline">Week 2–4</div>
+          </div>
+        </div>
+        <div class="asp-step">
+          <div class="asp-step-num">03</div>
+          <div>
+            <h4>Implement &amp; tune</h4>
+            <p>Execution. Engine configuration, contract load, inventory source remediation, custom reporting build. Particularly intensive on SAP-heavy clients, where the engine work alone is the bulk of the engagement.</p>
+            <div class="asp-step-timeline">Week 4–12</div>
+          </div>
+        </div>
+        <div class="asp-step">
+          <div class="asp-step-num">04</div>
+          <div>
+            <h4>Stabilise &amp; hand over</h4>
+            <p>Knowledge transfer, runbook documentation, 30/60/90-day hyper-care. Optional ongoing specialist support for SAP measurement cycles and audit defence preparation.</p>
+            <div class="asp-step-timeline">Week 12–16</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="asp-proof">
+  <div class="container">
+    <div class="asp-proof-grid">
+      <div class="asp-reveal">
+        <div class="asp-section-tag">Proof</div>
+        <div class="asp-proof-quote">
+          A global engineering firm preparing for a $20M SAP audit defence had SmartTrack <em>recalibrated in 7 weeks</em> — and used the resulting position to settle the audit for under $4M.
+        </div>
+        <div class="asp-proof-attribution">
+          <div class="asp-proof-avatar">SS</div>
+          <div>
+            <div class="asp-proof-name">Saurabh Sharma</div>
+            <div class="asp-proof-role">Senior PAS Leader · Proteam Advisory · SmartTrack remediation, engineering sector</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="asp-reveal">
+        <div class="asp-outcome-card">
+          <div class="asp-outcome-tag">Audit exposure reduced</div>
+          <div class="asp-outcome-num">$20M <span>→ $4M</span></div>
+          <div class="asp-outcome-desc">A multinational engineering client received an SAP audit notice while their SmartTrack deployment was producing engine measurements that didn't match contractual reality. Seven weeks of recalibration produced a defensible position that re-framed the audit conversation. Settlement was reached at under $4M against an initial vendor claim of $20M+.</div>
+          <a href="case-studies.html" class="asp-outcome-link">Read more case studies →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADJACENT SERVICES -->
+<section class="asp-adjacent">
+  <div class="container">
+    <div class="asp-reveal" style="max-width: 720px;">
+      <div class="asp-section-tag">Adjacent services</div>
+      <h2 class="section-title">Often deployed <em>alongside</em>.</h2>
+      <p class="section-lede">Aspera/SmartTrack engagements often pair with audit defence work, particularly SAP-related.</p>
+    </div>
+
+    <div class="asp-adj-grid">
+      <a href="service-audit-defence.html" class="asp-adj-card asp-reveal">
+        <div class="asp-adj-num">— 02</div>
+        <h4>Audit Defence</h4>
+        <p>When SmartTrack remediation is driven by an active or imminent audit, the audit defence practice runs alongside the technical work. Particularly common for SAP and Oracle audits.</p>
+        <span class="asp-adj-lnk">Learn more
+          <svg width="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+      <a href="service-sam-baselining.html" class="asp-adj-card asp-reveal">
+        <div class="asp-adj-num">— 03</div>
+        <h4>SAM Baselining &amp; Managed Services</h4>
+        <p>Post-remediation, the managed-services practice sustains the SmartTrack output. Particularly relevant for clients with rolling SAP measurement obligations.</p>
+        <span class="asp-adj-lnk">Learn more
+          <svg width="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="asp-reveal">
+        <div class="section-eyebrow" style="color: var(--asp-gold-bright);">Ready to talk</div>
+        <h2>Is your <em>Aspera or SmartTrack</em> producing trustworthy positions?</h2>
+        <p>The free consultation is exactly that. A senior SmartTrack specialist will spend 30 minutes with you understanding your current deployment, your publisher mix (especially SAP exposure), and where the trust is breaking down — and tell you what the recovery would look like.</p>
+        <div class="cta-actions">
+          <a href="contact.html" class="btn-amber">Book free consultation</a>
+          <a href="case-studies.html" class="btn-line">See more case studies</a>
+        </div>
+      </div>
+      <div class="cta-detail asp-reveal">
+        <h4>What you'll get</h4>
+        <ul class="cta-list">
+          <li>30-minute call with a senior SmartTrack and SAP measurement specialist.</li>
+          <li>Diagnostic questions on engine configuration and contract load.</li>
+          <li>Indicative timeline and effort for the most likely fix path.</li>
+          <li>Honest assessment of whether SmartTrack is the right platform for your publisher mix.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" style="color: var(--cream);">
+          <span class="logo-lockup">
+            <span class="logo-text" style="color:var(--cream);"><span class="logo-cap">P</span>roteam</span>
+            <span class="logo-advisory" style="color:rgba(240,242,245,0.7);">Advisory Solutions LLP</span>
+          </span>
+        </a>
+        <h3>SAM specialists. Nothing else.</h3>
+        <p>An independent Software Asset Management consultancy serving enterprises across India, the UK, the US, and the Middle East.</p>
+        <div class="foot-social">
+          <div class="foot-social-label">Follow us on</div>
+          <div class="foot-social-icons">
+            <a href="https://in.linkedin.com/company/proteam-advisory" aria-label="LinkedIn" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/proteamadv" aria-label="X (Twitter)" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H21l-7.39 8.45L22.5 21h-6.83l-5.34-6.99L3.5 21H0l7.91-9.04L0.5 3h7l4.83 6.4L17.53 3zm-2.39 16h2.06L7.05 4.85H4.83L15.14 19z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/proteamadvisory/" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://www.youtube.com/channel/UCaajUe2N_6AFw3dvPmH1b7A" aria-label="YouTube" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#sam">Software Asset Management</a></li>
+          <li><a href="services.html#ham">Hardware Asset Management</a></li>
+          <li><a href="services.html#finops">Cloud FinOps</a></li>
+          <li><a href="services.html#ai-transformation">AI Transformation Services</a></li>
+          <li><a href="services.html#itam-tech">ITAM Technology</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="case-studies.html">Case Studies</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="insights.html">Insights</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="careers.html">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Get in touch</h5>
+        <address>
+          Suite #309&ndash;312<br>
+          KTC Illumination Towers<br>
+          Madhapur, Hyderabad<br>
+          Telangana, India<br><br>
+          <a href="tel:+919676889797">+91 9676 889 797</a><br>
+          <a href="mailto:vpatel@proteamadvisory.com">vpatel@proteamadvisory.com</a>
+        </address>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div>&copy; 2026 Proteam Advisory. All rights reserved.</div>
+      <div style="display:flex; gap:24px; flex-wrap:wrap;">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+
+
+
+  /* ══════════════════════════════════════════════════════
+     SCROLL REVEAL
+     ══════════════════════════════════════════════════════ */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.asp-reveal, .asp-reveal-stagger').forEach(el => revealObs.observe(el));
+
+
+  /* ══════════════════════════════════════════════════════
+     DEPTH BAR ANIMATION
+     ══════════════════════════════════════════════════════ */
+  const depthEl = document.getElementById('asp-depth-bars');
+  if (depthEl) {
+    const barObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const fills = depthEl.querySelectorAll('.asp-depth-fill');
+          fills.forEach((fill, i) => {
+            setTimeout(() => fill.classList.add('visible'), i * 140 + 80);
+          });
+          barObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    barObs.observe(depthEl);
+  }
+
+
+  /* ══════════════════════════════════════════════════════
+     MOBILE MENU
+     ══════════════════════════════════════════════════════ */
+  (function() {
+    const toggle    = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    if (!toggle || !mobileNav) return;
+    const body = document.body;
+
+    function openMenu() {
+      mobileNav.classList.add('is-open');
+      toggle.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      mobileNav.classList.remove('is-open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      body.style.overflow = '';
+    }
+    toggle.addEventListener('click', () => mobileNav.classList.contains('is-open') ? closeMenu() : openMenu());
+    mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+    mobileNav.querySelectorAll('.sub-toggle, .sub-toggle-2').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('aria-controls');
+        const target = id ? document.getElementById(id) : btn.nextElementSibling;
+        if (!target) return;
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        target.classList.toggle('is-open', !expanded);
+      });
+    });
+  })();
+
+
+  /* ══════════════════════════════════════════════════════
+     SMOOTH SCROLL
+     ══════════════════════════════════════════════════════ */
+  document.querySelectorAll("a[href^='#']").forEach(link => {
+    link.addEventListener("click", e => {
+      const id = link.getAttribute("href");
+      if (id.length > 1) {
+        const tgt = document.querySelector(id);
+        if (tgt) { e.preventDefault(); tgt.scrollIntoView({ behavior: "smooth", block: "start" }); }
+      }
+    });
+  });
+
+})();
+</script>
+
+<script src="sammy-chatbot.js"></script>
+<script>
+/* Desktop mega-menu: JS hover with close-delay */
+(function () {
+  var CLOSE_DELAY = 150;
+  document.querySelectorAll(".nav-links .has-mega").forEach(function (li) {
+    var timer = null;
+    function openMenu() { clearTimeout(timer); li.classList.add("mega-open"); }
+    function scheduleClose() { timer = setTimeout(function () { li.classList.remove("mega-open"); }, CLOSE_DELAY); }
+    li.addEventListener("mouseenter", openMenu);
+    li.addEventListener("mouseleave", scheduleClose);
+    var menu = li.querySelector(".mega-menu");
+    if (menu) {
+      menu.addEventListener("mouseenter", openMenu);
+      menu.addEventListener("mouseleave", scheduleClose);
+    }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") li.classList.remove("mega-open"); });
+  });
+})();
+</script>
+</body>
+</html>

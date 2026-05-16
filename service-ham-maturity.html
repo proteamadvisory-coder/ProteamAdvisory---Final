@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HAM Maturity Assessment & Transformation — Proteam Advisory</title>
+<meta name="description" content="Independent Hardware Asset Management maturity assessment across people, process, tooling, data, and lifecycle outcomes. Sequenced 12–18 month transformation roadmap with industry benchmarking." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<style>
+  /* SERVICE DETAIL PAGES */
+  .svc-detail-hero .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+  .svc-detail-hero .stat-row .stat-num {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--rust);
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+    font-variation-settings: "opsz" 144;
+  }
+  .svc-detail-hero .stat-row .stat-lbl {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--navy-soft);
+  }
+  @media (max-width: 768px) {
+    .svc-detail-hero .stat-row { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  /* Overview split */
+  .svc-overview {
+    background: var(--paper);
+    padding: 110px 0;
+  }
+  .svc-overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .svc-overview-grid h2 {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin-bottom: 24px;
+    font-variation-settings: "opsz" 144;
+  }
+  .svc-overview-grid h2 em { font-family: var(--serif); font-variation-settings: "opsz" 144; font-style: italic; color: var(--rust); font-weight: 300; }
+  .svc-overview-grid p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--navy-soft);
+    margin-bottom: 18px;
+  }
+  .svc-overview-grid p strong { color: var(--navy); font-weight: 600; }
+  @media (max-width: 960px) {
+    .svc-overview-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* What's included */
+  .includes {
+    background: var(--cream);
+    padding: 110px 0;
+  }
+  .includes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 48px;
+  }
+  .includes-item {
+    background: var(--cream);
+    padding: 40px 36px;
+    transition: background 0.3s ease;
+  }
+  .includes-item:hover { background: var(--paper); }
+  .includes-item .num {
+    font-family: var(--sans);
+    font-style: italic;
+    color: var(--amber);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .includes-item h4 {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.2;
+    color: var(--navy);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 144;
+  }
+  .includes-item p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--navy-soft);
+  }
+  @media (max-width: 768px) {
+    .includes-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ═══════════════════════════════════════════════
+     HAM MATURITY VISUAL — Radar + Transformation Arc
+     ═══════════════════════════════════════════════ */
+  .ham-maturity-section {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 120px 0 140px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ham-maturity-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  /* Ambient glow orbs */
+  .ham-maturity-section::after {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(72,112,255,0.08) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+  .ham-maturity-section .container { position: relative; z-index: 1; }
+  .ham-maturity-section .section-title { color: var(--cream); }
+  .ham-maturity-section .section-eyebrow { color: var(--amber-bright); }
+  .ham-maturity-section .section-eyebrow::before { background: var(--amber-bright); }
+  .ham-maturity-section .section-lede { color: rgba(240,242,245,0.68); }
+
+  /* ── RADAR LAYOUT ── */
+  .ham-radar-wrap {
+    margin-top: 72px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .ham-radar-canvas-wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #hamRadarSVG {
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    overflow: visible;
+    filter: drop-shadow(0 0 40px rgba(72,112,255,0.15));
+  }
+
+  /* Animated scanning beam */
+  .radar-beam {
+    transform-origin: 230px 230px;
+    animation: ham-scan 4s linear infinite;
+  }
+  @keyframes ham-scan {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* Pulsing dots at radar vertices */
+  .radar-vertex-dot {
+    animation: ham-pulse 2.4s ease-in-out infinite;
+  }
+  .radar-vertex-dot:nth-child(2) { animation-delay: 0.48s; }
+  .radar-vertex-dot:nth-child(3) { animation-delay: 0.96s; }
+  .radar-vertex-dot:nth-child(4) { animation-delay: 1.44s; }
+  .radar-vertex-dot:nth-child(5) { animation-delay: 1.92s; }
+  @keyframes ham-pulse {
+    0%, 100% { opacity: 0.6; r: 5; }
+    50%       { opacity: 1;   r: 7; }
+  }
+
+  /* Fill path animation on load */
+  .radar-current-fill {
+    animation: ham-fill-in 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    opacity: 0;
+  }
+  .radar-target-fill {
+    animation: ham-fill-in 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+    opacity: 0;
+  }
+  @keyframes ham-fill-in {
+    from { opacity: 0; transform: scale(0.5); transform-origin: 230px 230px; }
+    to   { opacity: 1; transform: scale(1);   transform-origin: 230px 230px; }
+  }
+
+  /* ── RADAR LEGEND / DIMENSION LIST ── */
+  .ham-radar-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .ham-radar-legend-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--amber-bright);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+
+  .ham-dim-row {
+    border-top: 1px solid rgba(72,112,255,0.2);
+    padding: 18px 0;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 16px;
+    align-items: start;
+    transition: background 0.25s ease;
+    cursor: default;
+  }
+  .ham-dim-row:last-child { border-bottom: 1px solid rgba(72,112,255,0.2); }
+  .ham-dim-row:hover { background: rgba(72,112,255,0.06); margin: 0 -16px; padding: 18px 16px; }
+  .ham-dim-number {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--amber-bright);
+    letter-spacing: 0.12em;
+    margin-top: 3px;
+  }
+  .ham-dim-body {}
+  .ham-dim-name {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--cream);
+    letter-spacing: -0.005em;
+    margin-bottom: 8px;
+  }
+  .ham-dim-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ham-dim-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ham-dim-bar-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,242,245,0.45);
+    width: 46px;
+    flex-shrink: 0;
+  }
+  .ham-dim-bar-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .ham-dim-bar-fill {
+    height: 100%;
+    border-radius: var(--radius-sm);
+    animation: ham-bar-grow 1.2s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+    transform-origin: left center;
+    transform: scaleX(0);
+  }
+  .ham-dim-bar-fill.current { background: rgba(72,112,255,0.7); animation-delay: 0.5s; }
+  .ham-dim-bar-fill.target  { background: var(--amber-bright); animation-delay: 0.8s; }
+  @keyframes ham-bar-grow {
+    to { transform: scaleX(1); }
+  }
+  .ham-dim-bar-value {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(240,242,245,0.5);
+    width: 20px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* Legend key */
+  .ham-legend-key {
+    display: flex;
+    gap: 24px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(72,112,255,0.15);
+  }
+  .ham-legend-key-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(240,242,245,0.55);
+  }
+  .ham-legend-key-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .ham-legend-key-dot.current { background: rgba(72,112,255,0.8); }
+  .ham-legend-key-dot.target  { background: var(--amber-bright); }
+
+  /* ── TRANSFORMATION ARC (replaces numbered steps) ── */
+  .ham-transform-arc {
+    margin-top: 80px;
+    position: relative;
+  }
+  .ham-arc-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .ham-arc-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--amber-bright);
+    margin-bottom: 8px;
+  }
+  .ham-arc-title {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: clamp(24px, 3vw, 34px);
+    line-height: 1.1;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144;
+  }
+  .ham-arc-title em {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--amber-bright);
+    font-weight: 300;
+    font-variation-settings: "opsz" 144;
+  }
+  .ham-arc-horizon {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(240,242,245,0.45);
+    white-space: nowrap;
+  }
+
+  /* The track */
+  .ham-arc-track {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  /* Animated flowing line behind stages */
+  .ham-arc-line {
+    position: absolute;
+    top: 36px;
+    left: 12.5%;
+    right: 12.5%;
+    height: 2px;
+    background: rgba(72,112,255,0.2);
+    overflow: hidden;
+  }
+  .ham-arc-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, var(--amber-bright), transparent);
+    animation: ham-line-sweep 3s ease-in-out infinite;
+  }
+  @keyframes ham-line-sweep {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .ham-arc-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 12px;
+    position: relative;
+    cursor: default;
+  }
+
+  /* Circle node */
+  .ham-arc-node {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: rgba(240,242,245,0.04);
+    border: 1px solid rgba(72,112,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    transition: all 0.35s ease;
+    flex-shrink: 0;
+  }
+  .ham-arc-stage:hover .ham-arc-node {
+    background: rgba(72,112,255,0.15);
+    border-color: rgba(72,112,255,0.7);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(72,112,255,0.25), 0 0 0 1px rgba(72,112,255,0.3);
+  }
+  .ham-arc-node-inner {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 26px;
+    line-height: 1;
+    color: var(--amber-bright);
+    letter-spacing: -0.03em;
+    font-variation-settings: "opsz" 144;
+  }
+
+  /* Pulsing ring on active node */
+  .ham-arc-stage:nth-child(2) .ham-arc-node::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1px dashed rgba(72,112,255,0.4);
+    animation: ham-scan 8s linear infinite;
+  }
+
+  /* Week label above node */
+  .ham-arc-week {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(240,242,245,0.35);
+    margin-bottom: 14px;
+    transition: color 0.25s ease;
+  }
+  .ham-arc-stage:hover .ham-arc-week { color: var(--amber-bright); }
+
+  /* Text below node */
+  .ham-arc-content {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .ham-arc-stage-name {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.2;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    transition: color 0.25s ease;
+    font-variation-settings: "opsz" 144;
+  }
+  .ham-arc-stage:hover .ham-arc-stage-name { color: var(--amber-bright); }
+  .ham-arc-stage-desc {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: rgba(240,242,245,0.55);
+    max-width: 180px;
+    margin: 0 auto;
+  }
+
+  /* Outcome band */
+  .ham-outcome-band {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(72,112,255,0.18);
+    border: 1px solid rgba(72,112,255,0.18);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .ham-outcome-cell {
+    background: rgba(240,242,245,0.03);
+    padding: 28px 28px 26px;
+    transition: background 0.3s ease;
+  }
+  .ham-outcome-cell:hover { background: rgba(72,112,255,0.1); }
+  .ham-outcome-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber-bright);
+    margin-bottom: 10px;
+  }
+  .ham-outcome-num {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 38px;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    margin-bottom: 8px;
+    font-variation-settings: "opsz" 144;
+  }
+  .ham-outcome-label {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: rgba(240,242,245,0.6);
+  }
+
+  @media (max-width: 960px) {
+    .ham-radar-wrap { grid-template-columns: 1fr; gap: 48px; }
+    .ham-arc-track { grid-template-columns: repeat(2, 1fr); gap: 32px 0; }
+    .ham-arc-line { display: none; }
+    .ham-outcome-band { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .ham-arc-track { grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .radar-beam, .ham-arc-line::after, .ham-arc-stage:nth-child(2) .ham-arc-node::after { animation: none; }
+    .radar-current-fill, .radar-target-fill, .ham-dim-bar-fill { animation: none; opacity: 1; transform: none; }
+  }
+
+  /* Featured proof */
+  .proof {
+    background: var(--paper);
+    padding: 110px 0;
+  }
+  .proof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .proof-quote {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: clamp(28px, 3.6vw, 42px);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--navy);
+    font-variation-settings: "opsz" 144;
+  }
+  .proof-quote em { font-family: var(--serif); font-variation-settings: "opsz" 144; font-style: italic; color: var(--rust); font-weight: 400; }
+  .proof-attribution {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .proof-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--amber-bright);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--sans);
+    font-style: italic;
+    font-size: 20px;
+    font-variation-settings: "opsz" 144;
+  }
+  .proof-name { font-weight: 600; color: var(--navy); }
+  .proof-role { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .proof-stat-card {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 56px 48px;
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+  }
+  .proof-stat-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, var(--amber) 0%, transparent 70%);
+    opacity: 0.18;
+    border-radius: 50%;
+  }
+  .proof-stat-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber-bright);
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .proof-stat-num {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: clamp(72px, 9vw, 120px);
+    line-height: 0.9;
+    color: var(--cream);
+    margin-bottom: 24px;
+    letter-spacing: -0.04em;
+    position: relative;
+    font-variation-settings: "opsz" 144;
+  }
+  .proof-stat-num span { color: var(--amber-bright); }
+  .proof-stat-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(240,242,245,0.75);
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .proof-stat-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--amber-bright);
+    border-bottom: 1px solid var(--amber-bright);
+    padding-bottom: 4px;
+    position: relative;
+    transition: gap 0.3s ease;
+  }
+  .proof-stat-link:hover { gap: 16px; }
+  @media (max-width: 960px) {
+    .proof-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  /* Other services */
+  .other-svc {
+    background: var(--cream);
+    padding: 110px 0;
+  }
+  .other-svc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .other-svc-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 40px 36px;
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .other-svc-card:hover {
+    background: var(--navy);
+    color: var(--cream);
+    transform: translateY(-4px);
+  }
+  .other-svc-card .num {
+    font-family: var(--sans);
+    font-style: italic;
+    color: var(--amber);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .other-svc-card:hover .num { color: var(--amber-bright); }
+  .other-svc-card h4 {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+    transition: color 0.3s;
+    font-variation-settings: "opsz" 144;
+  }
+  .other-svc-card:hover h4 { color: var(--cream); }
+  .other-svc-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--navy-soft);
+    margin-bottom: 20px;
+    flex: 1;
+    transition: color 0.3s;
+  }
+  .other-svc-card:hover p { color: rgba(240,242,245,0.75); }
+  .other-svc-card .lnk {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--navy);
+    transition: color 0.3s;
+  }
+  .other-svc-card:hover .lnk { color: var(--amber-bright); }
+  @media (max-width: 768px) {
+    .other-svc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-lockup">
+        <span class="logo-text"><span class="logo-cap">P</span>roteam</span>
+        <span class="logo-advisory">Advisory Solutions LLP</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-mega">
+        <a href="services.html" class="active">Services <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="mega-menu" role="menu" aria-label="Services">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <a href="services.html#sam" class="mega-head">Software Asset Management</a>
+              <ul>
+                <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+                <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+                <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ham" class="mega-head">Hardware Asset Management</a>
+              <ul>
+                <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+                <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#finops" class="mega-head">Cloud FinOps</a>
+              <ul>
+                <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+                <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ai-transformation" class="mega-head">AI Transformation Services</a>
+              <ul>
+                <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+                <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#itam-tech" class="mega-head">ITAM Technology</a>
+              <ul>
+                <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+                <li><a href="service-itam-flexera.html">Flexera</a></li>
+                <li><a href="service-itam-snow.html">Snow</a></li>
+                <li><a href="service-itam-zylo.html">Zylo</a></li>
+                <li><a href="service-itam-aspera.html">Aspera</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Free Consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <ul class="mobile-nav-links">
+    <li><a href="index.html">Home <span>&rarr;</span></a></li>
+    <li class="has-sub">
+      <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="m-svc-sub">
+        Services
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul id="m-svc-sub" class="sub-menu">
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-sam-sub">
+            Software Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-sam-sub" class="sub-menu-2">
+            <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+            <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+            <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ham-sub">
+            Hardware Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ham-sub" class="sub-menu-2">
+            <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+            <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-finops-sub">
+            Cloud FinOps
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-finops-sub" class="sub-menu-2">
+            <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+            <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ai-sub">
+            AI Transformation Services
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ai-sub" class="sub-menu-2">
+            <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+            <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-itam-sub">
+            ITAM Technology
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-itam-sub" class="sub-menu-2">
+            <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+            <li><a href="service-itam-flexera.html">Flexera</a></li>
+            <li><a href="service-itam-snow.html">Snow</a></li>
+            <li><a href="service-itam-zylo.html">Zylo</a></li>
+            <li><a href="service-itam-aspera.html">Aspera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="case-studies.html">Case Studies <span>&rarr;</span></a></li>
+    <li><a href="about.html">About <span>&rarr;</span></a></li>
+    <li><a href="insights.html">Insights <span>&rarr;</span></a></li>
+    <li><a href="contact.html">Contact <span>&rarr;</span></a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta">Book Free Consultation &rarr;</a>
+  <div class="mobile-nav-contact">
+    <a href="tel:+919676889797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      +91 9676 889 797
+    </a>
+    <a href="mailto:vpatel@proteamadvisory.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      vpatel@proteamadvisory.com
+    </a>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero svc-detail-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="services.html">Services</a>
+      <span class="sep">/</span>
+      <span class="current">HAM Maturity Assessment & Transformation</span>
+    </div>
+    <div class="page-hero-grid">
+      <div>
+        <div class="page-hero-eyebrow">Service 08</div>
+        <h1>HAM maturity assessment <em>&amp; transformation</em>.</h1>
+      </div>
+      <p class="page-hero-lede">
+        Where does your hardware asset management practice sit today — and where should it be in 18 months? Five-dimension scoring, peer benchmarking, sequenced transformation roadmap.
+      </p>
+    </div>
+
+    <div class="stat-row reveal">
+<div>
+  <div class="stat-num">5</div>
+  <div class="stat-lbl">Maturity dimensions assessed — people, process, tooling, data quality, lifecycle outcomes.</div>
+</div>
+<div>
+  <div class="stat-num">18mo</div>
+  <div class="stat-lbl">Typical transformation horizon to move up at least one maturity level.</div>
+</div>
+<div>
+  <div class="stat-num">20–30%</div>
+  <div class="stat-lbl">Average reduction in hardware lifecycle cost across post-transformation programmes.</div>
+</div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="svc-overview">
+  <div class="container">
+    <div class="svc-overview-grid">
+      <div class="reveal">
+        <div class="section-eyebrow">The problem we solve</div>
+        <h2>HAM has been the <em>quiet practice</em> for too long.</h2>
+      </div>
+      <div class="reveal">
+        <p>For years, Hardware Asset Management (HAM) operated behind Software Asset Management (SAM), receiving less investment, governance, and strategic focus. Today, rising regulatory pressure, ESG reporting requirements, hybrid working models, and growing endpoint complexity have exposed critical gaps in hardware lifecycle visibility and control.</p>
+        <p>HAM maturity assessments help organizations identify these gaps through structured scoring, benchmarking, and targeted transformation planning. Rather than recommending broad ITAM redesigns, the focus is on the specific improvements that can elevate HAM maturity, strengthen governance, and improve operational efficiency within 12–18 months.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HAM MATURITY VISUAL SECTION -->
+<section class="ham-maturity-section">
+  <div class="container">
+
+    <!-- Intro header -->
+    <div class="reveal" style="max-width: 680px; margin-bottom: 0;">
+      <div class="section-eyebrow">Five-dimension scoring</div>
+      <h2 class="section-title">Where you are. <em>Where you need to be.</em></h2>
+      <p class="section-lede">Every HAM engagement starts with a scored baseline across five capability dimensions — then maps the delta to a sequenced transformation roadmap.</p>
+    </div>
+
+    <!-- ── RADAR DIAGRAM + LEGEND ── -->
+    <div class="ham-radar-wrap reveal">
+
+      <!-- SVG Radar -->
+      <div class="ham-radar-canvas-wrap">
+        <svg id="hamRadarSVG" viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg" aria-label="Five-dimension HAM maturity radar diagram">
+          <defs>
+            <!-- Scanning beam gradient -->
+            <linearGradient id="beamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="rgba(72,112,255,0)" />
+              <stop offset="100%" stop-color="rgba(72,112,255,0.18)" />
+            </linearGradient>
+            <!-- Grid ring glow -->
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glowStrong">
+              <feGaussianBlur stdDeviation="5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <!-- Clip to pentagon area -->
+            <clipPath id="radarClip">
+              <polygon points="230,40 410,165 344,380 116,380 50,165"/>
+            </clipPath>
+          </defs>
+
+          <!-- Background pentagon rings (5 levels) -->
+          <!-- Level 1 (inner) -->
+          <polygon points="230,194 266,207 281,241 266,275 230,288 194,275 179,241 194,207"
+            fill="none" stroke="rgba(72,112,255,0.15)" stroke-width="1"/>
+          <!-- Level 2 -->
+          <polygon points="230,158 302,182 328,241 302,300 230,324 158,300 132,241 158,182"
+            fill="none" stroke="rgba(72,112,255,0.15)" stroke-width="1"/>
+          <!-- Level 3 -->
+          <polygon points="230,122 338,158 375,241 338,324 230,360 122,324 85,241 122,158"
+            fill="none" stroke="rgba(72,112,255,0.12)" stroke-width="1"/>
+          <!-- Level 4 -->
+          <polygon points="230,86 374,133 422,241 374,349 230,396 86,349 38,241 86,133"
+            fill="none" stroke="rgba(72,112,255,0.1)" stroke-width="1"/>
+          <!-- Pentagon outer (level 5) -->
+          <polygon points="230,50 406,158 344,374 116,374 54,158"
+            fill="none" stroke="rgba(72,112,255,0.18)" stroke-width="1.5"/>
+
+          <!-- Axis spokes (5 dimensions, 72° apart) -->
+          <!-- Top: People -->
+          <line x1="230" y1="241" x2="230" y2="50" stroke="rgba(72,112,255,0.22)" stroke-width="1" stroke-dasharray="3 4"/>
+          <!-- Upper-right: Process -->
+          <line x1="230" y1="241" x2="406" y2="158" stroke="rgba(72,112,255,0.22)" stroke-width="1" stroke-dasharray="3 4"/>
+          <!-- Lower-right: Tooling -->
+          <line x1="230" y1="241" x2="344" y2="374" stroke="rgba(72,112,255,0.22)" stroke-width="1" stroke-dasharray="3 4"/>
+          <!-- Lower-left: Data Quality -->
+          <line x1="230" y1="241" x2="116" y2="374" stroke="rgba(72,112,255,0.22)" stroke-width="1" stroke-dasharray="3 4"/>
+          <!-- Upper-left: Lifecycle Outcomes -->
+          <line x1="230" y1="241" x2="54" y2="158" stroke="rgba(72,112,255,0.22)" stroke-width="1" stroke-dasharray="3 4"/>
+
+          <!-- Scanning beam (rotating conic wedge) -->
+          <g class="radar-beam">
+            <polygon points="230,241 230,50 406,158"
+              fill="url(#beamGrad)" opacity="0.6"/>
+          </g>
+
+          <!-- TARGET STATE fill (amber, lighter) — drawn first so current overlaps -->
+          <polygon class="radar-target-fill"
+            points="230,95 377,172 326,352 134,352 83,172"
+            fill="rgba(230,160,60,0.12)" stroke="rgba(230,160,60,0.55)" stroke-width="1.5" stroke-linejoin="round"/>
+
+          <!-- CURRENT STATE fill (blue) — typical industry baseline -->
+          <polygon class="radar-current-fill"
+            points="230,157 323,194 307,322 153,322 137,194"
+            fill="rgba(72,112,255,0.18)" stroke="rgba(72,112,255,0.7)" stroke-width="1.5" stroke-linejoin="round" filter="url(#glow)"/>
+
+          <!-- Centre crosshair -->
+          <circle cx="230" cy="241" r="4" fill="rgba(72,112,255,0.6)"/>
+          <circle cx="230" cy="241" r="10" fill="none" stroke="rgba(72,112,255,0.25)" stroke-width="1"/>
+
+          <!-- Vertex dots — current state (blue) -->
+          <circle class="radar-vertex-dot" cx="230" cy="157" r="5" fill="rgba(72,112,255,0.9)" filter="url(#glow)"/>
+          <circle class="radar-vertex-dot" cx="323" cy="194" r="5" fill="rgba(72,112,255,0.9)" filter="url(#glow)"/>
+          <circle class="radar-vertex-dot" cx="307" cy="322" r="5" fill="rgba(72,112,255,0.9)" filter="url(#glow)"/>
+          <circle class="radar-vertex-dot" cx="153" cy="322" r="5" fill="rgba(72,112,255,0.9)" filter="url(#glow)"/>
+          <circle class="radar-vertex-dot" cx="137" cy="194" r="5" fill="rgba(72,112,255,0.9)" filter="url(#glow)"/>
+
+          <!-- Vertex dots — target state (amber) -->
+          <circle cx="230" cy="95" r="5" fill="rgba(230,160,60,0.9)" filter="url(#glow)"/>
+          <circle cx="377" cy="172" r="5" fill="rgba(230,160,60,0.9)" filter="url(#glow)"/>
+          <circle cx="326" cy="352" r="5" fill="rgba(230,160,60,0.9)" filter="url(#glow)"/>
+          <circle cx="134" cy="352" r="5" fill="rgba(230,160,60,0.9)" filter="url(#glow)"/>
+          <circle cx="83" cy="172" r="5" fill="rgba(230,160,60,0.9)" filter="url(#glow)"/>
+
+          <!-- Dimension labels -->
+          <!-- People (top) -->
+          <text x="230" y="36" text-anchor="middle" font-family="'Geist Mono',monospace" font-size="11" fill="rgba(240,242,245,0.75)" letter-spacing="0.15em">PEOPLE</text>
+          <!-- Process (upper-right) -->
+          <text x="418" y="155" text-anchor="start" font-family="'Geist Mono',monospace" font-size="11" fill="rgba(240,242,245,0.75)" letter-spacing="0.15em">PROCESS</text>
+          <!-- Tooling (lower-right) -->
+          <text x="352" y="394" text-anchor="start" font-family="'Geist Mono',monospace" font-size="11" fill="rgba(240,242,245,0.75)" letter-spacing="0.15em">TOOLING</text>
+          <!-- Data Quality (lower-left) -->
+          <text x="108" y="394" text-anchor="end" font-family="'Geist Mono',monospace" font-size="11" fill="rgba(240,242,245,0.75)" letter-spacing="0.15em">DATA</text>
+          <!-- Lifecycle (upper-left) -->
+          <text x="42" y="155" text-anchor="end" font-family="'Geist Mono',monospace" font-size="11" fill="rgba(240,242,245,0.75)" letter-spacing="0.15em">LIFECYCLE</text>
+
+          <!-- Score scale ticks -->
+          <text x="234" y="244" font-family="'Geist Mono',monospace" font-size="8" fill="rgba(72,112,255,0.4)">1</text>
+          <text x="234" y="207" font-family="'Geist Mono',monospace" font-size="8" fill="rgba(72,112,255,0.4)">2</text>
+          <text x="234" y="170" font-family="'Geist Mono',monospace" font-size="8" fill="rgba(72,112,255,0.4)">3</text>
+          <text x="234" y="133" font-family="'Geist Mono',monospace" font-size="8" fill="rgba(72,112,255,0.4)">4</text>
+          <text x="234" y="96" font-family="'Geist Mono',monospace" font-size="8" fill="rgba(72,112,255,0.4)">5</text>
+        </svg>
+      </div>
+
+      <!-- Dimension legend with bars -->
+      <div class="ham-radar-legend">
+        <div class="ham-radar-legend-title">Maturity scoring — 1 to 5</div>
+
+        <!-- People -->
+        <div class="ham-dim-row">
+          <div class="ham-dim-number">01</div>
+          <div class="ham-dim-body">
+            <div class="ham-dim-name">People &amp; capability</div>
+            <div class="ham-dim-bars">
+              <div class="ham-dim-bar-row">
+                <div class="ham-dim-bar-label">Current</div>
+                <div class="ham-dim-bar-track"><div class="ham-dim-bar-fill current" style="width:56%"></div></div>
+                <div class="ham-dim-bar-value">2.8</div>
+              </div>
+              <div class="ham-dim-bar-row">
+                <div class="ham-dim-bar-label">Target</div>
+                <div class="ham-dim-bar-track"><div class="ham-dim-bar-fill target" style="width:88%"></div></div>
+                <div class="ham-dim-bar-value">4.4</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Process -->
+        <div class="ham-dim-row">
+          <div class="ham-dim-number">02</div>
+          <div class="ham-dim-body">
+            <div class="ham-dim-name">Process maturity</div>
+            <div class="ham-dim-bars">
+              <div class="ham-dim-bar-row">
+                <div class="ham-dim-bar-label">Current</div>
+                <div class="ham-dim-bar-track"><div class="ham-dim-bar-fill current" style="width:46%"></div></div>
+                <div class="ham-dim-bar-value">2.3</div>
+              </div>
+              <div class="ham-dim-bar-row">
+                <div class="ham-dim-bar-label">Target</div>
+                <div class="ham-dim-bar-track"><div class="ham-dim-bar-fill target" style="width:80%"></div></div>
+                <div class="ham-dim-bar-value">4.0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tooling -->
+        <div class="ham-dim-row">
+          <div class="ham-dim-number">03</div>
+          <div class="ham-dim-body">
+            <div class="ham-dim-name">Tooling &amp; integration</div>
+            <div class="ham-dim-bars">
+              <div class="ham-dim-bar-row">
+                <div class="ham-dim-bar-label">Current</div>
+                <div class="ham-dim-bar-track"><div class="ham-dim-bar-fill current" style="width:52%"></div></div>
+                <div class="ham-dim-bar-value">2.6</div>
+              </div>
+              <div class="ham-dim-bar-row">
+                <div class="ham-dim-bar-label">Target</div>
+                <div class="ham-dim-bar-track"><div class="ham-dim-bar-fill target" style="width:84%"></div></div>
+                <div class="ham-dim-bar-value">4.2</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Quality -->
+        <div class="ham-dim-row">
+          <div class="ham-dim-number">04</div>
+          <div class="ham-dim-body">
+            <div class="ham-dim-name">Data quality</div>
+            <div class="ham-dim-bars">
+              <div class="ham-dim-bar-row">
+                <div class="ham-dim-bar-label">Current</div>
+                <div class="ham-dim-bar-track"><div class="ham-dim-bar-fill current" style="width:40%"></div></div>
+                <div class="ham-dim-bar-value">2.0</div>
+              </div>
+              <div class="ham-dim-bar-row">
+                <div class="ham-dim-bar-label">Target</div>
+                <div class="ham-dim-bar-track"><div class="ham-dim-bar-fill target" style="width:76%"></div></div>
+                <div class="ham-dim-bar-value">3.8</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lifecycle Outcomes -->
+        <div class="ham-dim-row">
+          <div class="ham-dim-number">05</div>
+          <div class="ham-dim-body">
+            <div class="ham-dim-name">Lifecycle outcomes</div>
+            <div class="ham-dim-bars">
+              <div class="ham-dim-bar-row">
+                <div class="ham-dim-bar-label">Current</div>
+                <div class="ham-dim-bar-track"><div class="ham-dim-bar-fill current" style="width:48%"></div></div>
+                <div class="ham-dim-bar-value">2.4</div>
+              </div>
+              <div class="ham-dim-bar-row">
+                <div class="ham-dim-bar-label">Target</div>
+                <div class="ham-dim-bar-track"><div class="ham-dim-bar-fill target" style="width:82%"></div></div>
+                <div class="ham-dim-bar-value">4.1</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key -->
+        <div class="ham-legend-key">
+          <div class="ham-legend-key-item">
+            <div class="ham-legend-key-dot current"></div>
+            Current state (typical)
+          </div>
+          <div class="ham-legend-key-item">
+            <div class="ham-legend-key-dot target"></div>
+            18-month target
+          </div>
+        </div>
+      </div>
+    </div><!-- /ham-radar-wrap -->
+
+    <!-- ── TRANSFORMATION ARC ── -->
+    <div class="ham-transform-arc reveal">
+      <div class="ham-arc-header">
+        <div>
+          <div class="ham-arc-eyebrow">How we get there</div>
+          <div class="ham-arc-title">A four-stage engagement. <em>Built around your gaps.</em></div>
+        </div>
+        <div class="ham-arc-horizon">4–6 week assessment · optional 12–18 month execution</div>
+      </div>
+
+      <div class="ham-arc-track">
+        <!-- Flowing line behind nodes -->
+        <div class="ham-arc-line"></div>
+
+        <!-- Stage 01 -->
+        <div class="ham-arc-stage">
+          <div class="ham-arc-week">Wk 0–1</div>
+          <div class="ham-arc-node"><span class="ham-arc-node-inner">01</span></div>
+          <div class="ham-arc-content">
+            <div class="ham-arc-stage-name">Discover &amp; scope</div>
+            <div class="ham-arc-stage-desc">Agree scope, identify stakeholders, source systems, and compliance drivers.</div>
+          </div>
+        </div>
+
+        <!-- Stage 02 -->
+        <div class="ham-arc-stage">
+          <div class="ham-arc-week">Wk 2–4</div>
+          <div class="ham-arc-node"><span class="ham-arc-node-inner">02</span></div>
+          <div class="ham-arc-content">
+            <div class="ham-arc-stage-name">Assess &amp; benchmark</div>
+            <div class="ham-arc-stage-desc">Structured interviews, CMDB extraction, disposal reviews. Five-dimension scoring + peer benchmark.</div>
+          </div>
+        </div>
+
+        <!-- Stage 03 -->
+        <div class="ham-arc-stage">
+          <div class="ham-arc-week">Wk 4–6</div>
+          <div class="ham-arc-node"><span class="ham-arc-node-inner">03</span></div>
+          <div class="ham-arc-content">
+            <div class="ham-arc-stage-name">Design &amp; sequence</div>
+            <div class="ham-arc-stage-desc">Target operating model, capability gaps, business case modelling, sequenced roadmap.</div>
+          </div>
+        </div>
+
+        <!-- Stage 04 -->
+        <div class="ham-arc-stage">
+          <div class="ham-arc-week">Mo 2–18</div>
+          <div class="ham-arc-node"><span class="ham-arc-node-inner">04</span></div>
+          <div class="ham-arc-content">
+            <div class="ham-arc-stage-name">Execute &amp; report</div>
+            <div class="ham-arc-stage-desc">Optional ongoing engagement. Quarterly steering, monthly delivery reviews, on-call advisory.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Outcome band -->
+      <div class="ham-outcome-band">
+        <div class="ham-outcome-cell">
+          <div class="ham-outcome-tag">Average uplift</div>
+          <div class="ham-outcome-num">+1.6</div>
+          <div class="ham-outcome-label">Maturity levels gained across five dimensions after 18-month transformation.</div>
+        </div>
+        <div class="ham-outcome-cell">
+          <div class="ham-outcome-tag">Cost reduction</div>
+          <div class="ham-outcome-num">20–30%</div>
+          <div class="ham-outcome-label">Hardware lifecycle cost reduction across post-transformation programmes.</div>
+        </div>
+        <div class="ham-outcome-cell">
+          <div class="ham-outcome-tag">Compliance outcomes</div>
+          <div class="ham-outcome-num">0</div>
+          <div class="ham-outcome-label">Audit findings at external regulatory review — typical outcome for financial services clients.</div>
+        </div>
+      </div>
+    </div><!-- /ham-transform-arc -->
+
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="container">
+    <div class="reveal" style="margin-bottom: 56px;">
+      <div class="section-eyebrow">Proof</div>
+      <h2 class="section-title">A <em>recent engagement</em>.</h2>
+    </div>
+    <div class="proof-grid">
+      <div class="reveal">
+        <div class="proof-quote">
+          A regulated financial services client went from <em>failing their internal disposal audit</em> to passing the external regulator's review inside 11 months.
+        </div>
+        <div class="proof-attribution">
+          <div class="proof-avatar">SM</div>
+          <div>
+            <div class="proof-name">Soumya</div>
+            <div class="proof-role">Senior HAM Expert · Proteam Advisory · HAM transformation, financial services</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proof-stat-card reveal">
+        <div class="proof-stat-label">Audit findings cleared</div>
+        <div class="proof-stat-num"><span>17 → 0</span></div>
+        <div class="proof-stat-desc">A UK-headquartered financial services client engaged us after an internal audit flagged 17 material findings on hardware lifecycle and disposal. We assessed, redesigned the operating model, and supported execution over 11 months. The external regulator's review found zero findings in the same scope.</div>
+        <a href="case-studies.html" class="proof-stat-link">Read more case studies →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER SERVICES -->
+<section class="other-svc">
+  <div class="container">
+    <div class="reveal" style="max-width: 720px;">
+      <div class="section-eyebrow">Adjacent services</div>
+      <h2 class="section-title">Often deployed <em>alongside</em>.</h2>
+      <p class="section-lede">HAM maturity work usually leads into one of these — depending on which capability gaps are most acute.</p>
+    </div>
+
+    <div class="other-svc-grid">
+<a href="service-ham-helpdesk.html" class="other-svc-card reveal">
+  <div class="num">— 07</div>
+  <h4>Hardware Helpdesk Services</h4>
+  <p>If the assessment finds capability gaps in day-to-day lifecycle decisions, the helpdesk fills them quickly while you build internal capacity.</p>
+  <span class="lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+</a>
+<a href="service-sam-maturity.html" class="other-svc-card reveal">
+  <div class="num">— 04</div>
+  <h4>SAM Maturity Assessment & Transformation</h4>
+  <p>Many clients run both maturity assessments together. The HAM and SAM operating models are increasingly converging into a single ITAM function.</p>
+  <span class="lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="reveal">
+        <div class="section-eyebrow" style="color: var(--amber-bright);">Ready to talk</div>
+        <h2>Want to know <em>where your HAM ceiling is</em>?</h2>
+        <p>The free HAM consultation is exactly that. A senior consultant will spend 30 minutes with you walking through your current practice, recent audit or compliance pressure, and biggest sources of cost and risk — and tell you whether a maturity assessment is the right next step.</p>
+        <div class="cta-actions">
+          <a href="contact.html" class="btn-amber">Book free consultation</a>
+          <a href="case-studies.html" class="btn-line">See more case studies</a>
+        </div>
+      </div>
+      <div class="cta-detail reveal">
+        <h4>What you'll get</h4>
+        <ul class="cta-list">
+          <li>30-minute call with a senior HAM transformation specialist.</li>
+          <li>Quick maturity self-scoring against the five-dimension model.</li>
+          <li>Indicative benchmark range against your industry.</li>
+          <li>Honest assessment of whether maturity work is your highest-leverage move right now.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" style="color: var(--cream);">
+          <span class="logo-lockup">
+            <span class="logo-text" style="color:var(--cream);"><span class="logo-cap">P</span>roteam</span>
+            <span class="logo-advisory" style="color:rgba(240,242,245,0.7);">Advisory Solutions LLP</span>
+          </span>
+        </a>
+        <h3>SAM specialists. Nothing else.</h3>
+        <p>An independent Software Asset Management consultancy serving enterprises across India, the UK, the US, and the Middle East.</p>
+
+        <div class="foot-social">
+          <div class="foot-social-label">Follow us on</div>
+          <div class="foot-social-icons">
+            <a href="https://in.linkedin.com/company/proteam-advisory" aria-label="LinkedIn" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/proteamadv" aria-label="X (Twitter)" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H21l-7.39 8.45L22.5 21h-6.83l-5.34-6.99L3.5 21H0l7.91-9.04L0.5 3h7l4.83 6.4L17.53 3zm-2.39 16h2.06L7.05 4.85H4.83L15.14 19z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/proteamadvisory/" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://www.youtube.com/channel/UCaajUe2N_6AFw3dvPmH1b7A" aria-label="YouTube" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#sam">Software Asset Management</a></li>
+          <li><a href="services.html#ham">Hardware Asset Management</a></li>
+          <li><a href="services.html#finops">Cloud FinOps</a></li>
+          <li><a href="services.html#ai-transformation">AI Transformation Services</a></li>
+          <li><a href="services.html#itam-tech">ITAM Technology</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="case-studies.html">Case Studies</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="insights.html">Insights</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="careers.html">Careers</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h5>Get in touch</h5>
+        <address>
+          Suite #309&ndash;312<br>
+          KTC Illumination Towers<br>
+          Madhapur, Hyderabad<br>
+          Telangana, India<br><br>
+          <a href="tel:+919676889797">+91 9676 889 797</a><br>
+          <a href="mailto:vpatel@proteamadvisory.com">vpatel@proteamadvisory.com</a>
+        </address>
+      </div>
+    </div>
+
+    <div class="foot-bot">
+      <div>&copy; 2026 Proteam Advisory. All rights reserved.</div>
+      <div style="display:flex; gap:24px; flex-wrap:wrap;">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- Scroll reveal ----
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+  document.querySelectorAll(".reveal, .reveal-stagger").forEach(el => obs.observe(el));
+
+  // ---- Smooth scroll ----
+  document.querySelectorAll("a[href^='#']").forEach(link => {
+    link.addEventListener("click", e => {
+      const id = link.getAttribute("href");
+      if (id.length > 1) { const tgt = document.querySelector(id); if (tgt) { e.preventDefault(); tgt.scrollIntoView({ behavior: "smooth", block: "start" }); } }
+    });
+  });
+
+    // ---- Mobile menu (with accordion sub-menus) ----
+  (function() {
+    const toggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    if (!toggle || !mobileNav) return;
+    const body = document.body;
+
+    function openMenu() {
+      mobileNav.classList.add('is-open');
+      toggle.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      mobileNav.classList.remove('is-open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      body.style.overflow = '';
+    }
+    toggle.addEventListener('click', () => mobileNav.classList.contains('is-open') ? closeMenu() : openMenu());
+
+    // Close on actual link clicks only (not on sub-menu toggle buttons)
+    mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) closeMenu(); });
+
+    // Accordion behavior for nested sub-menus
+    mobileNav.querySelectorAll('.sub-toggle, .sub-toggle-2').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('aria-controls');
+        const target = id ? document.getElementById(id) : btn.nextElementSibling;
+        if (!target) return;
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        target.classList.toggle('is-open', !expanded);
+      });
+    });
+  })();
+</script>
+
+<script src="sammy-chatbot.js"></script>
+<script>
+/* Desktop mega-menu: JS hover with close-delay */
+(function () {
+  var CLOSE_DELAY = 150;
+  document.querySelectorAll(".nav-links .has-mega").forEach(function (li) {
+    var timer = null;
+    function openMenu() { clearTimeout(timer); li.classList.add("mega-open"); }
+    function scheduleClose() { timer = setTimeout(function () { li.classList.remove("mega-open"); }, CLOSE_DELAY); }
+    li.addEventListener("mouseenter", openMenu);
+    li.addEventListener("mouseleave", scheduleClose);
+    var menu = li.querySelector(".mega-menu");
+    if (menu) {
+      menu.addEventListener("mouseenter", openMenu);
+      menu.addEventListener("mouseleave", scheduleClose);
+    }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") li.classList.remove("mega-open"); });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cloud Cost Helpdesk Services — Proteam Advisory</title>
+<meta name="description" content="Senior FinOps specialists on tap. RI/SP guidance, anomaly investigation, tagging strategy, showback design, commitment renewal decisions, BYOL vs license-included advisory — across AWS, Azure, and GCP." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─── BRAND TOKENS (v3.0 — cyan/yellow, no dark blue) ─────── */
+:root {
+  --navy:         #08515E;
+  --navy-deep:    #053B45;
+  --navy-soft:    #1B7787;
+  --cream:        #FFF9E1;
+  --cream-warm:   #FEEFAD;
+  --paper:        #F6FCFD;
+  --signal:       #03AED2;
+  --signal-hi:    #68D2E8;
+  --amber:        #03AED2;
+  --amber-hi:     #68D2E8;
+  --amber-bright: #68D2E8;
+  --rust:         #F5C022;
+  --teal:         #1B7787;
+  --teal-bright:  #03AED2;
+  --muted:        #6B8A92;
+  --line:         rgba(8,81,94,0.10);
+  --line-cream:   rgba(255,255,255,0.18);
+  --green-ok:     #03AED2;
+  --serif:        'Fraunces','Times New Roman',serif;
+  --sans:         'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono:         'Geist Mono','JetBrains Mono',ui-monospace,monospace;
+  --radius:       8px;
+  --max-w:        1320px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--paper);color:var(--navy);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+.container{max-width:var(--max-w);margin:0 auto;padding:0 32px;}
+
+/* ─── HEADER ─────────────────────────────────── */
+header{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:200;backdrop-filter:blur(12px);}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0;gap:16px;}
+.logo{display:flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:600;font-size:44px;letter-spacing:-0.03em;color:var(--navy);flex-shrink:0;}
+.logo-lockup{display:flex;flex-direction:column;line-height:1;gap:2px;}
+.logo-advisory{font-family:var(--sans);font-size:11px;font-weight:300;letter-spacing:0.18em;color:var(--muted);padding-left:1px;}
+.logo-text{text-transform:lowercase;}
+.logo-cap{text-transform:uppercase;}
+.logo-text::after{content:'.';color:var(--signal);font-weight:600;}
+.nav-links{display:flex;gap:36px;list-style:none;align-items:center;}
+.nav-links a{font-size:14px;font-weight:500;color:var(--navy);position:relative;padding:6px 0;transition:color 0.2s;display:inline-flex;align-items:center;gap:4px;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--signal);transition:width 0.3s ease;}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%;}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;background:var(--navy);color:var(--cream);font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;border-radius:var(--radius);transition:background 0.2s;white-space:nowrap;}
+.nav-cta:hover{background:var(--navy-soft);}
+.nav-links .has-mega > a .caret{width:12px;height:12px;transition:transform 0.25s ease;opacity:0.7;}
+.nav-links .has-mega.mega-open > a .caret,.nav-links .has-mega:focus-within > a .caret{transform:rotate(180deg);}
+.mega-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(0);background:var(--paper);border:1px solid var(--line);border-radius:4px;box-shadow:0 12px 40px rgba(10,22,40,0.12),0 2px 6px rgba(10,22,40,0.04);padding:32px 36px;min-width:1060px;margin-top:6px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.25s ease,transform 0.25s ease,visibility 0.25s;z-index:250;}
+
+
+.nav-links .has-mega.mega-open .mega-menu,.nav-links .has-mega:focus-within .mega-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.mega-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;}
+.mega-col{min-width:170px;}
+.mega-head{display:block;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#03AED2;padding:0 0 10px 0;margin-bottom:10px;border-bottom:1px solid rgba(30,43,60,0.10);}
+.mega-head::after{display:none !important;}
+.mega-head:hover{color:#68D2E8 !important;}
+.mega-col ul{list-style:none;}
+.mega-col ul li{margin:0;}
+.mega-col ul li a{font-size:13px;color:var(--muted);transition:color 0.2s,padding-left 0.2s;line-height:1.5;display:block;padding:4px 0;}
+.mega-col ul li a::after{display:none !important;}
+.mega-col ul li a:hover{color:#03AED2 !important;padding-left:4px;}
+.menu-toggle{display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:40px;height:40px;min-width:40px;max-width:40px;flex-shrink:0;border-radius:var(--radius);background:var(--cream-warm);}
+.menu-toggle .bar{display:block;width:18px;height:2px;background:var(--navy);border-radius:2px;transition:transform 0.3s,opacity 0.3s;}
+.menu-toggle.open .bar:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.menu-toggle.open .bar:nth-child(2){opacity:0;}
+.menu-toggle.open .bar:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+/* ─── MOBILE NAV ─────────────────────────────── */
+.mobile-nav{display:none;flex-direction:column;position:fixed;inset:0;top:0;background:var(--navy-deep);z-index:400;padding:80px 24px 36px;overflow-y:auto;opacity:0;transform:translateX(100%);transition:opacity 0.35s,transform 0.35s;}
+.mobile-nav.is-open{opacity:1;transform:none;}
+.mobile-nav-links{list-style:none;display:flex;flex-direction:column;}
+.mobile-nav-links>li{border-bottom:1px solid var(--line-cream);}
+.mobile-nav-links>li>a,.mobile-nav-links>li>.sub-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:18px 0;font-size:18px;font-weight:400;color:var(--cream);letter-spacing:-0.01em;background:none;border:none;cursor:pointer;font-family:var(--sans);text-align:left;transition:color 0.2s;}
+.mobile-nav-links>li>a:hover,.mobile-nav-links>li>.sub-toggle:hover{color:var(--amber-bright);}
+.mobile-nav-links>li>a>span{font-size:0.55em;opacity:0.5;}
+.sub-toggle .caret,.sub-toggle-2 .caret{width:16px;height:16px;transition:transform 0.25s;flex-shrink:0;}
+.sub-toggle[aria-expanded="true"] .caret,.sub-toggle-2[aria-expanded="true"] .caret{transform:rotate(180deg);}
+.sub-toggle[aria-expanded="true"],.sub-toggle-2[aria-expanded="true"]{color:var(--amber-bright);}
+.sub-menu,.sub-menu-2{list-style:none;max-height:0;overflow:hidden;transition:max-height 0.4s ease;}
+.sub-menu.is-open{max-height:1600px;}
+.sub-menu-2.is-open{max-height:800px;}
+.sub-menu>li{border-top:1px solid rgba(240,242,245,0.06);}
+.sub-menu>li:first-child{border-top:none;}
+.sub-menu>li>a,.sub-menu>li>.sub-toggle-2{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px 16px;font-size:15px;color:rgba(240,242,245,0.7);transition:color 0.2s;background:none;border:none;cursor:pointer;font-family:var(--sans);text-align:left;}
+.sub-menu>li>a:hover,.sub-menu>li>.sub-toggle-2:hover{color:var(--amber-bright);}
+.sub-menu-2{background:rgba(255,255,255,0.02);}
+.sub-menu-2>li>a{display:block;padding:11px 16px 11px 32px;font-size:14px;color:rgba(240,242,245,0.55);border-top:1px solid rgba(240,242,245,0.04);transition:color 0.2s;}
+.sub-menu-2>li:first-child>a{border-top:none;}
+.sub-menu-2>li>a:hover{color:var(--amber-bright);}
+.mobile-nav-cta{display:flex;align-items:center;justify-content:center;margin-top:28px;padding:16px;background:var(--amber);color:var(--navy);font-size:15px;font-weight:600;letter-spacing:0.04em;border-radius:var(--radius);transition:background 0.2s;}
+.mobile-nav-cta:hover{background:var(--amber-bright);}
+.mobile-nav-contact{margin-top:24px;display:flex;flex-direction:column;gap:12px;}
+.mobile-nav-contact a{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(240,242,245,0.5);transition:color 0.2s;}
+.mobile-nav-contact a:hover{color:var(--amber-bright);}
+.mobile-nav-contact svg{width:13px;height:13px;flex-shrink:0;}
+
+/* ─── SCROLL REVEAL ──────────────────────────── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.in{opacity:1;transform:none;}
+.reveal-stagger>*{opacity:0;transform:translateY(28px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal-stagger.in>*:nth-child(1){opacity:1;transform:none;transition-delay:0.05s;}
+.reveal-stagger.in>*:nth-child(2){opacity:1;transform:none;transition-delay:0.15s;}
+.reveal-stagger.in>*:nth-child(3){opacity:1;transform:none;transition-delay:0.25s;}
+.reveal-stagger.in>*:nth-child(4){opacity:1;transform:none;transition-delay:0.35s;}
+.reveal-stagger.in>*:nth-child(5){opacity:1;transform:none;transition-delay:0.45s;}
+.reveal-stagger.in>*:nth-child(6){opacity:1;transform:none;transition-delay:0.55s;}
+
+/* ─── SECTION LABELS ─────────────────────────── */
+.section-eyebrow{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;font-weight:500;color:var(--signal);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.section-eyebrow::before{content:'';width:24px;height:1px;background:var(--signal);}
+.section-title{font-family:var(--sans);font-weight:400;font-size:clamp(36px,4.5vw,56px);line-height:1.05;letter-spacing:-0.025em;color:var(--navy);font-variation-settings:"opsz" 144;margin-bottom:24px;}
+.section-title em{font-family:var(--serif);font-style:italic;color:var(--signal);font-weight:300;font-variation-settings:"opsz" 144;}
+.section-lede{font-size:17px;line-height:1.7;color:var(--muted);max-width:640px;}
+
+/* ─── BREADCRUMB ─────────────────────────────── */
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(240,242,245,0.4);margin-bottom:48px;flex-wrap:wrap;}
+.breadcrumb .sep{opacity:0.4;}
+.breadcrumb .current{color:rgba(240,242,245,0.8);font-weight:500;}
+.breadcrumb a:hover{color:var(--amber-hi);}
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.hero{background:var(--navy-deep);color:var(--cream);padding:100px 0 0;position:relative;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;}
+.hero-bg-canvas{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+@keyframes drift{0%{transform:translate(0,0) scale(1);opacity:0;}20%{opacity:1;}80%{opacity:1;}100%{transform:translate(var(--dx),var(--dy)) scale(0.6);opacity:0;}}
+.particle{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--signal-hi);animation:drift var(--dur,8s) linear infinite;animation-delay:var(--delay,0s);}
+.particle.p-amber{background:var(--amber-hi);}
+.particle.p-green{background:var(--green-ok);}
+@keyframes scan{0%{transform:translateY(-100%);}100%{transform:translateY(100vh);}}
+.scan-line{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(245,175,61,0.3),transparent);animation:scan 7s linear infinite;}
+
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;padding-bottom:0;}
+.hero-left{position:relative;z-index:2;}
+.page-hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber-hi);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 2px rgba(29,164,98,0.25);}50%{box-shadow:0 0 0 5px rgba(29,164,98,0.1);}}
+.page-hero-eyebrow::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green-ok);box-shadow:0 0 0 2px rgba(29,164,98,0.25);animation:pulse-dot 2s ease-in-out infinite;}
+.hero h1{font-family:var(--sans);font-weight:300;font-size:clamp(48px,6vw,80px);line-height:1.0;letter-spacing:-0.035em;color:var(--cream);font-variation-settings:"opsz" 144;margin-bottom:28px;}
+.hero h1 em{font-family:var(--serif);font-style:italic;color:var(--amber-hi);font-weight:300;font-variation-settings:"opsz" 144;}
+.hero-lede{font-size:18px;line-height:1.7;color:rgba(240,242,245,0.7);max-width:520px;margin-bottom:48px;}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:var(--amber);color:var(--navy);font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border-radius:var(--radius);transition:background 0.2s,transform 0.2s;}
+.btn-primary:hover{background:var(--amber-hi);transform:translateY(-2px);}
+.btn-outline{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border:1px solid var(--line-cream);color:var(--cream);font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;border-radius:var(--radius);transition:border-color 0.2s,background 0.2s;}
+.btn-outline:hover{border-color:rgba(240,242,245,0.4);background:rgba(240,242,245,0.05);}
+
+/* Hero terminal widget */
+.hero-right{position:relative;z-index:2;padding-top:8px;}
+.helpdesk-terminal{background:rgba(5,14,28,0.85);border:1px solid rgba(245,175,61,0.3);border-radius:8px;overflow:hidden;font-family:var(--mono);}
+.terminal-bar{background:rgba(245,175,61,0.08);border-bottom:1px solid rgba(245,175,61,0.2);padding:12px 20px;display:flex;align-items:center;gap:8px;}
+.td-red{width:10px;height:10px;border-radius:50%;background:#FF5F57;flex-shrink:0;}
+.td-yellow{width:10px;height:10px;border-radius:50%;background:#FEBC2E;flex-shrink:0;}
+.td-green{width:10px;height:10px;border-radius:50%;background:#28C840;flex-shrink:0;}
+.terminal-title{font-size:11px;letter-spacing:0.15em;color:rgba(240,242,245,0.4);margin-left:8px;text-transform:uppercase;}
+.terminal-body{padding:20px;display:flex;flex-direction:column;gap:10px;}
+.query-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:11px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;}
+@keyframes slide-in{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+.query-item{animation:slide-in 0.4s ease both;}
+.q-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.qd-green{background:var(--green-ok);box-shadow:0 0 6px rgba(29,164,98,0.5);}
+.qd-amber{background:var(--amber-hi);box-shadow:0 0 6px rgba(245,175,61,0.5);}
+.qd-blue{background:var(--signal-hi);}
+.qd-pulse{background:var(--amber-hi);animation:qpulse 1.2s ease-in-out infinite;}
+@keyframes qpulse{0%,100%{opacity:1;box-shadow:0 0 6px rgba(245,175,61,0.5);}50%{opacity:0.4;box-shadow:0 0 12px rgba(245,175,61,0.2);}}
+.q-body{}
+.q-title{font-size:11px;font-weight:500;color:rgba(240,242,245,0.85);font-family:var(--sans);}
+.q-sub{font-size:10px;color:rgba(240,242,245,0.35);margin-top:1px;}
+.q-badge{font-size:9px;font-family:var(--mono);padding:2px 7px;border-radius:2px;white-space:nowrap;}
+.qb-resolved{background:rgba(29,164,98,0.12);color:var(--green-ok);}
+.qb-active{background:rgba(245,175,61,0.12);color:var(--amber-hi);}
+.qb-queued{background:rgba(72,112,255,0.12);color:var(--signal-hi);}
+.ai-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:rgba(245,175,61,0.1);border:1px solid rgba(245,175,61,0.25);border-radius:20px;font-size:11px;color:rgba(245,175,61,0.9);font-family:var(--mono);}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.ai-cursor{display:inline-block;width:6px;height:11px;background:var(--amber-hi);animation:blink 1s step-end infinite;vertical-align:middle;}
+.sla-bar-wrap{background:rgba(245,175,61,0.06);border:1px solid rgba(245,175,61,0.15);border-radius:4px;padding:12px 14px;}
+.sla-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.sla-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(240,242,245,0.45);}
+.sla-val{font-size:11px;color:var(--green-ok);}
+.sla-track{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;}
+@keyframes fillBar{from{width:0;}to{width:92%;}}
+.sla-fill{height:100%;background:linear-gradient(90deg,var(--green-ok),var(--amber-hi));border-radius:2px;animation:fillBar 2s ease 0.8s both;}
+
+/* Hero stat strip */
+.hero-stat-strip{border-top:1px solid var(--line-cream);margin-top:72px;padding:40px 0 52px;}
+.hero-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+.hero-stat{padding:0 40px 0 0;border-right:1px solid var(--line-cream);}
+.hero-stat:first-child{padding-left:0;}
+.hero-stat:last-child{border-right:none;padding-right:0;padding-left:40px;}
+.hero-stat:nth-child(2){padding:0 40px;}
+.hstat-num{font-family:var(--sans);font-weight:300;font-size:52px;line-height:1;letter-spacing:-0.04em;color:var(--cream);margin-bottom:8px;font-variation-settings:"opsz" 144;}
+.hstat-num span{color:var(--amber-hi);}
+.hstat-lbl{font-size:13px;line-height:1.5;color:rgba(240,242,245,0.5);}
+
+/* ═══════════════════════════════════════════════
+   OVERVIEW
+═══════════════════════════════════════════════ */
+.overview{background:var(--paper);padding:120px 0;}
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.overview-grid h2{font-family:var(--sans);font-weight:400;font-size:clamp(32px,4vw,48px);line-height:1.1;letter-spacing:-0.02em;color:var(--navy);margin-bottom:24px;font-variation-settings:"opsz" 144;}
+.overview-grid h2 em{font-family:var(--serif);font-style:italic;color:var(--signal);font-weight:300;font-variation-settings:"opsz" 144;}
+.overview-grid p{font-size:17px;line-height:1.7;color:var(--muted);margin-bottom:18px;}
+.overview-grid p strong{color:var(--navy);font-weight:600;}
+
+/* ═══════════════════════════════════════════════
+   COVERAGE SECTION — Radial Diagram
+═══════════════════════════════════════════════ */
+.coverage{background:var(--navy-deep);padding:120px 0;position:relative;overflow:hidden;}
+.coverage::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.coverage .container{position:relative;}
+.coverage-intro{max-width:640px;margin-bottom:72px;}
+.coverage .section-eyebrow{color:var(--amber-hi);}
+.coverage .section-eyebrow::before{background:var(--amber-hi);}
+.coverage .section-title{color:var(--cream);}
+.coverage .section-title em{color:var(--amber-hi);}
+.coverage .section-lede{color:rgba(240,242,245,0.6);}
+
+.coverage-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.coverage-diagram{position:relative;display:flex;justify-content:center;align-items:center;}
+.coverage-diagram svg{width:100%;max-width:460px;height:auto;}
+
+.coverage-cards{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line-cream);}
+.cov-card{border-bottom:1px solid var(--line-cream);padding:22px 0;display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;cursor:pointer;transition:padding-left 0.3s ease;}
+.cov-card:hover{padding-left:8px;}
+.cov-num{font-family:var(--mono);font-size:11px;color:var(--amber-hi);opacity:0.6;padding-top:3px;}
+.cov-content h4{font-family:var(--sans);font-weight:500;font-size:17px;color:var(--cream);letter-spacing:-0.01em;margin-bottom:5px;font-variation-settings:"opsz" 144;}
+.cov-content p{font-size:14px;line-height:1.55;color:rgba(240,242,245,0.5);}
+.cov-card.active .cov-num{opacity:1;color:var(--amber-hi);}
+.cov-card.active h4{color:var(--amber-hi);}
+.cov-card.active p{color:rgba(240,242,245,0.7);}
+
+/* ═══════════════════════════════════════════════
+   PLATFORM COVERAGE
+═══════════════════════════════════════════════ */
+.platforms{background:var(--paper);padding:120px 0;}
+.platforms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line);margin-top:56px;}
+.platform-card{background:var(--paper);padding:48px 40px 40px;transition:background 0.3s;}
+.platform-card:hover{background:var(--cream-warm);}
+.platform-logo{font-size:13px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy);margin-bottom:32px;display:flex;align-items:center;gap:10px;}
+.plat-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-family:var(--mono);}
+.pi-aws{background:#FF9900;color:#fff;}
+.pi-azure{background:#0078D4;color:#fff;}
+.pi-gcp{background:#03AED2;color:#fff;}
+.platform-metrics{display:flex;flex-direction:column;gap:16px;}
+.pm-row{display:flex;flex-direction:column;gap:6px;}
+.pm-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);}
+.pm-label span:last-child{font-weight:500;color:var(--navy);}
+.pm-track{height:3px;background:var(--line);border-radius:2px;overflow:hidden;}
+.pm-fill{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1);}
+.pm-fill-aws{background:linear-gradient(90deg,#FF9900,#FFB74D);}
+.pm-fill-azure{background:linear-gradient(90deg,#0078D4,#50ABF1);}
+.pm-fill-gcp{background:linear-gradient(90deg,#03AED2,#68D2E8);}
+.platform-tag{margin-top:28px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);padding-top:20px;}
+
+/* ═══════════════════════════════════════════════
+   HOW WE WORK — Flow Diagram
+═══════════════════════════════════════════════ */
+.process{background:var(--navy);padding:120px 0;position:relative;overflow:hidden;}
+.process::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.process .container{position:relative;}
+.process .section-title{color:var(--cream);}
+.process .section-eyebrow{color:var(--amber-bright);}
+.process .section-eyebrow::before{background:var(--amber-bright);}
+.process .section-lede{color:rgba(240,242,245,0.6);}
+
+.flow-diagram{margin-top:64px;}
+.flow-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+.flow-row::before{content:'';position:absolute;top:44px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,var(--amber-hi) 0%,rgba(245,175,61,0.2) 100%);pointer-events:none;}
+
+.flow-node{position:relative;padding:0 20px;text-align:center;}
+.fn-circle{width:88px;height:88px;border-radius:50%;border:1px solid rgba(245,175,61,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 24px;position:relative;background:rgba(5,14,28,0.6);transition:border-color 0.3s,background 0.3s;}
+.flow-node:hover .fn-circle{border-color:var(--amber-hi);background:rgba(245,175,61,0.08);}
+.fn-num{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--amber-hi);opacity:0.6;line-height:1;}
+.fn-icon{font-size:24px;line-height:1;margin-top:2px;}
+.fn-connector{position:absolute;top:44px;right:-8px;width:16px;height:1px;background:transparent;}
+.fn-arrow{position:absolute;top:37px;right:-20px;color:var(--amber-hi);font-size:14px;opacity:0.5;}
+.flow-node:last-child .fn-arrow{display:none;}
+.fn-title{font-family:var(--sans);font-weight:500;font-size:17px;color:var(--cream);letter-spacing:-0.01em;margin-bottom:8px;font-variation-settings:"opsz" 144;}
+.fn-desc{font-size:14px;line-height:1.6;color:rgba(240,242,245,0.5);}
+.flow-callout{margin-top:48px;background:rgba(245,175,61,0.06);border:1px solid rgba(245,175,61,0.2);border-radius:6px;padding:24px 32px;display:flex;align-items:center;gap:24px;}
+.fc-label{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--amber-hi);white-space:nowrap;}
+.fc-divider{width:1px;height:40px;background:rgba(245,175,61,0.2);}
+.fc-stat{display:flex;align-items:baseline;gap:6px;}
+.fc-num{font-family:var(--sans);font-weight:300;font-size:36px;color:var(--cream);letter-spacing:-0.03em;font-variation-settings:"opsz" 144;}
+.fc-num span{color:var(--amber-hi);}
+.fc-detail{font-size:13px;color:rgba(240,242,245,0.5);max-width:200px;line-height:1.5;}
+
+/* ═══════════════════════════════════════════════
+   PROOF
+═══════════════════════════════════════════════ */
+.proof{background:var(--paper);padding:120px 0;}
+.proof-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:64px;align-items:center;}
+.proof-quote{font-family:var(--sans);font-weight:400;font-size:clamp(28px,3.6vw,42px);line-height:1.2;letter-spacing:-0.015em;color:var(--navy);font-variation-settings:"opsz" 144;}
+.proof-quote em{font-family:var(--serif);font-style:italic;color:var(--signal);font-weight:400;font-variation-settings:"opsz" 144;}
+.proof-attribution{margin-top:32px;padding-top:24px;border-top:1px solid var(--line);display:flex;gap:16px;align-items:center;}
+.proof-avatar{width:48px;height:48px;border-radius:50%;background:var(--navy);color:var(--amber-bright);display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-style:italic;font-size:20px;font-variation-settings:"opsz" 144;}
+.proof-name{font-weight:600;color:var(--navy);}
+.proof-role{font-size:13px;color:var(--muted);margin-top:2px;}
+.proof-stat-card{background:var(--navy);color:var(--cream);padding:56px 48px;border-radius:4px;position:relative;overflow:hidden;}
+.proof-stat-card::before{content:'';position:absolute;top:-50%;right:-30%;width:400px;height:400px;background:radial-gradient(circle,var(--amber) 0%,transparent 70%);opacity:0.18;border-radius:50%;}
+.proof-stat-label{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber-bright);margin-bottom:24px;position:relative;}
+.proof-stat-num{font-family:var(--sans);font-weight:300;font-size:clamp(72px,9vw,120px);line-height:0.9;color:var(--cream);margin-bottom:24px;letter-spacing:-0.04em;position:relative;font-variation-settings:"opsz" 144;}
+.proof-stat-num span{color:var(--amber-bright);}
+.proof-stat-desc{font-size:15px;line-height:1.6;color:rgba(240,242,245,0.75);margin-bottom:32px;position:relative;}
+.proof-stat-link{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber-bright);border-bottom:1px solid var(--amber-bright);padding-bottom:4px;position:relative;transition:gap 0.3s ease;}
+.proof-stat-link:hover{gap:16px;}
+
+/* ═══════════════════════════════════════════════
+   ADJACENT SERVICES
+═══════════════════════════════════════════════ */
+.adjacent{background:var(--cream-warm);padding:110px 0;}
+.adj-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;}
+.adj-card{background:var(--paper);border:1px solid var(--line);padding:40px 36px;border-radius:4px;transition:all 0.3s ease;display:flex;flex-direction:column;}
+.adj-card:hover{background:var(--navy);transform:translateY(-4px);}
+.adj-num{font-family:var(--mono);font-style:italic;color:var(--muted);font-size:13px;margin-bottom:16px;transition:color 0.3s;}
+.adj-card:hover .adj-num{color:var(--amber-hi);}
+.adj-card h4{font-family:var(--sans);font-weight:500;font-size:22px;line-height:1.15;margin-bottom:12px;letter-spacing:-0.01em;color:var(--navy);transition:color 0.3s;font-variation-settings:"opsz" 144;}
+.adj-card:hover h4{color:var(--cream);}
+.adj-card p{font-size:15px;line-height:1.6;color:var(--muted);flex:1;margin-bottom:20px;transition:color 0.3s;}
+.adj-card:hover p{color:rgba(240,242,245,0.7);}
+.adj-lnk{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;display:inline-flex;align-items:center;gap:8px;color:var(--navy);transition:color 0.3s;}
+.adj-card:hover .adj-lnk{color:var(--amber-bright);}
+
+/* ═══════════════════════════════════════════════
+   CTA
+═══════════════════════════════════════════════ */
+.cta{background:var(--navy-deep);padding:120px 0;position:relative;overflow:hidden;}
+.cta::after{content:'';position:absolute;top:-30%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(45,91,255,0.12) 0%,transparent 70%);pointer-events:none;}
+.cta .container{position:relative;}
+.cta-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.cta .section-eyebrow{color:var(--amber-bright);}
+.cta .section-eyebrow::before{background:var(--amber-bright);}
+.cta h2{font-family:var(--sans);font-weight:300;font-size:clamp(36px,4.5vw,54px);line-height:1.05;letter-spacing:-0.025em;color:var(--cream);font-variation-settings:"opsz" 144;margin-bottom:20px;}
+.cta h2 em{font-family:var(--serif);font-style:italic;color:var(--amber-hi);font-weight:300;}
+.cta p{font-size:17px;line-height:1.7;color:rgba(240,242,245,0.65);margin-bottom:40px;}
+.cta-actions{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-amber{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:var(--amber);color:var(--navy);font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border-radius:var(--radius);transition:background 0.2s,transform 0.2s;}
+.btn-amber:hover{background:var(--amber-hi);transform:translateY(-2px);}
+.btn-line{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border:1px solid var(--line-cream);color:var(--cream);font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;border-radius:var(--radius);transition:all 0.2s;}
+.btn-line:hover{border-color:rgba(240,242,245,0.4);background:rgba(240,242,245,0.05);}
+.cta-detail h4{font-family:var(--sans);font-weight:500;font-size:14px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(240,242,245,0.4);margin-bottom:24px;}
+.cta-list{list-style:none;display:flex;flex-direction:column;gap:16px;}
+.cta-list li{display:flex;gap:14px;align-items:flex-start;font-size:16px;color:rgba(240,242,245,0.75);line-height:1.5;}
+.cta-list li::before{content:'→';color:var(--amber-bright);flex-shrink:0;font-size:14px;margin-top:2px;}
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer{background:var(--navy-deep);color:var(--cream);padding:80px 0 40px;border-top:1px solid var(--line-cream);}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:60px;margin-bottom:60px;}
+.foot-brand h3{font-family:var(--sans);font-weight:400;font-size:18px;color:var(--cream);margin:24px 0 12px;font-variation-settings:"opsz" 144;}
+.foot-brand p{font-size:14px;line-height:1.6;color:rgba(240,242,245,0.5);}
+.foot-col h5{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;color:rgba(240,242,245,0.35);margin-bottom:20px;font-family:var(--mono);}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.foot-col ul li a{font-size:14px;color:rgba(240,242,245,0.55);transition:color 0.2s;}
+.foot-col ul li a:hover{color:var(--amber-bright);}
+.foot-col address{font-style:normal;font-size:14px;line-height:1.7;color:rgba(240,242,245,0.5);}
+.foot-col address a{color:rgba(240,242,245,0.5);transition:color 0.2s;}
+.foot-col address a:hover{color:var(--amber-bright);}
+.foot-bot{border-top:1px solid var(--line-cream);padding-top:32px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:rgba(240,242,245,0.3);}
+.foot-bot a{color:rgba(240,242,245,0.3);transition:color 0.2s;}
+.foot-bot a:hover{color:var(--amber-bright);}
+.foot-social{margin-top:24px;}
+.foot-social-label{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(240,242,245,0.3);margin-bottom:12px;}
+.foot-social-icons{display:flex;gap:12px;}
+.foot-social-icons a{width:34px;height:34px;border:1px solid var(--line-cream);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:rgba(240,242,245,0.4);transition:all 0.2s;}
+.foot-social-icons a svg{width:14px;height:14px;}
+.foot-social-icons a:hover{border-color:var(--amber-bright);color:var(--amber-bright);}
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+@media(max-width:1100px){
+  .hero-grid{grid-template-columns:1fr;gap:48px;}
+  .hero-right{display:none;}
+  .overview-grid{grid-template-columns:1fr;gap:40px;}
+  .coverage-layout{grid-template-columns:1fr;gap:48px;}
+  .flow-row{grid-template-columns:repeat(2,1fr);gap:32px;}
+  .flow-row::before{display:none;}
+  .fn-arrow{display:none;}
+  .proof-grid{grid-template-columns:1fr;gap:40px;}
+  .cta-inner{grid-template-columns:1fr;gap:48px;}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:40px;}
+}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none;}
+  .menu-toggle{display:flex;}
+  .container{padding:0 20px;}
+  .platforms-grid{grid-template-columns:1fr;}
+  .flow-row{grid-template-columns:1fr;}
+  .adj-grid{grid-template-columns:1fr;}
+  .hero-stat-grid{grid-template-columns:1fr;gap:24px;}
+  .hero-stat{border-right:none;border-bottom:1px solid var(--line-cream);padding:0 0 24px;}
+  .hero-stat:last-child{border-bottom:none;padding-bottom:0;}
+  .foot-grid{grid-template-columns:1fr;}
+  .flow-callout{flex-direction:column;gap:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-lockup">
+        <span class="logo-text"><span class="logo-cap">P</span>roteam</span>
+        <span class="logo-advisory">Advisory Solutions LLP</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-mega">
+        <a href="services.html" class="active">Services <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="mega-menu">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <a href="services.html#sam" class="mega-head">Software Asset Management</a>
+              <ul>
+                <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+                <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+                <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ham" class="mega-head">Hardware Asset Management</a>
+              <ul>
+                <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+                <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#finops" class="mega-head">Cloud FinOps</a>
+              <ul>
+                <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+                <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ai-transformation" class="mega-head">AI Transformation Services</a>
+              <ul>
+                <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+                <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#itam-tech" class="mega-head">ITAM Technology</a>
+              <ul>
+                <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+                <li><a href="service-itam-flexera.html">Flexera</a></li>
+                <li><a href="service-itam-snow.html">Snow</a></li>
+                <li><a href="service-itam-zylo.html">Zylo</a></li>
+                <li><a href="service-itam-aspera.html">Aspera</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Free Consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <ul class="mobile-nav-links">
+    <li><a href="index.html">Home <span>&rarr;</span></a></li>
+    <li class="has-sub">
+      <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="m-svc-sub">
+        Services
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul id="m-svc-sub" class="sub-menu">
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-sam-sub">
+            Software Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-sam-sub" class="sub-menu-2">
+            <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+            <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+            <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ham-sub">
+            Hardware Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ham-sub" class="sub-menu-2">
+            <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+            <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-finops-sub">
+            Cloud FinOps
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-finops-sub" class="sub-menu-2">
+            <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+            <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ai-sub">
+            AI Transformation Services
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ai-sub" class="sub-menu-2">
+            <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+            <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-itam-sub">
+            ITAM Technology
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-itam-sub" class="sub-menu-2">
+            <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+            <li><a href="service-itam-flexera.html">Flexera</a></li>
+            <li><a href="service-itam-snow.html">Snow</a></li>
+            <li><a href="service-itam-zylo.html">Zylo</a></li>
+            <li><a href="service-itam-aspera.html">Aspera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="case-studies.html">Case Studies <span>&rarr;</span></a></li>
+    <li><a href="about.html">About <span>&rarr;</span></a></li>
+    <li><a href="insights.html">Insights <span>&rarr;</span></a></li>
+    <li><a href="contact.html">Contact <span>&rarr;</span></a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta">Book Free Consultation &rarr;</a>
+  <div class="mobile-nav-contact">
+    <a href="tel:+919676889797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      +91 9676 889 797
+    </a>
+    <a href="mailto:vpatel@proteamadvisory.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      vpatel@proteamadvisory.com
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-canvas" id="heroBg"></div>
+  <div class="scan-line"></div>
+
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="services.html">Services</a>
+      <span class="sep">/</span>
+      <span class="current">Cloud Cost Helpdesk Services</span>
+    </div>
+
+    <div class="hero-grid">
+      <div class="hero-left reveal">
+        <div class="page-hero-eyebrow">Service 10 — Cloud FinOps</div>
+        <h1>Cloud cost helpdesk <em>services</em>.</h1>
+        <p class="hero-lede">Senior FinOps specialists on tap. RI and Savings Plan decisions, anomaly investigation, tagging strategy, commitment renewal — all without adding another permanent headcount.</p>
+        <div class="hero-actions">
+          <a href="contact.html" class="btn-primary">Book free consultation →</a>
+          <a href="case-studies.html" class="btn-outline">See case studies</a>
+        </div>
+      </div>
+
+      <div class="hero-right reveal">
+        <div class="helpdesk-terminal">
+          <div class="terminal-bar">
+            <div class="td-red"></div>
+            <div class="td-yellow"></div>
+            <div class="td-green"></div>
+            <span class="terminal-title">Helpdesk · Live Query Stream</span>
+          </div>
+          <div class="terminal-body">
+            <div class="sla-bar-wrap">
+              <div class="sla-row">
+                <span class="sla-label">SLA Compliance — this quarter</span>
+                <span class="sla-val">✓ 97.3%</span>
+              </div>
+              <div class="sla-track"><div class="sla-fill"></div></div>
+            </div>
+
+            <div class="query-item" style="animation-delay:0.2s">
+              <div class="q-dot qd-green"></div>
+              <div class="q-body">
+                <div class="q-title">AWS Savings Plan — 3yr renewal sizing</div>
+                <div class="q-sub">AWS · Commitment guidance · 4h ago</div>
+              </div>
+              <span class="q-badge qb-resolved">Resolved</span>
+            </div>
+
+            <div class="query-item" style="animation-delay:0.4s">
+              <div class="q-dot qd-green"></div>
+              <div class="q-body">
+                <div class="q-title">Azure spend +22% — anomaly or growth?</div>
+                <div class="q-sub">Azure · Anomaly investigation · 11h ago</div>
+              </div>
+              <span class="q-badge qb-resolved">Resolved</span>
+            </div>
+
+            <div class="query-item" style="animation-delay:0.6s">
+              <div class="q-dot qd-amber"></div>
+              <div class="q-body">
+                <div class="q-title">Oracle BYOL vs licence-included on GCP</div>
+                <div class="q-sub">GCP · BYOL advisory · 2h ago</div>
+              </div>
+              <span class="q-badge qb-active">In progress</span>
+            </div>
+
+            <div class="query-item" style="animation-delay:0.8s">
+              <div class="q-dot qd-pulse"></div>
+              <div class="q-body">
+                <div class="q-title">Tagging model for engineering showback</div>
+                <div class="q-sub">Multi-cloud · Tagging strategy · Just received</div>
+              </div>
+              <span class="q-badge qb-active">Active</span>
+            </div>
+
+            <div class="ai-badge">
+              <span>Analysing query</span>
+              <span class="ai-cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-stat-strip reveal">
+      <div class="hero-stat-grid">
+        <div class="hero-stat">
+          <div class="hstat-num"><span>24h</span></div>
+          <div class="hstat-lbl">Standard SLA — most queries answered the same business day.</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hstat-num"><span>3</span></div>
+          <div class="hstat-lbl">Cloud platforms covered — AWS, Azure, and GCP, plus container-platform overlays.</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hstat-num">10–<span>20%</span></div>
+          <div class="hstat-lbl">Typical incremental cloud spend reduction in the first year of helpdesk advisory.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="overview">
+  <div class="container">
+    <div class="overview-grid">
+      <div class="reveal">
+        <div class="section-eyebrow">The problem we solve</div>
+        <h2>FinOps is a <em>discipline</em>, not a tool. And it needs specialists.</h2>
+      </div>
+      <div class="reveal">
+        <p>FinOps tooling has matured rapidly. Most enterprises now have Apptio, AWS Cost Explorer, Azure Cost Management, or platform-native tools producing daily dashboards. The cost data is more visible than ever.</p>
+        <p>The decisions are not. <strong>Should we buy a 3-year compute Savings Plan now or wait?</strong> <strong>Why did Azure spend jump 22% last week — anomaly or growth?</strong> <strong>Should the FinTech unit be on BYOL or licence-included Oracle?</strong> These aren't questions a dashboard answers. They're questions a senior FinOps specialist answers, in writing, with the supporting analysis attached.</p>
+        <p>The cloud cost helpdesk gives you that specialist on demand. <strong>SLA-backed, platform-agnostic, decision-grade advisory.</strong> Most clients use it to support a small internal FinOps team that needs senior backup.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COVERAGE DIAGRAM -->
+<section class="coverage">
+  <div class="container">
+    <div class="coverage-intro reveal">
+      <div class="section-eyebrow">What's covered</div>
+      <h2 class="section-title">One retainer. <em>Every cloud cost question.</em></h2>
+      <p class="section-lede">Seven advisory areas delivered under a single SLA — across AWS, Azure, and GCP, with the FinOps and licensing crossover most providers can't match.</p>
+    </div>
+
+    <div class="coverage-layout">
+
+      <!-- SVG Radial Diagram -->
+      <div class="coverage-diagram reveal">
+        <svg viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg" id="coverageSvg">
+          <defs>
+            <radialGradient id="centreGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#F5AF3D" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#F5AF3D" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Outer ring -->
+          <circle cx="230" cy="230" r="195" fill="none" stroke="rgba(245,175,61,0.08)" stroke-width="1"/>
+          <!-- Mid ring -->
+          <circle cx="230" cy="230" r="140" fill="none" stroke="rgba(245,175,61,0.12)" stroke-width="1" stroke-dasharray="4 6"/>
+          <!-- Inner ring -->
+          <circle cx="230" cy="230" r="85" fill="none" stroke="rgba(245,175,61,0.2)" stroke-width="1"/>
+          <!-- Centre glow -->
+          <circle cx="230" cy="230" r="85" fill="url(#centreGlow)"/>
+
+          <!-- Spokes (7 areas) -->
+          <g stroke="rgba(245,175,61,0.15)" stroke-width="1">
+            <line x1="230" y1="230" x2="230" y2="35"/>
+            <line x1="230" y1="230" x2="396" y2="127"/>
+            <line x1="230" y1="230" x2="396" y2="333"/>
+            <line x1="230" y1="230" x2="230" y2="425"/>
+            <line x1="230" y1="230" x2="64" y2="333"/>
+            <line x1="230" y1="230" x2="64" y2="127"/>
+          </g>
+
+          <!-- Node dots on outer ring -->
+          <!-- Top: Commitment guidance -->
+          <circle class="svg-node" cx="230" cy="35" r="6" fill="#F5AF3D" filter="url(#glow)" opacity="0.9"/>
+          <circle cx="230" cy="35" r="14" fill="rgba(245,175,61,0.1)" stroke="rgba(245,175,61,0.3)" stroke-width="1"/>
+          <text x="230" y="18" text-anchor="middle" fill="rgba(240,242,245,0.7)" font-size="11" font-family="'Geist Mono',monospace" letter-spacing="0.05em">01</text>
+
+          <!-- Top-right: Anomaly -->
+          <circle class="svg-node" cx="396" cy="127" r="6" fill="#F5AF3D" filter="url(#glow)" opacity="0.9"/>
+          <circle cx="396" cy="127" r="14" fill="rgba(245,175,61,0.1)" stroke="rgba(245,175,61,0.3)" stroke-width="1"/>
+          <text x="396" y="110" text-anchor="middle" fill="rgba(240,242,245,0.7)" font-size="11" font-family="'Geist Mono',monospace" letter-spacing="0.05em">02</text>
+
+          <!-- Bottom-right: Tagging -->
+          <circle class="svg-node" cx="396" cy="333" r="6" fill="#1DA462" filter="url(#glow)" opacity="0.9"/>
+          <circle cx="396" cy="333" r="14" fill="rgba(29,164,98,0.1)" stroke="rgba(29,164,98,0.3)" stroke-width="1"/>
+          <text x="396" y="316" text-anchor="middle" fill="rgba(240,242,245,0.7)" font-size="11" font-family="'Geist Mono',monospace" letter-spacing="0.05em">03</text>
+
+          <!-- Bottom: BYOL -->
+          <circle class="svg-node" cx="230" cy="425" r="6" fill="#68D2E8" filter="url(#glow)" opacity="0.9"/>
+          <circle cx="230" cy="425" r="14" fill="rgba(72,112,255,0.1)" stroke="rgba(72,112,255,0.3)" stroke-width="1"/>
+          <text x="230" y="448" text-anchor="middle" fill="rgba(240,242,245,0.7)" font-size="11" font-family="'Geist Mono',monospace" letter-spacing="0.05em">04</text>
+
+          <!-- Bottom-left: Renewal -->
+          <circle class="svg-node" cx="64" cy="333" r="6" fill="#F5AF3D" filter="url(#glow)" opacity="0.9"/>
+          <circle cx="64" cy="333" r="14" fill="rgba(245,175,61,0.1)" stroke="rgba(245,175,61,0.3)" stroke-width="1"/>
+          <text x="64" y="316" text-anchor="middle" fill="rgba(240,242,245,0.7)" font-size="11" font-family="'Geist Mono',monospace" letter-spacing="0.05em">05</text>
+
+          <!-- Top-left: Quarterly trend -->
+          <circle class="svg-node" cx="64" cy="127" r="6" fill="#1DA462" filter="url(#glow)" opacity="0.9"/>
+          <circle cx="64" cy="127" r="14" fill="rgba(29,164,98,0.1)" stroke="rgba(29,164,98,0.3)" stroke-width="1"/>
+          <text x="64" y="110" text-anchor="middle" fill="rgba(240,242,245,0.7)" font-size="11" font-family="'Geist Mono',monospace" letter-spacing="0.05em">06</text>
+
+
+          <!-- Centre label -->
+          <text x="230" y="220" text-anchor="middle" fill="rgba(240,242,245,0.9)" font-size="13" font-family="'Geist',-apple-system,sans-serif" font-weight="500" letter-spacing="-0.02em">HELPDESK</text>
+          <text x="230" y="238" text-anchor="middle" fill="rgba(245,175,61,0.8)" font-size="11" font-family="'Geist Mono',monospace" letter-spacing="0.1em">COVERAGE</text>
+
+          <!-- Animated ring -->
+          <circle cx="230" cy="230" r="85" fill="none" stroke="rgba(245,175,61,0.3)" stroke-width="1.5" stroke-dasharray="8 4">
+            <animateTransform attributeName="transform" type="rotate" values="0 230 230;360 230 230" dur="20s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+
+      <!-- Coverage cards -->
+      <div class="coverage-cards reveal-stagger">
+        <div class="cov-card active">
+          <div class="cov-num">01</div>
+          <div class="cov-content">
+            <h4>Commitment guidance</h4>
+            <p>RI, Savings Plans, Azure Reservations, GCP CUDs — sizing, term, renewal strategy, and break-even modelling with supporting numbers.</p>
+          </div>
+        </div>
+        <div class="cov-card">
+          <div class="cov-num">02</div>
+          <div class="cov-content">
+            <h4>Anomaly investigation</h4>
+            <p>When spend jumps and tooling can't say why — we isolate the cost driver and recommend corrective action, usually within 48 hours.</p>
+          </div>
+        </div>
+        <div class="cov-card">
+          <div class="cov-num">03</div>
+          <div class="cov-content">
+            <h4>Tagging &amp; allocation strategy</h4>
+            <p>A tagging model practical enough for engineering to adopt and granular enough for finance to allocate. Showback and chargeback design included.</p>
+          </div>
+        </div>
+        <div class="cov-card">
+          <div class="cov-num">04</div>
+          <div class="cov-content">
+            <h4>BYOL vs licence-included advisory</h4>
+            <p>Vendor by vendor — Oracle, Microsoft, IBM, Red Hat, SAP — with the contractual reference attached. The single most common avoidable cost in cloud.</p>
+          </div>
+        </div>
+        <div class="cov-card">
+          <div class="cov-num">05</div>
+          <div class="cov-content">
+            <h4>Vendor renewal support</h4>
+            <p>Six to nine months ahead of EDP, EA, and Microsoft cloud renewals — we run the analysis and draft your negotiation position.</p>
+          </div>
+        </div>
+        <div class="cov-card">
+          <div class="cov-num">06</div>
+          <div class="cov-content">
+            <h4>Quarterly trend report</h4>
+            <p>Query themes, emerging vendor risks, and where the next optimisation opportunities are likely to surface — delivered every quarter.</p>
+          </div>
+        </div>
+        <div class="cov-card">
+          <div class="cov-num">07</div>
+          <div class="cov-content">
+            <h4>Governance &amp; policy advisory</h4>
+            <p>Cloud spend policies, budget alert architecture, escalation thresholds — the governance layer that keeps engineering accountable without slowing it down.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM COVERAGE -->
+<section class="platforms">
+  <div class="container">
+    <div class="reveal" style="max-width:680px;">
+      <div class="section-eyebrow">Platform coverage</div>
+      <h2 class="section-title">Depth across all <em>three clouds</em>.</h2>
+      <p class="section-lede">Not a reseller. Not a single-cloud shop. Platform-agnostic advisory grounded in actual cost engineering, commitment modelling, and licensing crossover.</p>
+    </div>
+
+    <div class="platforms-grid reveal-stagger">
+      <div class="platform-card">
+        <div class="platform-logo">
+          <div class="plat-icon pi-aws">A</div>
+          Amazon Web Services
+        </div>
+        <div class="platform-metrics">
+          <div class="pm-row">
+            <div class="pm-label"><span>Savings Plans &amp; RIs</span><span>Deep</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-aws" style="width:0" data-width="95%"></div></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-label"><span>Cost Explorer analysis</span><span>Full</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-aws" style="width:0" data-width="100%"></div></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-label"><span>EDP &amp; marketplace</span><span>Deep</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-aws" style="width:0" data-width="90%"></div></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-label"><span>BYOL workload advisory</span><span>Full</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-aws" style="width:0" data-width="100%"></div></div>
+          </div>
+        </div>
+        <div class="platform-tag">Primary platform · Highest query volume</div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-logo">
+          <div class="plat-icon pi-azure">Az</div>
+          Microsoft Azure
+        </div>
+        <div class="platform-metrics">
+          <div class="pm-row">
+            <div class="pm-label"><span>Reservations &amp; AHUB</span><span>Deep</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-azure" style="width:0" data-width="95%"></div></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-label"><span>Cost Management analysis</span><span>Full</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-azure" style="width:0" data-width="100%"></div></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-label"><span>EA &amp; MCA renewals</span><span>Deep</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-azure" style="width:0" data-width="92%"></div></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-label"><span>M365 licensing crossover</span><span>Full</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-azure" style="width:0" data-width="100%"></div></div>
+          </div>
+        </div>
+        <div class="platform-tag">M365 licensing crossover included</div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-logo">
+          <div class="plat-icon pi-gcp">G</div>
+          Google Cloud Platform
+        </div>
+        <div class="platform-metrics">
+          <div class="pm-row">
+            <div class="pm-label"><span>CUDs &amp; SUDs</span><span>Full</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-gcp" style="width:0" data-width="88%"></div></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-label"><span>Billing analysis</span><span>Full</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-gcp" style="width:0" data-width="95%"></div></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-label"><span>Google Workspace crossover</span><span>Full</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-gcp" style="width:0" data-width="90%"></div></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-label"><span>BYOL &amp; marketplace</span><span>Good</span></div>
+            <div class="pm-track"><div class="pm-fill pm-fill-gcp" style="width:0" data-width="80%"></div></div>
+          </div>
+        </div>
+        <div class="platform-tag">Container &amp; Kubernetes overlay available</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE WORK -->
+<section class="process">
+  <div class="container">
+    <div class="reveal" style="max-width:680px;">
+      <div class="section-eyebrow">How we work</div>
+      <h2 class="section-title">Onboarded in two weeks. <em>Useful immediately.</em></h2>
+      <p class="section-lede">Engagements run on a 12-month retainer with quarterly check-ins. Volume bands are sized to your cloud spend.</p>
+    </div>
+
+    <div class="flow-diagram reveal">
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="fn-circle">
+            <div class="fn-num">01</div>
+            <div class="fn-icon">🔍</div>
+          </div>
+          <div class="fn-arrow">→</div>
+          <div class="fn-title">Discover &amp; scope</div>
+          <div class="fn-desc">Free consultation. We size the retainer to your cloud spend, platforms, internal FinOps capability, and expected query volume.</div>
+        </div>
+
+        <div class="flow-node">
+          <div class="fn-circle">
+            <div class="fn-num">02</div>
+            <div class="fn-icon">⚙️</div>
+          </div>
+          <div class="fn-arrow">→</div>
+          <div class="fn-title">Onboard &amp; calibrate</div>
+          <div class="fn-desc">Two-week onboarding. We ingest your billing data, commitment portfolio, and tagging model — so the first query is grounded in your environment.</div>
+        </div>
+
+        <div class="flow-node">
+          <div class="fn-circle">
+            <div class="fn-num">03</div>
+            <div class="fn-icon">💬</div>
+          </div>
+          <div class="fn-arrow">→</div>
+          <div class="fn-title">Operate &amp; answer</div>
+          <div class="fn-desc">Queries arrive through your preferred channel. Written responses inside SLA, with analysis, billing extracts, and policy references attached.</div>
+        </div>
+
+        <div class="flow-node">
+          <div class="fn-circle">
+            <div class="fn-num">04</div>
+            <div class="fn-icon">📈</div>
+          </div>
+          <div class="fn-title">Review &amp; evolve</div>
+          <div class="fn-desc">Quarterly check-ins. We review query patterns, surface optimisation opportunities, and recommend any tagging, commitment, or governance changes.</div>
+        </div>
+      </div>
+
+      <div class="flow-callout">
+        <div class="fc-label">Typical outcome</div>
+        <div class="fc-divider"></div>
+        <div class="fc-stat">
+          <div class="fc-num"><span>$3.1M</span></div>
+        </div>
+        <div class="fc-detail">Saved over 3 years for a SaaS client from a single AWS Savings Plan renewal query.</div>
+        <div class="fc-divider"></div>
+        <div class="fc-stat">
+          <div class="fc-num"><span>48h</span></div>
+        </div>
+        <div class="fc-detail">Maximum turnaround for anomaly investigations — most within 24 hours.</div>
+        <div class="fc-divider"></div>
+        <div class="fc-stat">
+          <div class="fc-num">10–<span>20%</span></div>
+        </div>
+        <div class="fc-detail">Incremental spend reduction achieved in the first year of helpdesk advisory.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="container">
+    <div class="reveal" style="margin-bottom:56px;">
+      <div class="section-eyebrow">Proof</div>
+      <h2 class="section-title">A <em>recent engagement</em>.</h2>
+    </div>
+    <div class="proof-grid">
+      <div class="reveal">
+        <div class="proof-quote">
+          A single helpdesk query about an upcoming AWS Savings Plan renewal triggered the analysis that <em>saved $3.1M</em> over the next three years.
+        </div>
+        <div class="proof-attribution">
+          <div class="proof-avatar">AS</div>
+          <div>
+            <div class="proof-name">Ashish</div>
+            <div class="proof-role">SAM Lifecycle Management Lead · Proteam Advisory · Cloud cost helpdesk, SaaS sector</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proof-stat-card reveal">
+        <div class="proof-stat-label">3-year savings</div>
+        <div class="proof-stat-num"><span>$3.1M</span></div>
+        <div class="proof-stat-desc">A US-headquartered SaaS client used the helpdesk for a routine question about renewing $24M of AWS Savings Plan commitment. We modelled the usage curve against the original commitment, recommended a restructured portfolio, and saved $3.1M over the new 3-year term.</div>
+        <a href="case-studies.html" class="proof-stat-link">Read more case studies →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADJACENT SERVICES -->
+<section class="adjacent">
+  <div class="container">
+    <div class="reveal" style="max-width:720px;">
+      <div class="section-eyebrow">Adjacent services</div>
+      <h2 class="section-title">Often deployed <em>alongside</em>.</h2>
+      <p class="section-lede">The cloud cost helpdesk pairs naturally with the broader FinOps transformation work or the SAM-licensing crossover.</p>
+    </div>
+
+    <div class="adj-grid">
+      <a href="service-cloud-finops.html" class="adj-card reveal">
+        <div class="adj-num">— 09</div>
+        <h4>Cloud FinOps</h4>
+        <p>When the helpdesk surfaces structural issues — broken tagging, poor allocation, fragmented commitment strategy — we route into the broader FinOps engagement.</p>
+        <span class="adj-lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="service-finops-maturity.html" class="adj-card reveal">
+        <div class="adj-num">— 11</div>
+        <h4>FinOps Maturity Assessment &amp; Transformation</h4>
+        <p>Many clients use the helpdesk for 6–12 months, then commission a maturity assessment to design the target operating model and longer-term transformation roadmap.</p>
+        <span class="adj-lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="reveal">
+        <div class="section-eyebrow">Ready to talk</div>
+        <h2>Senior FinOps expertise <em>without permanent hires</em>.</h2>
+        <p>The free FinOps consultation is exactly that — 30 minutes with a senior consultant, understanding your cloud spend, internal team setup, and biggest current pain points. We'll tell you whether the helpdesk economics make sense.</p>
+        <div class="cta-actions">
+          <a href="contact.html" class="btn-amber">Book free consultation</a>
+          <a href="case-studies.html" class="btn-line">See case studies</a>
+        </div>
+      </div>
+      <div class="cta-detail reveal">
+        <h4>What you'll get</h4>
+        <ul class="cta-list">
+          <li>30-minute call with a senior FinOps specialist.</li>
+          <li>Indicative query volume estimate for your cloud spend size.</li>
+          <li>Retainer band sizing and SLA tier options.</li>
+          <li>Honest assessment of whether you need the helpdesk at all.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" style="color:var(--cream);">
+          <span class="logo-lockup">
+            <span class="logo-text" style="color:var(--cream);"><span class="logo-cap">P</span>roteam</span>
+            <span class="logo-advisory" style="color:rgba(240,242,245,0.5);">Advisory Solutions LLP</span>
+          </span>
+        </a>
+        <h3>SAM specialists. Nothing else.</h3>
+        <p>An independent Software Asset Management consultancy serving enterprises across India, the UK, the US, and the Middle East.</p>
+        <div class="foot-social">
+          <div class="foot-social-label">Follow us on</div>
+          <div class="foot-social-icons">
+            <a href="https://in.linkedin.com/company/proteam-advisory" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H21l-7.39 8.45L22.5 21h-6.83l-5.34-6.99L3.5 21H0l7.91-9.04L0.5 3h7l4.83 6.4L17.53 3zm-2.39 16h2.06L7.05 4.85H4.83L15.14 19z"/></svg></a>
+          </div>
+        </div>
+      </div>
+            <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#sam">Software Asset Management</a></li>
+          <li><a href="services.html#ham">Hardware Asset Management</a></li>
+          <li><a href="services.html#finops">Cloud FinOps</a></li>
+          <li><a href="services.html#ai-transformation">AI Transformation Services</a></li>
+          <li><a href="services.html#itam-tech">ITAM Technology</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="case-studies.html">Case Studies</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="insights.html">Insights</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Get in touch</h5>
+        <address>
+          Suite #309–312<br>
+          KTC Illumination Towers<br>
+          Madhapur, Hyderabad<br>
+          Telangana, India<br><br>
+          <a href="tel:+919676889797">+91 9676 889 797</a><br>
+          <a href="mailto:vpatel@proteamadvisory.com">vpatel@proteamadvisory.com</a>
+        </address>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div>© 2026 Proteam Advisory. All rights reserved.</div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Particle background ── */
+(function(){
+  const bg = document.getElementById('heroBg');
+  if(!bg) return;
+  const colours = ['','p-amber','p-green'];
+  for(let i=0;i<28;i++){
+    const p = document.createElement('div');
+    p.className = 'particle ' + colours[Math.floor(Math.random()*colours.length)];
+    const x = Math.random()*100, y = Math.random()*100;
+    const dx = (Math.random()-0.5)*300, dy = (Math.random()-0.5)*300;
+    p.style.cssText = `left:${x}%;top:${y}%;--dx:${dx}px;--dy:${dy}px;--dur:${7+Math.random()*10}s;--delay:-${Math.random()*12}s;`;
+    bg.appendChild(p);
+  }
+})();
+
+/* ── Scroll reveal ── */
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }
+  });
+},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal,.reveal-stagger').forEach(el=>obs.observe(el));
+
+/* ── Platform bar animation ── */
+const barObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.pm-fill[data-width]').forEach((bar,i)=>{
+        setTimeout(()=>{ bar.style.width = bar.dataset.width; }, i*150);
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.platform-card').forEach(c=>barObs.observe(c));
+
+/* ── Coverage card interaction ── */
+document.querySelectorAll('.cov-card').forEach(card=>{
+  card.addEventListener('mouseenter',()=>{
+    document.querySelectorAll('.cov-card').forEach(c=>c.classList.remove('active'));
+    card.classList.add('active');
+  });
+});
+
+/* ── Mobile menu with accordion sub-menus ── */
+(function(){
+  const toggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  if(!toggle || !mobileNav) return;
+  const body = document.body;
+
+  function openMenu(){
+    mobileNav.style.display = 'flex';
+    requestAnimationFrame(()=> mobileNav.classList.add('is-open'));
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded','true');
+    body.style.overflow = 'hidden';
+  }
+  function closeMenu(){
+    mobileNav.classList.remove('is-open');
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded','false');
+    body.style.overflow = '';
+    setTimeout(()=>{ if(!mobileNav.classList.contains('is-open')) mobileNav.style.display = 'none'; }, 350);
+  }
+
+  toggle.addEventListener('click',()=> mobileNav.classList.contains('is-open') ? closeMenu() : openMenu());
+
+  /* Close on actual link clicks (not sub-toggle buttons) */
+  mobileNav.querySelectorAll('a').forEach(link=> link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && mobileNav.classList.contains('is-open')) closeMenu(); });
+
+  /* Accordion for nested sub-menus */
+  mobileNav.querySelectorAll('.sub-toggle, .sub-toggle-2').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id = btn.getAttribute('aria-controls');
+      const target = id ? document.getElementById(id) : btn.nextElementSibling;
+      if(!target) return;
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      target.classList.toggle('is-open', !expanded);
+    });
+  });
+})();
+</script>
+
+<script src="sammy-chatbot.js"></script>
+<script>
+/* Desktop mega-menu: JS hover with close-delay */
+(function () {
+  var CLOSE_DELAY = 150;
+  document.querySelectorAll(".nav-links .has-mega").forEach(function (li) {
+    var timer = null;
+    function openMenu() { clearTimeout(timer); li.classList.add("mega-open"); }
+    function scheduleClose() { timer = setTimeout(function () { li.classList.remove("mega-open"); }, CLOSE_DELAY); }
+    li.addEventListener("mouseenter", openMenu);
+    li.addEventListener("mouseleave", scheduleClose);
+    var menu = li.querySelector(".mega-menu");
+    if (menu) {
+      menu.addEventListener("mouseenter", openMenu);
+      menu.addEventListener("mouseleave", scheduleClose);
+    }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") li.classList.remove("mega-open"); });
+  });
+})();
+</script>
+</body>
+</html>

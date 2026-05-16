@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Renewal Management — Proteam Advisory</title>
+<meta name="description" content="Vendor renewals prepared months ahead. Commercial benchmarking, negotiation playbooks, T&C scrutiny, and structured vendor engagement — so renewal cycles produce savings instead of surprises." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ================================================================
+   RENEWAL MANAGEMENT — Identity: THE NEGOTIATION ROOM
+   Narrative: Renewal pressure → Visibility → Leverage → Savings
+   Aesthetic: Dark command centre. Amber signal. Cold clarity.
+   Mirrors the SaaS Management visual system exactly.
+   ================================================================ */
+
+/* ---- HERO ---- */
+.rm-hero {
+  background: var(--navy-deep);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+}
+.rm-hero::before {
+  content:''; position:absolute; inset:0;
+  background-image: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.012) 3px,rgba(255,255,255,0.012) 4px);
+  pointer-events:none; z-index:0;
+}
+.rm-hero::after {
+  content:''; position:absolute; top:-10%; right:-5%;
+  width:700px; height:700px;
+  background:radial-gradient(circle, rgba(230,138,50,0.07) 0%, transparent 60%);
+  pointer-events:none; animation:rmHeroGlow 6s ease-in-out infinite alternate;
+}
+@keyframes rmHeroGlow { from{transform:scale(1);opacity:1;} to{transform:scale(1.15);opacity:0.5;} }
+
+.rm-hero-inner {
+  flex:1; max-width:var(--max-w); margin:0 auto;
+  padding:130px 32px 80px;
+  display:grid; grid-template-columns:1fr 1.05fr;
+  gap:80px; align-items:center;
+  position:relative; z-index:1; width:100%;
+}
+
+.rm-eyebrow { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:var(--amber-bright); display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.rm-eyebrow::before { content:''; width:32px; height:1px; background:var(--amber-bright); }
+
+.rm-hero-h1 { font-family:var(--sans); font-weight:300; font-size:clamp(44px,5.5vw,80px); line-height:1; letter-spacing:-0.04em; color:var(--cream); font-variation-settings:"opsz" 144; margin-bottom:12px; }
+.rm-hero-h1 em { font-family:var(--serif); font-style:italic; font-weight:300; color:var(--amber-bright); font-variation-settings:"opsz" 144; }
+.rm-hero-sub { font-size:17px; line-height:1.65; color:rgba(240,242,245,0.55); max-width:500px; margin:24px 0 40px; }
+.rm-cta-row { display:flex; gap:16px; flex-wrap:wrap; }
+.btn-signal { display:inline-flex; align-items:center; gap:10px; background:var(--amber); color:#fff; font-size:13px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; padding:16px 28px; border-radius:2px; transition:background 0.25s, transform 0.2s; }
+.btn-signal:hover { background:var(--amber-bright); transform:translateY(-2px); }
+.btn-ghost-cream { display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(240,242,245,0.2); color:rgba(240,242,245,0.7); font-size:13px; font-weight:500; padding:15px 28px; border-radius:2px; transition:border-color 0.25s, color 0.25s; }
+.btn-ghost-cream:hover { border-color:rgba(240,242,245,0.5); color:var(--cream); }
+
+/* Renewal pipeline panel */
+.rm-panel-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; }
+.rm-panel-header { display:flex; align-items:center; gap:10px; padding:14px 20px; border-bottom:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.2); }
+.rm-panel-dot { width:8px; height:8px; border-radius:50%; }
+.rm-panel-dot.green { background:#34D399; animation:pulseG 2s infinite; }
+.rm-panel-dot.amber { background:var(--amber-bright); }
+.rm-panel-dot.red { background:#F87171; }
+.rm-panel-title { font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(240,242,245,0.32); margin-left:auto; }
+@keyframes pulseG { 0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,0.4);} 50%{box-shadow:0 0 0 6px rgba(52,211,153,0);} }
+.rm-feed-wrap { max-height:320px; overflow:hidden; }
+.rm-feed-item { padding:16px 20px; border-bottom:1px solid rgba(255,255,255,0.04); display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; animation:rmSlideIn 0.4s ease both; }
+@keyframes rmSlideIn { from{opacity:0;transform:translateY(-8px);} to{opacity:1;transform:none;} }
+.rm-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.rm-dot.urgent { background:#F87171; } .rm-dot.window { background:var(--amber-bright); } .rm-dot.ok { background:rgba(240,242,245,0.2); }
+.rm-vendor { font-family:var(--mono); font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--amber-bright); margin-bottom:3px; }
+.rm-detail { font-size:12.5px; line-height:1.4; color:rgba(240,242,245,0.6); }
+.rm-tag { font-family:var(--mono); font-size:10px; color:rgba(240,242,245,0.22); white-space:nowrap; }
+.rm-panel-footer { padding:14px 20px; border-top:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:space-between; }
+.rm-status-badge { font-family:var(--mono); font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#F87171; display:flex; align-items:center; gap:6px; }
+.rm-status-badge::before { content:''; width:6px; height:6px; border-radius:50%; background:#F87171; animation:pulseR 2s infinite; }
+@keyframes pulseR { 0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,0.4);} 50%{box-shadow:0 0 0 6px rgba(248,113,113,0);} }
+.rm-resp { font-size:11px; color:rgba(240,242,245,0.28); font-family:var(--mono); }
+
+/* Stat strip */
+.rm-stat-strip { background:rgba(0,0,0,0.35); border-top:1px solid rgba(255,255,255,0.05); }
+.rm-stat-inner { max-width:var(--max-w); margin:0 auto; padding:0 32px; display:grid; grid-template-columns:repeat(4,1fr); }
+.rm-stat-item { padding:36px 32px; border-right:1px solid rgba(255,255,255,0.05); }
+.rm-stat-item:last-child { border-right:none; }
+.rm-stat-num { font-family:var(--sans); font-weight:300; font-size:48px; line-height:1; color:var(--cream); letter-spacing:-0.04em; font-variation-settings:"opsz" 144; }
+.rm-stat-num span { color:var(--amber-bright); }
+.rm-stat-lbl { font-size:13px; color:rgba(240,242,245,0.42); margin-top:8px; line-height:1.5; }
+
+/* ================================================================
+   ACT 1 — THE REACTIVE RENEWAL: Surprise log + pain cards
+   ================================================================ */
+.rm-past { background:#053B45; padding:120px 0 0; position:relative; overflow:hidden; }
+.rm-past::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,0.013) 39px,rgba(255,255,255,0.013) 40px); pointer-events:none; }
+.rm-past-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.rm-past-ey { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:rgba(248,113,113,0.75); display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.rm-past-ey::before { content:''; width:24px; height:1px; background:rgba(248,113,113,0.75); }
+.rm-past-h { font-family:var(--sans); font-weight:300; font-size:clamp(28px,3.5vw,46px); line-height:1.05; letter-spacing:-0.03em; color:var(--cream); font-variation-settings:"opsz" 144; margin-bottom:20px; }
+.rm-past-h em { font-family:var(--serif); font-style:italic; color:#F87171; font-weight:300; font-variation-settings:"opsz" 144; }
+.rm-past-sub { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.42); }
+
+/* Surprise terminal */
+.rm-etm { background:rgba(248,113,113,0.03); border:1px solid rgba(248,113,113,0.14); border-radius:4px; overflow:hidden; font-family:var(--mono); font-size:11.5px; line-height:1.8; }
+.rm-etm-hd { background:rgba(248,113,113,0.07); border-bottom:1px solid rgba(248,113,113,0.1); padding:10px 16px; display:flex; align-items:center; gap:8px; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(248,113,113,0.55); }
+.rm-edot { width:7px; height:7px; border-radius:50%; background:rgba(248,113,113,0.5); }
+.rm-elog { padding:20px 24px; display:flex; flex-direction:column; gap:4px; }
+.rm-eline { display:flex; gap:12px; opacity:0; transform:translateX(-8px); transition:opacity 0.35s ease, transform 0.35s ease; }
+.rm-eline.show { opacity:1; transform:none; }
+.rm-ets { color:rgba(240,242,245,0.2); white-space:nowrap; font-size:10.5px; }
+.rm-etag-err { color:#F87171; } .rm-etag-warn { color:var(--amber-bright); } .rm-etag-info { color:rgba(240,242,245,0.35); }
+.rm-emsg { color:rgba(240,242,245,0.52); }
+
+/* Pain cards */
+.rm-pain-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.04); margin-top:80px; }
+.rm-pain-card { background:#053B45; padding:48px 36px; }
+.rm-pain-n { font-family:var(--sans); font-weight:200; font-size:72px; line-height:0.9; color:rgba(248,113,113,0.1); letter-spacing:-0.04em; font-variation-settings:"opsz" 144; margin-bottom:20px; }
+.rm-pain-h { font-family:var(--sans); font-weight:500; font-size:17px; color:rgba(240,242,245,0.78); letter-spacing:-0.01em; margin-bottom:12px; line-height:1.25; font-variation-settings:"opsz" 144; }
+.rm-pain-p { font-size:14px; line-height:1.7; color:rgba(240,242,245,0.37); }
+
+/* ================================================================
+   ACT 2 — THE PROTEAM ANSWER: Renewal lifecycle timeline
+   ================================================================ */
+.rm-answer { background:var(--navy-deep); padding:120px 0; position:relative; overflow:hidden; }
+.rm-answer-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; margin-bottom:72px; }
+.rm-ans-ey { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:var(--amber-bright); display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.rm-ans-ey::before { content:''; width:24px; height:1px; background:var(--amber-bright); }
+.rm-ans-h { font-family:var(--sans); font-weight:300; font-size:clamp(28px,3.5vw,46px); line-height:1.05; letter-spacing:-0.03em; color:var(--cream); font-variation-settings:"opsz" 144; }
+.rm-ans-h em { font-family:var(--serif); font-style:italic; color:var(--amber-bright); font-weight:300; font-variation-settings:"opsz" 144; }
+.rm-ans-sub { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.48); margin-top:20px; }
+
+/* Lifecycle path */
+.rm-lifecycle { position:relative; }
+.rm-lc-spine { position:absolute; left:28px; top:28px; bottom:28px; width:2px; background:rgba(255,255,255,0.05); }
+.rm-lc-fill { position:absolute; top:0; width:100%; background:linear-gradient(180deg,var(--amber-bright),#34D399); height:0%; transition:height 1.8s cubic-bezier(0.4,0,0.2,1); }
+.rm-lc-fill.go { height:100%; }
+.rm-lc-step { display:grid; grid-template-columns:60px 1fr; gap:40px; padding:36px 0; border-bottom:1px solid rgba(255,255,255,0.04); position:relative; z-index:1; opacity:0; transform:translateX(-12px); transition:opacity 0.5s ease, transform 0.5s ease; }
+.rm-lc-step:last-child { border-bottom:none; }
+.rm-lc-step.lit { opacity:1; transform:none; }
+.rm-lc-node { display:flex; flex-direction:column; align-items:center; gap:8px; }
+.rm-lc-circ { width:16px; height:16px; border-radius:50%; border:2px solid rgba(255,255,255,0.15); background:var(--navy-deep); transition:background 0.4s, border-color 0.4s, box-shadow 0.4s; }
+.rm-lc-step.lit .rm-lc-circ { background:var(--amber-bright); border-color:var(--amber-bright); box-shadow:0 0 16px rgba(230,138,50,0.5); }
+.rm-lc-step:last-child.lit .rm-lc-circ { background:#34D399; border-color:#34D399; box-shadow:0 0 16px rgba(52,211,153,0.5); }
+.rm-lc-t { font-family:var(--mono); font-size:8px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(240,242,245,0.2); text-align:center; transition:color 0.4s; }
+.rm-lc-step.lit .rm-lc-t { color:var(--amber-bright); }
+.rm-lc-tag { font-family:var(--mono); font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(240,242,245,0.22); margin-bottom:10px; transition:color 0.4s; }
+.rm-lc-step.lit .rm-lc-tag { color:var(--amber-bright); }
+.rm-lc-h { font-family:var(--sans); font-weight:500; font-size:clamp(17px,2vw,22px); letter-spacing:-0.015em; color:rgba(240,242,245,0.3); font-variation-settings:"opsz" 144; margin-bottom:10px; transition:color 0.4s; }
+.rm-lc-step.lit .rm-lc-h { color:var(--cream); }
+.rm-lc-p { font-size:15px; line-height:1.7; color:rgba(240,242,245,0.22); max-width:600px; transition:color 0.4s; }
+.rm-lc-step.lit .rm-lc-p { color:rgba(240,242,245,0.55); }
+
+/* ================================================================
+   ACT 3 — AI INTELLIGENCE: Particle canvas + capability cards
+   ================================================================ */
+.rm-ai { background:linear-gradient(135deg,#042E37 0%,#053B45 60%,#053B45 100%); padding:120px 0; position:relative; overflow:hidden; }
+.rm-ai-canvas { position:absolute; inset:0; pointer-events:none; z-index:0; }
+.rm-ai-inner { position:relative; z-index:1; }
+.rm-ai-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; margin-bottom:64px; }
+.rm-ai-ey { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:#34D399; display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.rm-ai-ey::before { content:''; width:24px; height:1px; background:#34D399; }
+.rm-ai-h { font-family:var(--sans); font-weight:300; font-size:clamp(28px,3.5vw,46px); line-height:1.05; letter-spacing:-0.03em; color:var(--cream); font-variation-settings:"opsz" 144; }
+.rm-ai-h em { font-family:var(--serif); font-style:italic; color:#34D399; font-weight:300; font-variation-settings:"opsz" 144; }
+.rm-ai-sub { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.45); margin-top:20px; }
+.rm-ai-stat-box { background:rgba(52,211,153,0.05); border:1px solid rgba(52,211,153,0.12); border-radius:4px; padding:24px 28px; margin-top:24px; font-size:14px; line-height:1.7; color:rgba(240,242,245,0.48); }
+.rm-ai-stat-box strong { color:#34D399; font-weight:600; }
+
+.rm-ai-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:48px; }
+.rm-ai-card { background:rgba(255,255,255,0.025); border:1px solid rgba(52,211,153,0.09); border-radius:4px; padding:36px 28px; position:relative; overflow:hidden; transition:border-color 0.35s, transform 0.3s; }
+.rm-ai-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,#34D399,transparent); transform:scaleX(0); transform-origin:center; transition:transform 0.5s ease; }
+.rm-ai-card:hover { border-color:rgba(52,211,153,0.28); transform:translateY(-4px); }
+.rm-ai-card:hover::after { transform:scaleX(1); }
+.rm-ai-icon { width:40px; height:40px; border-radius:50%; background:rgba(52,211,153,0.07); border:1px solid rgba(52,211,153,0.18); display:flex; align-items:center; justify-content:center; color:#34D399; margin-bottom:20px; }
+.rm-ai-card-h { font-family:var(--sans); font-weight:500; font-size:16px; color:rgba(240,242,245,0.82); letter-spacing:-0.01em; margin-bottom:10px; font-variation-settings:"opsz" 144; }
+.rm-ai-card-p { font-size:14px; line-height:1.68; color:rgba(240,242,245,0.37); }
+
+/* AI live renewal stream */
+.rm-ai-feed { background:rgba(52,211,153,0.03); border:1px solid rgba(52,211,153,0.09); border-radius:4px; overflow:hidden; }
+.rm-ai-feed-hd { padding:12px 20px; border-bottom:1px solid rgba(52,211,153,0.07); background:rgba(52,211,153,0.05); font-family:var(--mono); font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:#34D399; display:flex; align-items:center; gap:8px; }
+.rm-ai-feed-dot { width:6px; height:6px; border-radius:50%; background:#34D399; animation:pulseG 2s infinite; }
+.rm-ai-feed-body { height:200px; overflow:hidden; position:relative; }
+.rm-ai-ins { padding:16px 24px; border-bottom:1px solid rgba(52,211,153,0.05); display:grid; grid-template-columns:auto 1fr auto; gap:16px; align-items:center; }
+.rm-ai-ins-v { font-family:var(--mono); font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:#34D399; padding:3px 8px; background:rgba(52,211,153,0.07); border-radius:2px; white-space:nowrap; }
+.rm-ai-ins-t { font-size:13.5px; color:rgba(240,242,245,0.58); line-height:1.4; }
+.rm-ai-ins-c { font-family:var(--mono); font-size:10px; color:rgba(240,242,245,0.22); white-space:nowrap; }
+
+/* ================================================================
+   USE CASES — Six workstreams
+   ================================================================ */
+.rm-workstreams { background:var(--paper); padding:120px 0; }
+.rm-cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:56px; }
+.rm-card { background:var(--cream-warm); border:1px solid var(--line); border-radius:4px; padding:36px 32px; position:relative; overflow:hidden; transition:transform 0.3s, border-color 0.3s, box-shadow 0.3s; }
+.rm-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--amber-bright); transform:scaleX(0); transform-origin:left; transition:transform 0.4s ease; }
+.rm-card:hover { transform:translateY(-4px); border-color:rgba(72,112,255,0.2); box-shadow:0 16px 40px rgba(30,43,60,0.08); }
+.rm-card:hover::before { transform:scaleX(1); }
+.rm-card-icon { width:44px; height:44px; background:var(--navy); border-radius:4px; display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:var(--amber-bright); }
+.rm-card-h { font-family:var(--sans); font-weight:500; font-size:18px; letter-spacing:-0.01em; color:var(--navy); margin-bottom:10px; font-variation-settings:"opsz" 144; }
+.rm-card-p { font-size:14.5px; line-height:1.65; color:var(--muted); }
+
+/* ================================================================
+   PROOF
+   ================================================================ */
+.rm-proof { background:var(--navy); padding:120px 0; position:relative; overflow:hidden; }
+.rm-proof::before { content:'RENEW'; position:absolute; right:-40px; bottom:-20px; font-family:var(--sans); font-weight:700; font-size:200px; letter-spacing:-0.05em; color:rgba(255,255,255,0.022); pointer-events:none; user-select:none; font-variation-settings:"opsz" 144; }
+.rm-proof-grid { display:grid; grid-template-columns:1.1fr 1fr; gap:80px; align-items:center; }
+.rm-proof-quote { font-family:var(--sans); font-weight:400; font-size:clamp(22px,3vw,36px); line-height:1.2; letter-spacing:-0.02em; color:var(--cream); font-variation-settings:"opsz" 144; }
+.rm-proof-quote em { font-family:var(--serif); font-style:italic; color:var(--amber-bright); font-weight:300; font-variation-settings:"opsz" 144; }
+.rm-proof-body { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.52); margin-top:24px; }
+.rm-proof-attr { margin-top:32px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.08); display:flex; gap:14px; align-items:center; }
+.rm-proof-av { width:44px; height:44px; border-radius:50%; background:rgba(72,112,255,0.15); border:1px solid rgba(72,112,255,0.3); display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-style:italic; font-size:18px; color:var(--amber-bright); }
+.rm-proof-name { font-weight:600; color:var(--cream); font-size:14px; }
+.rm-proof-role { font-size:12px; color:rgba(240,242,245,0.32); margin-top:2px; }
+.rm-proof-stat { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:4px; padding:48px 40px; position:relative; overflow:hidden; }
+.rm-proof-stat::before { content:''; position:absolute; top:-60%; right:-30%; width:300px; height:300px; background:radial-gradient(circle,rgba(72,112,255,0.15) 0%,transparent 70%); border-radius:50%; }
+.rm-proof-stat-tag { font-family:var(--mono); font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:var(--amber-bright); margin-bottom:20px; position:relative; }
+.rm-proof-stat-num { font-family:var(--sans); font-weight:200; font-size:clamp(72px,10vw,110px); line-height:0.9; color:var(--cream); letter-spacing:-0.05em; font-variation-settings:"opsz" 144; margin-bottom:20px; position:relative; }
+.rm-proof-stat-num span { color:var(--amber-bright); }
+.rm-proof-stat-desc { font-size:14.5px; line-height:1.65; color:rgba(240,242,245,0.48); position:relative; }
+
+/* ================================================================
+   ADJACENT + CTA
+   ================================================================ */
+.rm-adjacent { background:var(--paper); padding:100px 0; }
+.rm-adj-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:48px; }
+.rm-adj-card { background:var(--cream-warm); border:1px solid var(--line); border-radius:4px; padding:40px 36px; display:flex; flex-direction:column; transition:all 0.3s ease; }
+.rm-adj-card:hover { background:var(--navy); transform:translateY(-4px); }
+.rm-adj-num { font-family:var(--sans); font-style:italic; color:var(--amber); font-size:14px; margin-bottom:16px; transition:color 0.3s; }
+.rm-adj-card:hover .rm-adj-num { color:var(--amber-bright); }
+.rm-adj-h { font-family:var(--sans); font-weight:500; font-size:22px; line-height:1.2; color:var(--navy); letter-spacing:-0.01em; font-variation-settings:"opsz" 144; margin-bottom:12px; flex:1; transition:color 0.3s; }
+.rm-adj-card:hover .rm-adj-h { color:var(--cream); }
+.rm-adj-p { font-size:14.5px; line-height:1.6; color:var(--muted); margin-bottom:20px; transition:color 0.3s; }
+.rm-adj-card:hover .rm-adj-p { color:rgba(240,242,245,0.58); }
+.rm-adj-lnk { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; font-weight:600; display:inline-flex; align-items:center; gap:8px; color:var(--navy); transition:color 0.3s; }
+.rm-adj-card:hover .rm-adj-lnk { color:var(--amber-bright); }
+
+.rm-cta { background:var(--cream-warm); padding:100px 0; }
+.rm-cta-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.rm-cta h2 { font-family:var(--sans); font-weight:400; font-size:clamp(32px,4vw,52px); line-height:1.05; letter-spacing:-0.03em; color:var(--navy); font-variation-settings:"opsz" 144; margin-bottom:16px; }
+.rm-cta h2 em { font-family:var(--serif); font-style:italic; color:var(--amber); font-weight:300; font-variation-settings:"opsz" 144; }
+.rm-cta p { font-size:17px; line-height:1.7; color:var(--navy-soft); margin-bottom:32px; }
+.rm-cta-list { list-style:none; display:flex; flex-direction:column; gap:12px; }
+.rm-cta-list li { display:flex; align-items:flex-start; gap:12px; font-size:15px; line-height:1.55; color:var(--navy-soft); padding-bottom:12px; border-bottom:1px solid var(--line); }
+.rm-cta-list li:last-child { border-bottom:none; }
+.rm-cta-list li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--amber-bright); flex-shrink:0; margin-top:6px; }
+
+/* ================================================================
+   SHARED
+   ================================================================ */
+.r { opacity:0; transform:translateY(20px); transition:opacity 0.65s ease, transform 0.65s ease; }
+.r.in { opacity:1; transform:none; }
+.r[data-d="1"]{ transition-delay:0.1s; } .r[data-d="2"]{ transition-delay:0.2s; } .r[data-d="3"]{ transition-delay:0.3s; }
+.st-eyebrow { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:var(--amber-bright); display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.st-eyebrow::before { content:''; width:24px; height:1px; background:var(--amber-bright); }
+.st-eyebrow.dark { color:var(--amber); } .st-eyebrow.dark::before { background:var(--amber); }
+.st-h { font-family:var(--sans); font-weight:400; font-size:clamp(32px,4vw,52px); line-height:1.05; letter-spacing:-0.03em; color:var(--navy); font-variation-settings:"opsz" 144; margin-bottom:16px; }
+.st-h em { font-family:var(--serif); font-style:italic; color:var(--amber); font-weight:300; font-variation-settings:"opsz" 144; }
+.st-h.cream { color:var(--cream); } .st-h.cream em { color:var(--amber-bright); }
+.st-lede { font-size:17px; line-height:1.7; color:var(--navy-soft); max-width:640px; }
+.st-lede.light { color:rgba(240,242,245,0.55); }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width:960px){
+  .rm-hero-inner,.rm-past-grid,.rm-answer-grid,.rm-ai-grid,.rm-proof-grid,.rm-cta-inner { grid-template-columns:1fr; gap:40px; }
+  .rm-ai-cards,.rm-cards-grid { grid-template-columns:1fr 1fr; }
+  .rm-pain-grid { grid-template-columns:1fr; }
+  .rm-adj-grid { grid-template-columns:1fr; }
+  .rm-stat-inner { grid-template-columns:repeat(2,1fr); }
+  .rm-hero-inner { padding:110px 24px 60px; }
+}
+@media (max-width:600px){
+  .rm-ai-cards,.rm-cards-grid { grid-template-columns:1fr; }
+  .rm-stat-inner { grid-template-columns:1fr; }
+  .rm-stat-item { border-right:none; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .rm-lc-step { grid-template-columns:48px 1fr; gap:20px; }
+  .rm-past,.rm-answer,.rm-ai,.rm-workstreams,.rm-proof,.rm-adjacent,.rm-cta { padding:80px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-lockup">
+        <span class="logo-text"><span class="logo-cap">P</span>roteam</span>
+        <span class="logo-advisory">Advisory Solutions LLP</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-mega">
+        <a href="services.html" class="active">Services <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="mega-menu" role="menu" aria-label="Services">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <a href="services.html#sam" class="mega-head">Software Asset Management</a>
+              <ul>
+                <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+                <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+                <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ham" class="mega-head">Hardware Asset Management</a>
+              <ul>
+                <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+                <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#finops" class="mega-head">Cloud FinOps</a>
+              <ul>
+                <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+                <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ai-transformation" class="mega-head">AI Transformation Services</a>
+              <ul>
+                <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+                <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#itam-tech" class="mega-head">ITAM Technology</a>
+              <ul>
+                <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+                <li><a href="service-itam-flexera.html">Flexera</a></li>
+                <li><a href="service-itam-snow.html">Snow</a></li>
+                <li><a href="service-itam-zylo.html">Zylo</a></li>
+                <li><a href="service-itam-aspera.html">Aspera</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Free Consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <ul class="mobile-nav-links">
+    <li><a href="index.html">Home <span>&rarr;</span></a></li>
+    <li class="has-sub">
+      <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="m-svc-sub">
+        Services
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul id="m-svc-sub" class="sub-menu">
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-sam-sub">
+            Software Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-sam-sub" class="sub-menu-2">
+            <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+            <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+            <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ham-sub">
+            Hardware Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ham-sub" class="sub-menu-2">
+            <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+            <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-finops-sub">
+            Cloud FinOps
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-finops-sub" class="sub-menu-2">
+            <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+            <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ai-sub">
+            AI Transformation Services
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ai-sub" class="sub-menu-2">
+            <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+            <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-itam-sub">
+            ITAM Technology
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-itam-sub" class="sub-menu-2">
+            <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+            <li><a href="service-itam-flexera.html">Flexera</a></li>
+            <li><a href="service-itam-snow.html">Snow</a></li>
+            <li><a href="service-itam-zylo.html">Zylo</a></li>
+            <li><a href="service-itam-aspera.html">Aspera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="case-studies.html">Case Studies <span>&rarr;</span></a></li>
+    <li><a href="about.html">About <span>&rarr;</span></a></li>
+    <li><a href="insights.html">Insights <span>&rarr;</span></a></li>
+    <li><a href="contact.html">Contact <span>&rarr;</span></a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta">Book Free Consultation &rarr;</a>
+  <div class="mobile-nav-contact">
+    <a href="tel:+919676889797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      +91 9676 889 797
+    </a>
+    <a href="mailto:vpatel@proteamadvisory.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      vpatel@proteamadvisory.com
+    </a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="rm-hero">
+  <div class="rm-hero-inner">
+    <div>
+      <div class="rm-eyebrow">— 07 &nbsp; Renewal Management Services</div>
+      <h1 class="rm-hero-h1">Your next big<br>renewal is <em>already</em><br>being engineered<br>by the vendor.</h1>
+      <p class="rm-hero-sub">Most enterprise renewal conversations start when the vendor's account team picks up the phone — at T&minus;90 days, with their playbook ready. We bring you to that table six to nine months earlier, with usage data, benchmarks, and a negotiation plan they can't argue with.</p>
+      <div class="rm-cta-row">
+        <a href="contact.html" class="btn-signal">Book free consultation</a>
+        <a href="service-saas-management.html" class="btn-ghost-cream">See SaaS Management</a>
+      </div>
+    </div>
+    <div>
+      <div class="rm-panel-card">
+        <div class="rm-panel-header">
+          <div class="rm-panel-dot red"></div>
+          <div class="rm-panel-dot amber"></div>
+          <div class="rm-panel-dot green"></div>
+          <div class="rm-panel-title">Live Renewal Pipeline</div>
+        </div>
+        <div class="rm-feed-wrap"><div id="pipelineFeed"></div></div>
+        <div class="rm-panel-footer">
+          <div class="rm-status-badge">Leverage Window Closing</div>
+          <div class="rm-resp">2 renewals in 90 days</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rm-stat-strip">
+    <div class="rm-stat-inner">
+      <div class="rm-stat-item"><div class="rm-stat-num"><span>15</span>–30%</div><div class="rm-stat-lbl">Typical price reduction when renewals are prepared 6–9 months ahead</div></div>
+      <div class="rm-stat-item"><div class="rm-stat-num"><span>T</span>–9mo</div><div class="rm-stat-lbl">The point at which negotiation leverage is materially higher than at T&minus;90d</div></div>
+      <div class="rm-stat-item"><div class="rm-stat-num"><span>80</span>%+</div><div class="rm-stat-lbl">Of enterprise renewals are still vendor-initiated — usually too late for real prep</div></div>
+      <div class="rm-stat-item"><div class="rm-stat-num"><span>1</span>:1</div><div class="rm-stat-lbl">Dedicated lead per major vendor — Microsoft, Oracle, SAP, ServiceNow, Salesforce</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACT 1: THE REACTIVE RENEWAL PROBLEM ===== -->
+<section class="rm-past">
+  <div class="container">
+    <div class="rm-past-grid">
+      <div class="r">
+        <div class="rm-past-ey">— Before Proteam</div>
+        <h2 class="rm-past-h">Renewals happen <em>to</em> you — until the contract has already <em>auto-extended.</em></h2>
+        <p class="rm-past-sub">The contract date sits in legal. The usage data sits in IT. The budget sits in finance. The relationship sits with the vendor's account manager. By the time a renewal conversation starts, three of those four parties are already aligned — and not in your favour.</p>
+      </div>
+      <div class="r" data-d="1">
+        <div class="rm-etm" id="surpriseTerminal">
+          <div class="rm-etm-hd"><div class="rm-edot"></div><span>renewal-pipeline.log — no preparation layer</span></div>
+          <div class="rm-elog" id="surpriseLog"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rm-pain-grid" id="painGrid">
+    <div class="rm-pain-card r"><div class="rm-pain-n">01</div><h3 class="rm-pain-h">Surprise renewals</h3><p class="rm-pain-p">Contracts auto-extend in the background. Finance sees the renewal quote a few weeks before the date. Procurement scrambles for benchmarks. IT can't quantify utilisation in time. The window for real negotiation has already closed.</p></div>
+    <div class="rm-pain-card r" data-d="1"><div class="rm-pain-n">02</div><h3 class="rm-pain-h">Asymmetric information</h3><p class="rm-pain-p">The vendor knows your usage, your renewal date, your historical objections, and what every comparable account paid. You walk into the meeting with last year's invoice and a hope for a discount. The asymmetry is the negotiation.</p></div>
+    <div class="rm-pain-card r" data-d="2"><div class="rm-pain-n">03</div><h3 class="rm-pain-h">Closed leverage windows</h3><p class="rm-pain-p">Every renewal has a leverage curve. At T&minus;9 months it is wide open. At T&minus;90 days it has narrowed sharply. At T&minus;30 days it is effectively gone. Most enterprises only engage inside the narrowest part of that curve — and pay for it.</p></div>
+  </div>
+</section>
+
+<!-- ===== ACT 2: THE PROTEAM ANSWER ===== -->
+<section class="rm-answer">
+  <div class="container">
+    <div class="rm-answer-grid r">
+      <div>
+        <div class="rm-ans-ey">— The Proteam Way</div>
+        <h2 class="rm-ans-h">Discovery to signature.<br><em>Nine months. One programme.</em></h2>
+        <p class="rm-ans-sub">Not a last-minute benchmarking exercise. A structured engagement that starts at T&minus;9 months, maps the full renewal estate, builds the negotiation case in advance, and puts you in the room with data the vendor can&rsquo;t talk past.</p>
+      </div>
+      <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-end;">
+        <div><div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,242,245,0.28);margin-bottom:6px;">Engagement start</div><div style="font-family:var(--sans);font-weight:300;font-size:40px;letter-spacing:-0.03em;color:var(--cream);font-variation-settings:'opsz' 144;">T&minus;9mo</div></div>
+        <div><div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,242,245,0.28);margin-bottom:6px;">Vendor engagement</div><div style="font-family:var(--sans);font-weight:300;font-size:40px;letter-spacing:-0.03em;color:var(--amber-bright);font-variation-settings:'opsz' 144;">T&minus;4mo</div></div>
+      </div>
+    </div>
+
+    <div class="rm-lifecycle" id="lcPath">
+      <div class="rm-lc-spine"><div class="rm-lc-fill" id="lcFill"></div></div>
+      <div class="rm-lc-step" data-d="0"><div class="rm-lc-node"><div class="rm-lc-circ"></div><div class="rm-lc-t">T&minus;9mo</div></div><div><div class="rm-lc-tag">Discover</div><h3 class="rm-lc-h">Free consultation &mdash; renewal calendar built, priorities agreed</h3><p class="rm-lc-p">We pull every contract date into one view, identify the two or three renewals with the highest savings potential, and agree the engagement scope. You leave the call with a calendar of upcoming renewals and where the leverage lives.</p></div></div>
+      <div class="rm-lc-step" data-d="200"><div class="rm-lc-node"><div class="rm-lc-circ"></div><div class="rm-lc-t">T&minus;7mo</div></div><div><div class="rm-lc-tag">Inventory &amp; Analyse</div><h3 class="rm-lc-h">Usage mapped &mdash; edition fitness, dormancy, and consumption profiled per vendor</h3><p class="rm-lc-p">Full reconciliation of entitlements against actual usage. Per-module consumption analysis. Edition fitness review. Dormancy and shelfware flagged. Output: a single fact base for every renewal conversation, owned by you, not the vendor.</p></div></div>
+      <div class="rm-lc-step" data-d="400"><div class="rm-lc-node"><div class="rm-lc-circ"></div><div class="rm-lc-t">T&minus;5mo</div></div><div><div class="rm-lc-tag">Benchmark &amp; Strategise</div><h3 class="rm-lc-h">Commercial benchmarks loaded &mdash; negotiation playbook drafted vendor by vendor</h3><p class="rm-lc-p">Market pricing benchmarks against comparable accounts. Vendor-specific negotiation playbook: pricing levers, T&amp;C red flags, escalation paths, alternative-vendor positioning, AI add-on stance. Each move quantified before the first vendor call.</p></div></div>
+      <div class="rm-lc-step" data-d="600"><div class="rm-lc-node"><div class="rm-lc-circ"></div><div class="rm-lc-t">T&minus;4mo</div></div><div><div class="rm-lc-tag">Engage</div><h3 class="rm-lc-h">Vendor conversation begins &mdash; on your timeline, with your data</h3><p class="rm-lc-p">You set the meeting. You set the agenda. The vendor responds to your data, not the other way around. Walk-away positions defined in writing. Multi-party negotiation managed end-to-end where useful. T&amp;C and pricing tracked clause by clause.</p></div></div>
+      <div class="rm-lc-step" data-d="800"><div class="rm-lc-node"><div class="rm-lc-circ"></div><div class="rm-lc-t">T&minus;1mo</div></div><div><div class="rm-lc-tag">Close</div><h3 class="rm-lc-h">Terms locked &mdash; savings booked, clauses cleaned, next cycle already scoped</h3><p class="rm-lc-p">Final contract reviewed clause by clause. Savings quantified against the previous baseline. Audit and true-up clauses tightened. Next renewal&rsquo;s calendar entry created automatically. The cycle becomes recurring instead of reactive.</p></div></div>
+      <div class="rm-lc-step" data-d="1000"><div class="rm-lc-node"><div class="rm-lc-circ"></div><div class="rm-lc-t">Ongoing</div></div><div><div class="rm-lc-tag">Managed Service</div><h3 class="rm-lc-h">Quarterly reviews &mdash; the renewal estate stays in front of you, not behind you</h3><p class="rm-lc-p">Ongoing managed service: quarterly renewal-pipeline reviews, mid-term usage check-ins, ad-hoc commercial questions answered within 24h. Every renewal kicked off automatically nine months out. Savings compound across cycles.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACT 3: AI + EMBEDDED INTELLIGENCE ===== -->
+<section class="rm-ai">
+  <canvas class="rm-ai-canvas" id="aiCanvas"></canvas>
+  <div class="container rm-ai-inner">
+    <div class="rm-ai-grid">
+      <div class="r">
+        <div class="rm-ai-ey">— The AI Layer</div>
+        <h2 class="rm-ai-h">Every major renewal now has<br>an <em>AI add-on</em> attached to it.</h2>
+        <p class="rm-ai-sub">Microsoft Copilot. Oracle AI Apps. SAP Joule. ServiceNow Now Assist. Salesforce Agentforce. Adobe Firefly. Each one bundled into the renewal motion, each one with its own pricing logic, its own value case. The renewal is no longer just about seats and modules &mdash; it&rsquo;s about everything the vendor wants to monetise next.</p>
+        <div class="rm-ai-stat-box">Enterprises that prepare AI add-ons as a distinct line of the renewal &mdash; rather than accepting bundled vendor defaults &mdash; reduce embedded AI cost by <strong>30&ndash;45%</strong> in the first cycle. The data layer we build into every engagement is what makes that conversation possible.</div>
+      </div>
+      <div class="r" data-d="1" style="display:flex;flex-direction:column;justify-content:center;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,242,245,0.25);margin-bottom:28px;">Vendor renewal pressure index</div>
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">Microsoft EA &amp; Copilot</div>
+            <div style="height:4px;width:92%;background:var(--amber-bright);border-radius:2px;opacity:0.88;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">Oracle ULA &amp; AI Apps</div>
+            <div style="height:4px;width:84%;background:var(--amber-bright);border-radius:2px;opacity:0.8;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">Salesforce &amp; Agentforce</div>
+            <div style="height:4px;width:74%;background:var(--amber-bright);border-radius:2px;opacity:0.72;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">ServiceNow &amp; Now Assist</div>
+            <div style="height:4px;width:62%;background:#34D399;border-radius:2px;opacity:0.78;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rm-ai-cards r" data-d="1">
+      <div class="rm-ai-card">
+        <div class="rm-ai-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <h3 class="rm-ai-card-h">Renewal Calendar Intelligence</h3>
+        <p class="rm-ai-card-p">Every contract date pulled into one timeline. Automatic T&minus;9-month triggers per vendor. Cross-vendor leverage windows surfaced &mdash; so a Microsoft EA and an Azure commit don&rsquo;t get negotiated in isolation.</p>
+      </div>
+      <div class="rm-ai-card">
+        <div class="rm-ai-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+        <h3 class="rm-ai-card-h">Commercial Benchmark Engine</h3>
+        <p class="rm-ai-card-p">Anonymised market pricing data from comparable accounts. Per-product, per-edition, per-region. AI-augmented pattern matching against your specific usage profile &mdash; so the benchmark you walk in with is genuinely yours, not a generic discount target.</p>
+      </div>
+      <div class="rm-ai-card">
+        <div class="rm-ai-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/></svg></div>
+        <h3 class="rm-ai-card-h">Contract Clause Analyser</h3>
+        <p class="rm-ai-card-p">AI-assisted review of every contract: audit clauses, indirect-access language, price-uplift formulas, termination rights, AI add-on terms. Red flags surfaced before signature, with negotiated alternatives drafted ready to send.</p>
+      </div>
+    </div>
+
+    <div class="rm-ai-feed r" data-d="2">
+      <div class="rm-ai-feed-hd"><div class="rm-ai-feed-dot"></div>Renewal Signal Stream &mdash; live pipeline insights</div>
+      <div class="rm-ai-feed-body" id="aiFeedBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROOF ===== -->
+<section class="rm-proof">
+  <div class="container">
+    <div class="rm-proof-grid">
+      <div class="r">
+        <div class="st-eyebrow">Proof in practice</div>
+        <div class="rm-proof-quote">Microsoft, Oracle, SAP, ServiceNow, Salesforce &mdash; <em>same negotiation muscle.</em> Different jerseys.</div>
+        <p class="rm-proof-body">Twenty years of vendor negotiation across the legacy stack now applies, vendor-for-vendor, to the modern SaaS and AI renewal. The same playbook that drove a $40M&plus; reduction on a Fortune 500 ULA buyout drives an enterprise M365 renegotiation today. Different products. Different rate cards. Same need: be in the room six months earlier, with the data the vendor doesn&rsquo;t want you to have.</p>
+        <div class="rm-proof-attr">
+          <div class="rm-proof-av">VP</div>
+          <div><div class="rm-proof-name">Vash Patel</div><div class="rm-proof-role">Founder &mdash; Proteam Advisory</div></div>
+        </div>
+      </div>
+      <div class="r" data-d="2">
+        <div class="rm-proof-stat">
+          <div class="rm-proof-stat-tag">Annual renewal value managed across clients</div>
+          <div class="rm-proof-stat-num">$<span>1</span>B&plus;</div>
+          <p class="rm-proof-stat-desc">Across IBM, Oracle, SAP, Microsoft, ServiceNow, Salesforce, Workday, Adobe, and the long tail. Each renewal driven by the same discipline: prepare early, benchmark hard, negotiate from data.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ADJACENT ===== -->
+<section class="rm-adjacent">
+  <div class="container">
+    <div class="r">
+      <div class="st-eyebrow dark">Often deployed alongside</div>
+      <h2 class="st-h">Renewals touch <em>SaaS and Audit.</em></h2>
+      <p class="st-lede" style="margin-top:12px;">Renewal Management overlaps with both. Most renewal disputes start as a usage question. Most usage questions, mishandled, become audits. The strongest engagements span all three layers.</p>
+    </div>
+    <div class="rm-adj-grid">
+      <a href="service-saas-management.html" class="rm-adj-card r" data-d="1">
+        <div class="rm-adj-num">— 06</div>
+        <h4 class="rm-adj-h">SaaS Management</h4>
+        <p class="rm-adj-p">Most renewals now sit on SaaS contracts &mdash; ServiceNow, Salesforce, Microsoft 365, Workday. The usage data that drives a strong renewal lives in the SaaS management layer. We do both, on the same engagement.</p>
+        <span class="rm-adj-lnk">Learn more <svg width="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="service-audit-defence.html" class="rm-adj-card r" data-d="2">
+        <div class="rm-adj-num">— 02</div>
+        <h4 class="rm-adj-h">SAM Audit Defence</h4>
+        <p class="rm-adj-p">Renewal negotiations and audit defences run on the same fact base: entitlements versus actual usage. The reconciliation work done for one strengthens the position in the other &mdash; especially when audit notices arrive timed to a renewal.</p>
+        <span class="rm-adj-lnk">Learn more <svg width="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="rm-cta">
+  <div class="container">
+    <div class="rm-cta-inner">
+      <div class="r">
+        <div class="st-eyebrow dark">Start today</div>
+        <h2>Big vendor renewal <em>coming up?</em></h2>
+        <p>The single highest-leverage moment in vendor management is six to nine months ahead of a major renewal. If you have one approaching &mdash; Microsoft EA, Oracle ULA, SAP, ServiceNow, Salesforce, Workday &mdash; that&rsquo;s the conversation to have now.</p>
+        <div class="rm-cta-row"><a href="contact.html" class="btn-signal">Book free consultation</a></div>
+      </div>
+      <div class="r" data-d="1">
+        <h4 style="font-family:var(--sans);font-weight:500;font-size:16px;color:var(--navy);margin-bottom:24px;letter-spacing:-0.01em;">What you&rsquo;ll get in the 30-minute call</h4>
+        <ul class="rm-cta-list">
+          <li>A senior negotiation specialist reviews your upcoming renewal calendar</li>
+          <li>Vendor-by-vendor view of where renewal leverage typically lives for estates like yours</li>
+          <li>Indicative pricing benchmark against the major upcoming renewal</li>
+          <li>View on embedded AI add-on terms across your current vendor stack</li>
+          <li>Honest read on whether external help is warranted &mdash; and timeline to start</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" style="color:var(--cream);"><span class="logo-lockup"><span class="logo-text" style="color:var(--cream);"><span class="logo-cap">P</span>roteam</span><span class="logo-advisory" style="color:rgba(240,242,245,0.7);">Advisory Solutions LLP</span></span></a>
+        <h3>SAM specialists. Nothing else.</h3>
+        <p>An independent Software Asset Management consultancy serving enterprises across India, the UK, the US, and the Middle East.</p>
+        <div class="foot-social"><div class="foot-social-label">Follow us on</div><div class="foot-social-icons"><a href="https://in.linkedin.com/company/proteam-advisory" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a><a href="#" aria-label="X" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H21l-7.39 8.45L22.5 21h-6.83l-5.34-6.99L3.5 21H0l7.91-9.04L0.5 3h7l4.83 6.4L17.53 3zm-2.39 16h2.06L7.05 4.85H4.83L15.14 19z"/></svg></a></div></div>
+      </div>
+            <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#sam">Software Asset Management</a></li>
+          <li><a href="services.html#ham">Hardware Asset Management</a></li>
+          <li><a href="services.html#finops">Cloud FinOps</a></li>
+          <li><a href="services.html#ai-transformation">AI Transformation Services</a></li>
+          <li><a href="services.html#itam-tech">ITAM Technology</a></li>
+        </ul>
+      </div>
+      <div class="foot-col"><h5>Company</h5><ul><li><a href="about.html">About</a></li><li><a href="case-studies.html">Case Studies</a></li><li><a href="contact.html">Contact</a></li><li><a href="insights.html">Insights</a></li></ul></div>
+      <div class="foot-col"><h5>Get in touch</h5><address>Suite #309&ndash;312<br>KTC Illumination Towers<br>Madhapur, Hyderabad<br>Telangana, India<br><br><a href="tel:+919676889797">+91 9676 889 797</a><br><a href="mailto:vpatel@proteamadvisory.com">vpatel@proteamadvisory.com</a></address></div>
+    </div>
+    <div class="foot-bot"><div>© 2026 Proteam Advisory. All rights reserved.</div><div style="display:flex;gap:24px;flex-wrap:wrap;"><a href="privacy.html">Privacy</a><a href="terms.html">Terms of Use</a><a href="cookies.html">Cookies</a></div></div>
+  </div>
+</footer>
+
+<script>
+/* RENEWAL PIPELINE FEED */
+const pipeline = [
+  {v:'Microsoft EA',d:'Renewal T-240d — Copilot upsell expected, no benchmark loaded',t:'4m ago',s:'window'},
+  {v:'Oracle ULA',d:'Buyout decision required T-150d — usage reconciliation pending',t:'12m ago',s:'window'},
+  {v:'ServiceNow',d:'Renewal T-75d — Now Assist add-on in vendor proposal, no playbook',t:'31m ago',s:'urgent'},
+  {v:'Salesforce',d:'Agentforce bundled into renewal quote — pricing not benchmarked',t:'1h ago',s:'urgent'},
+  {v:'Workday HCM',d:'Renewal T-310d — early window open, module utilisation review due',t:'2h ago',s:'ok'},
+  {v:'SAP S/4HANA',d:'Indirect-access clause flagged — pre-renewal cleanup recommended',t:'3h ago',s:'window'}
+];
+const feed = document.getElementById('pipelineFeed');
+if(feed) pipeline.forEach((p,i)=>{
+  const el = document.createElement('div');
+  el.className = 'rm-feed-item';
+  el.style.animationDelay = (i*80)+'ms';
+  el.innerHTML = `<span class="rm-dot ${p.s}"></span><div><div class="rm-vendor">${p.v}</div><div class="rm-detail">${p.d}</div></div><span class="rm-tag">${p.t}</span>`;
+  feed.appendChild(el);
+});
+
+/* SURPRISE TERMINAL */
+const surpriseLines = [
+  {ts:'08:02:14',tag:'WARN',cls:'rm-etag-warn',msg:'microsoft.ea — auto-renewal clause active, T-75d, no playbook in flight'},
+  {ts:'08:15:31',tag:'ERR',cls:'rm-etag-err',msg:'oracle.ula — buyout proposal landed without internal usage reconciliation'},
+  {ts:'08:44:07',tag:'WARN',cls:'rm-etag-warn',msg:'servicenow.renewal — Now Assist bundled by default, opt-out window closing'},
+  {ts:'09:01:52',tag:'ERR',cls:'rm-etag-err',msg:'salesforce.contract — uplift formula 7%, no benchmark challenge logged'},
+  {ts:'09:28:40',tag:'WARN',cls:'rm-etag-warn',msg:'sap.s4hana — indirect-access language unchanged, audit risk on renewal'},
+  {ts:'10:13:09',tag:'ERR',cls:'rm-etag-err',msg:'pipeline — 7 renewals in next 12mo, 0 in active preparation'}
+];
+const surpriseLog = document.getElementById('surpriseLog');
+if(surpriseLog) surpriseLines.forEach(l=>{
+  const el = document.createElement('div');
+  el.className = 'rm-eline';
+  el.innerHTML = `<span class="rm-ets">${l.ts}</span><span class="${l.cls}">[${l.tag}]</span><span class="rm-emsg">${l.msg}</span>`;
+  surpriseLog.appendChild(el);
+});
+const termObs = new IntersectionObserver(e=>{
+  if(e[0].isIntersecting){
+    document.querySelectorAll('.rm-eline').forEach((l,i)=>setTimeout(()=>l.classList.add('show'),i*140+200));
+    termObs.disconnect();
+  }},{threshold:0.2});
+const wt = document.getElementById('surpriseTerminal');
+if(wt) termObs.observe(wt);
+
+/* LIFECYCLE STEPS */
+const lcObs = new IntersectionObserver(e=>{
+  if(e[0].isIntersecting){
+    document.querySelectorAll('.rm-lc-step').forEach((s,i)=>setTimeout(()=>s.classList.add('lit'),parseInt(s.getAttribute('data-d'))||i*200));
+    const f = document.getElementById('lcFill');
+    if(f) setTimeout(()=>f.classList.add('go'),300);
+    lcObs.disconnect();
+  }},{threshold:0.1});
+const lcp = document.getElementById('lcPath');
+if(lcp) lcObs.observe(lcp);
+
+/* AI FEED TICKER */
+const insights = [
+  {v:'Microsoft',t:'EA T-240d. Copilot upsell projected at 18% uplift. Benchmark ready.',c:'95%'},
+  {v:'Oracle',t:'ULA buyout opportunity: usage 41% below contract cap. Reconcile T-150d.',c:'93%'},
+  {v:'ServiceNow',t:'T-75d. Now Assist negotiation playbook prepared. Walk-away set.',c:'91%'},
+  {v:'Salesforce',t:'Agentforce bundled. Carve-out negotiated separately saves ~£420k.',c:'89%'},
+  {v:'SAP',t:'Indirect-access clause flagged. Cleanup before renewal closes audit gap.',c:'92%'},
+  {v:'Workday',t:'HCM utilisation 38%. Right-size at T-9mo to lock improved unit rate.',c:'90%'}
+];
+const ab = document.getElementById('aiFeedBody');
+if(ab){
+  [...insights,...insights].forEach(i=>{
+    const el = document.createElement('div');
+    el.className = 'rm-ai-ins';
+    el.innerHTML = `<div class="rm-ai-ins-v">${i.v}</div><div class="rm-ai-ins-t">${i.t}</div><div class="rm-ai-ins-c">${i.c}</div>`;
+    ab.appendChild(el);
+  });
+  let pos = 0;
+  function scrollFeed(){pos += 0.4; if(pos >= ab.scrollHeight/2) pos=0; ab.scrollTop=pos; requestAnimationFrame(scrollFeed);}
+  const feedObs = new IntersectionObserver(e=>{if(e[0].isIntersecting) scrollFeed();},{threshold:0.3});
+  const ais = document.querySelector('.rm-ai');
+  if(ais) feedObs.observe(ais);
+}
+
+/* PARTICLE CANVAS */
+(function(){
+  const c = document.getElementById('aiCanvas');
+  if(!c) return;
+  const x = c.getContext('2d');
+  let W,H,P=[];
+  function rs(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}
+  rs(); window.addEventListener('resize',rs);
+  class Pt{constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-0.5)*0.25;this.vy=(Math.random()-0.5)*0.25;this.r=Math.random()*1.5+0.5;}up(){this.x+=this.vx;this.y+=this.vy;if(this.x<0)this.x=W;if(this.x>W)this.x=0;if(this.y<0)this.y=H;if(this.y>H)this.y=0;}}
+  for(let i=0;i<70;i++) P.push(new Pt());
+  function draw(){
+    x.clearRect(0,0,W,H);
+    P.forEach(p=>{x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle='rgba(52,211,153,0.3)';x.fill();});
+    for(let i=0;i<P.length;i++) for(let j=i+1;j<P.length;j++){
+      const dx=P[i].x-P[j].x,dy=P[i].y-P[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<110){x.beginPath();x.moveTo(P[i].x,P[i].y);x.lineTo(P[j].x,P[j].y);x.strokeStyle=`rgba(52,211,153,${0.07*(1-d/110)})`;x.lineWidth=0.5;x.stroke();}
+    }
+    P.forEach(p=>p.up());
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* SCROLL REVEAL */
+const ro = new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('in');ro.unobserve(el.target);}}),{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>ro.observe(el));
+
+/* MOBILE MENU */
+(function(){
+  const toggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  if(!toggle||!mobileNav) return;
+  const body = document.body;
+  function openMenu(){mobileNav.classList.add('is-open');toggle.classList.add('open');toggle.setAttribute('aria-expanded','true');body.style.overflow='hidden';}
+  function closeMenu(){mobileNav.classList.remove('is-open');toggle.classList.remove('open');toggle.setAttribute('aria-expanded','false');body.style.overflow='';}
+  toggle.addEventListener('click',()=>mobileNav.classList.contains('is-open')?closeMenu():openMenu());
+  mobileNav.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&mobileNav.classList.contains('is-open'))closeMenu();});
+  mobileNav.querySelectorAll('.sub-toggle, .sub-toggle-2').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id=btn.getAttribute('aria-controls');
+      const target=id?document.getElementById(id):btn.nextElementSibling;
+      if(!target) return;
+      const expanded=btn.getAttribute('aria-expanded')==='true';
+      btn.setAttribute('aria-expanded',String(!expanded));
+      target.classList.toggle('is-open',!expanded);
+    });
+  });
+})();
+</script>
+
+<script src="sammy-chatbot.js"></script>
+<script>
+/* Desktop mega-menu: JS hover with close-delay */
+(function () {
+  var CLOSE_DELAY = 150;
+  document.querySelectorAll(".nav-links .has-mega").forEach(function (li) {
+    var timer = null;
+    function openMenu() { clearTimeout(timer); li.classList.add("mega-open"); }
+    function scheduleClose() { timer = setTimeout(function () { li.classList.remove("mega-open"); }, CLOSE_DELAY); }
+    li.addEventListener("mouseenter", openMenu);
+    li.addEventListener("mouseleave", scheduleClose);
+    var menu = li.querySelector(".mega-menu");
+    if (menu) {
+      menu.addEventListener("mouseenter", openMenu);
+      menu.addEventListener("mouseleave", scheduleClose);
+    }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") li.classList.remove("mega-open"); });
+  });
+})();
+</script>
+</body>
+</html>

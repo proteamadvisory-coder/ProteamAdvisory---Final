@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Licence Helpdesk Services — Proteam Advisory</title>
+<meta name="description" content="On-demand access to senior SAM specialists for IT, procurement, and finance teams. SLA-backed licensing helpdesk covering Oracle, IBM, Microsoft, SAP, and 30+ vendors." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ================================================================
+   LICENCE HELPDESK — Identity: THE SIGNAL ROOM
+   Narrative: Chaos → Expert answers → AI anticipation
+   Aesthetic: Dark command centre. Amber signal. Cold clarity.
+   ================================================================ */
+
+/* ---- HERO ---- */
+.hl-hero {
+  background: var(--navy-deep);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+}
+.hl-hero::before {
+  content:''; position:absolute; inset:0;
+  background-image: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.012) 3px,rgba(255,255,255,0.012) 4px);
+  pointer-events:none; z-index:0;
+}
+.hl-hero::after {
+  content:''; position:absolute; top:-10%; right:-5%;
+  width:700px; height:700px;
+  background:radial-gradient(circle, rgba(230,138,50,0.07) 0%, transparent 60%);
+  pointer-events:none; animation:heroGlow 6s ease-in-out infinite alternate;
+}
+@keyframes heroGlow { from{transform:scale(1);opacity:1;} to{transform:scale(1.15);opacity:0.5;} }
+
+.hl-hero-inner {
+  flex:1; max-width:var(--max-w); margin:0 auto;
+  padding:130px 32px 80px;
+  display:grid; grid-template-columns:1fr 1.05fr;
+  gap:80px; align-items:center;
+  position:relative; z-index:1; width:100%;
+}
+
+.hl-eyebrow { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:var(--amber-bright); display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.hl-eyebrow::before { content:''; width:32px; height:1px; background:var(--amber-bright); }
+
+.hl-hero-h1 { font-family:var(--sans); font-weight:300; font-size:clamp(44px,5.5vw,80px); line-height:1; letter-spacing:-0.04em; color:var(--cream); font-variation-settings:"opsz" 144; margin-bottom:12px; }
+.hl-hero-h1 em { font-family:var(--serif); font-style:italic; font-weight:300; color:var(--amber-bright); font-variation-settings:"opsz" 144; }
+.hl-hero-sub { font-size:17px; line-height:1.65; color:rgba(240,242,245,0.55); max-width:500px; margin:24px 0 40px; }
+.hl-cta-row { display:flex; gap:16px; flex-wrap:wrap; }
+.btn-signal { display:inline-flex; align-items:center; gap:10px; background:var(--amber); color:#fff; font-size:13px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; padding:16px 28px; border-radius:2px; transition:background 0.25s, transform 0.2s; }
+.btn-signal:hover { background:var(--amber-bright); transform:translateY(-2px); }
+.btn-ghost-cream { display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(240,242,245,0.2); color:rgba(240,242,245,0.7); font-size:13px; font-weight:500; padding:15px 28px; border-radius:2px; transition:border-color 0.25s, color 0.25s; }
+.btn-ghost-cream:hover { border-color:rgba(240,242,245,0.5); color:var(--cream); }
+
+/* Dispatch panel */
+.hl-panel-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; }
+.hl-panel-header { display:flex; align-items:center; gap:10px; padding:14px 20px; border-bottom:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.2); }
+.hl-panel-dot { width:8px; height:8px; border-radius:50%; }
+.hl-panel-dot.green { background:#34D399; animation:pulseG 2s infinite; }
+.hl-panel-dot.amber { background:var(--amber-bright); }
+.hl-panel-dot.red { background:#F87171; }
+.hl-panel-title { font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(240,242,245,0.32); margin-left:auto; }
+@keyframes pulseG { 0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,0.4);} 50%{box-shadow:0 0 0 6px rgba(52,211,153,0);} }
+.hl-ticker-wrap { max-height:320px; overflow:hidden; }
+.hl-ticket { padding:16px 20px; border-bottom:1px solid rgba(255,255,255,0.04); display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; animation:slideIn 0.4s ease both; }
+@keyframes slideIn { from{opacity:0;transform:translateY(-8px);} to{opacity:1;transform:none;} }
+.hl-ts { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.hl-ts.open { background:#34D399; } .hl-ts.review { background:var(--amber-bright); } .hl-ts.closed { background:rgba(240,242,245,0.2); }
+.hl-tv { font-family:var(--mono); font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--amber-bright); margin-bottom:3px; }
+.hl-td { font-size:12.5px; line-height:1.4; color:rgba(240,242,245,0.6); }
+.hl-tt { font-family:var(--mono); font-size:10px; color:rgba(240,242,245,0.22); white-space:nowrap; }
+.hl-panel-footer { padding:14px 20px; border-top:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:space-between; }
+.hl-sla-badge { font-family:var(--mono); font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#34D399; display:flex; align-items:center; gap:6px; }
+.hl-sla-badge::before { content:''; width:6px; height:6px; border-radius:50%; background:#34D399; animation:pulseG 2s infinite; }
+.hl-resp { font-size:11px; color:rgba(240,242,245,0.28); font-family:var(--mono); }
+
+/* Stat strip */
+.hl-stat-strip { background:rgba(0,0,0,0.35); border-top:1px solid rgba(255,255,255,0.05); }
+.hl-stat-inner { max-width:var(--max-w); margin:0 auto; padding:0 32px; display:grid; grid-template-columns:repeat(4,1fr); }
+.hl-stat-item { padding:36px 32px; border-right:1px solid rgba(255,255,255,0.05); }
+.hl-stat-item:last-child { border-right:none; }
+.hl-stat-num { font-family:var(--sans); font-weight:300; font-size:48px; line-height:1; color:var(--cream); letter-spacing:-0.04em; font-variation-settings:"opsz" 144; }
+.hl-stat-num span { color:var(--amber-bright); }
+.hl-stat-lbl { font-size:13px; color:rgba(240,242,245,0.42); margin-top:8px; line-height:1.5; }
+
+/* ================================================================
+   ACT 1 — THE BROKEN PAST: Error terminal + pain cards
+   ================================================================ */
+.hl-past { background:#053B45; padding:120px 0 0; position:relative; overflow:hidden; }
+.hl-past::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,0.013) 39px,rgba(255,255,255,0.013) 40px); pointer-events:none; }
+.hl-past-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.hl-past-ey { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:rgba(248,113,113,0.75); display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.hl-past-ey::before { content:''; width:24px; height:1px; background:rgba(248,113,113,0.75); }
+.hl-past-h { font-family:var(--sans); font-weight:300; font-size:clamp(28px,3.5vw,46px); line-height:1.05; letter-spacing:-0.03em; color:var(--cream); font-variation-settings:"opsz" 144; margin-bottom:20px; }
+.hl-past-h em { font-family:var(--serif); font-style:italic; color:#F87171; font-weight:300; font-variation-settings:"opsz" 144; }
+.hl-past-sub { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.42); }
+
+/* Error terminal */
+.hl-etm { background:rgba(248,113,113,0.03); border:1px solid rgba(248,113,113,0.14); border-radius:4px; overflow:hidden; font-family:var(--mono); font-size:11.5px; line-height:1.8; }
+.hl-etm-hd { background:rgba(248,113,113,0.07); border-bottom:1px solid rgba(248,113,113,0.1); padding:10px 16px; display:flex; align-items:center; gap:8px; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(248,113,113,0.55); }
+.hl-edot { width:7px; height:7px; border-radius:50%; background:rgba(248,113,113,0.5); }
+.hl-elog { padding:20px 24px; display:flex; flex-direction:column; gap:4px; }
+.hl-eline { display:flex; gap:12px; opacity:0; transform:translateX(-8px); transition:opacity 0.35s ease, transform 0.35s ease; }
+.hl-eline.show { opacity:1; transform:none; }
+.hl-ets { color:rgba(240,242,245,0.2); white-space:nowrap; font-size:10.5px; }
+.hl-etag-err { color:#F87171; } .hl-etag-warn { color:var(--amber-bright); } .hl-etag-info { color:rgba(240,242,245,0.35); }
+.hl-emsg { color:rgba(240,242,245,0.52); }
+
+/* Pain cards */
+.hl-pain-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.04); margin-top:80px; }
+.hl-pain-card { background:#053B45; padding:48px 36px; }
+.hl-pain-n { font-family:var(--sans); font-weight:200; font-size:72px; line-height:0.9; color:rgba(248,113,113,0.1); letter-spacing:-0.04em; font-variation-settings:"opsz" 144; margin-bottom:20px; }
+.hl-pain-h { font-family:var(--sans); font-weight:500; font-size:17px; color:rgba(240,242,245,0.78); letter-spacing:-0.01em; margin-bottom:12px; line-height:1.25; font-variation-settings:"opsz" 144; }
+.hl-pain-p { font-size:14px; line-height:1.7; color:rgba(240,242,245,0.37); }
+
+/* ================================================================
+   ACT 2 — THE PROTEAM ANSWER: SLA path timeline
+   ================================================================ */
+.hl-answer { background:var(--navy-deep); padding:120px 0; position:relative; overflow:hidden; }
+.hl-answer-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; margin-bottom:72px; }
+.hl-ans-ey { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:var(--amber-bright); display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.hl-ans-ey::before { content:''; width:24px; height:1px; background:var(--amber-bright); }
+.hl-ans-h { font-family:var(--sans); font-weight:300; font-size:clamp(28px,3.5vw,46px); line-height:1.05; letter-spacing:-0.03em; color:var(--cream); font-variation-settings:"opsz" 144; }
+.hl-ans-h em { font-family:var(--serif); font-style:italic; color:var(--amber-bright); font-weight:300; font-variation-settings:"opsz" 144; }
+.hl-ans-sub { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.48); margin-top:20px; }
+
+/* SLA steps */
+.hl-sla-path { position:relative; }
+.hl-sla-spine { position:absolute; left:28px; top:28px; bottom:28px; width:2px; background:rgba(255,255,255,0.05); }
+.hl-sla-fill { position:absolute; top:0; width:100%; background:linear-gradient(180deg,var(--amber-bright),#34D399); height:0%; transition:height 1.8s cubic-bezier(0.4,0,0.2,1); }
+.hl-sla-fill.go { height:100%; }
+.hl-sla-step { display:grid; grid-template-columns:60px 1fr; gap:40px; padding:36px 0; border-bottom:1px solid rgba(255,255,255,0.04); position:relative; z-index:1; opacity:0; transform:translateX(-12px); transition:opacity 0.5s ease, transform 0.5s ease; }
+.hl-sla-step:last-child { border-bottom:none; }
+.hl-sla-step.lit { opacity:1; transform:none; }
+.hl-sla-node { display:flex; flex-direction:column; align-items:center; gap:8px; }
+.hl-sla-circ { width:16px; height:16px; border-radius:50%; border:2px solid rgba(255,255,255,0.15); background:var(--navy-deep); transition:background 0.4s, border-color 0.4s, box-shadow 0.4s; }
+.hl-sla-step.lit .hl-sla-circ { background:var(--amber-bright); border-color:var(--amber-bright); box-shadow:0 0 16px rgba(230,138,50,0.5); }
+.hl-sla-step:last-child.lit .hl-sla-circ { background:#34D399; border-color:#34D399; box-shadow:0 0 16px rgba(52,211,153,0.5); }
+.hl-sla-t { font-family:var(--mono); font-size:8px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(240,242,245,0.2); text-align:center; transition:color 0.4s; }
+.hl-sla-step.lit .hl-sla-t { color:var(--amber-bright); }
+.hl-sla-tag { font-family:var(--mono); font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(240,242,245,0.22); margin-bottom:10px; transition:color 0.4s; }
+.hl-sla-step.lit .hl-sla-tag { color:var(--amber-bright); }
+.hl-sla-h { font-family:var(--sans); font-weight:500; font-size:clamp(17px,2vw,22px); letter-spacing:-0.015em; color:rgba(240,242,245,0.3); font-variation-settings:"opsz" 144; margin-bottom:10px; transition:color 0.4s; }
+.hl-sla-step.lit .hl-sla-h { color:var(--cream); }
+.hl-sla-p { font-size:15px; line-height:1.7; color:rgba(240,242,245,0.22); max-width:600px; transition:color 0.4s; }
+.hl-sla-step.lit .hl-sla-p { color:rgba(240,242,245,0.55); }
+
+/* ================================================================
+   ACT 3 — AI INTELLIGENCE: Particle canvas + capability cards
+   ================================================================ */
+.hl-ai { background:linear-gradient(135deg,#042E37 0%,#053B45 60%,#053B45 100%); padding:120px 0; position:relative; overflow:hidden; }
+.hl-ai-canvas { position:absolute; inset:0; pointer-events:none; z-index:0; }
+.hl-ai-inner { position:relative; z-index:1; }
+.hl-ai-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; margin-bottom:64px; }
+.hl-ai-ey { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:#34D399; display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.hl-ai-ey::before { content:''; width:24px; height:1px; background:#34D399; }
+.hl-ai-h { font-family:var(--sans); font-weight:300; font-size:clamp(28px,3.5vw,46px); line-height:1.05; letter-spacing:-0.03em; color:var(--cream); font-variation-settings:"opsz" 144; }
+.hl-ai-h em { font-family:var(--serif); font-style:italic; color:#34D399; font-weight:300; font-variation-settings:"opsz" 144; }
+.hl-ai-sub { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.45); margin-top:20px; }
+.hl-ai-stat-box { background:rgba(52,211,153,0.05); border:1px solid rgba(52,211,153,0.12); border-radius:4px; padding:24px 28px; margin-top:24px; font-size:14px; line-height:1.7; color:rgba(240,242,245,0.48); }
+.hl-ai-stat-box strong { color:#34D399; font-weight:600; }
+
+/* AI cards */
+.hl-ai-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:48px; }
+.hl-ai-card { background:rgba(255,255,255,0.025); border:1px solid rgba(52,211,153,0.09); border-radius:4px; padding:36px 28px; position:relative; overflow:hidden; transition:border-color 0.35s, transform 0.3s; }
+.hl-ai-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,#34D399,transparent); transform:scaleX(0); transform-origin:center; transition:transform 0.5s ease; }
+.hl-ai-card:hover { border-color:rgba(52,211,153,0.28); transform:translateY(-4px); }
+.hl-ai-card:hover::after { transform:scaleX(1); }
+.hl-ai-icon { width:40px; height:40px; border-radius:50%; background:rgba(52,211,153,0.07); border:1px solid rgba(52,211,153,0.18); display:flex; align-items:center; justify-content:center; color:#34D399; margin-bottom:20px; }
+.hl-ai-card-h { font-family:var(--sans); font-weight:500; font-size:16px; color:rgba(240,242,245,0.82); letter-spacing:-0.01em; margin-bottom:10px; font-variation-settings:"opsz" 144; }
+.hl-ai-card-p { font-size:14px; line-height:1.68; color:rgba(240,242,245,0.37); }
+
+/* AI live insights */
+.hl-ai-feed { background:rgba(52,211,153,0.03); border:1px solid rgba(52,211,153,0.09); border-radius:4px; overflow:hidden; }
+.hl-ai-feed-hd { padding:12px 20px; border-bottom:1px solid rgba(52,211,153,0.07); background:rgba(52,211,153,0.05); font-family:var(--mono); font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:#34D399; display:flex; align-items:center; gap:8px; }
+.hl-ai-feed-dot { width:6px; height:6px; border-radius:50%; background:#34D399; animation:pulseG 2s infinite; }
+.hl-ai-feed-body { height:200px; overflow:hidden; position:relative; }
+.hl-ai-ins { padding:16px 24px; border-bottom:1px solid rgba(52,211,153,0.05); display:grid; grid-template-columns:auto 1fr auto; gap:16px; align-items:center; }
+.hl-ai-ins-v { font-family:var(--mono); font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:#34D399; padding:3px 8px; background:rgba(52,211,153,0.07); border-radius:2px; white-space:nowrap; }
+.hl-ai-ins-t { font-size:13.5px; color:rgba(240,242,245,0.58); line-height:1.4; }
+.hl-ai-ins-c { font-family:var(--mono); font-size:10px; color:rgba(240,242,245,0.22); white-space:nowrap; }
+
+/* ================================================================
+   USE CASES
+   ================================================================ */
+.hl-usecases { background:var(--paper); padding:120px 0; }
+.hl-cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:56px; }
+.hl-card { background:var(--cream-warm); border:1px solid var(--line); border-radius:4px; padding:36px 32px; position:relative; overflow:hidden; transition:transform 0.3s, border-color 0.3s, box-shadow 0.3s; }
+.hl-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--amber-bright); transform:scaleX(0); transform-origin:left; transition:transform 0.4s ease; }
+.hl-card:hover { transform:translateY(-4px); border-color:rgba(72,112,255,0.2); box-shadow:0 16px 40px rgba(30,43,60,0.08); }
+.hl-card:hover::before { transform:scaleX(1); }
+.hl-card-icon { width:44px; height:44px; background:var(--navy); border-radius:4px; display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:var(--amber-bright); }
+.hl-card-h { font-family:var(--sans); font-weight:500; font-size:18px; letter-spacing:-0.01em; color:var(--navy); margin-bottom:10px; font-variation-settings:"opsz" 144; }
+.hl-card-p { font-size:14.5px; line-height:1.65; color:var(--muted); }
+
+/* ================================================================
+   PROOF
+   ================================================================ */
+.hl-proof { background:var(--navy); padding:120px 0; position:relative; overflow:hidden; }
+.hl-proof::before { content:'HELPDESK'; position:absolute; right:-40px; bottom:-20px; font-family:var(--sans); font-weight:700; font-size:180px; letter-spacing:-0.05em; color:rgba(255,255,255,0.022); pointer-events:none; user-select:none; font-variation-settings:"opsz" 144; }
+.hl-proof-grid { display:grid; grid-template-columns:1.1fr 1fr; gap:80px; align-items:center; }
+.hl-proof-quote { font-family:var(--sans); font-weight:400; font-size:clamp(22px,3vw,36px); line-height:1.2; letter-spacing:-0.02em; color:var(--cream); font-variation-settings:"opsz" 144; }
+.hl-proof-quote em { font-family:var(--serif); font-style:italic; color:var(--amber-bright); font-weight:300; font-variation-settings:"opsz" 144; }
+.hl-proof-body { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.52); margin-top:24px; }
+.hl-proof-attr { margin-top:32px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.08); display:flex; gap:14px; align-items:center; }
+.hl-proof-av { width:44px; height:44px; border-radius:50%; background:rgba(72,112,255,0.15); border:1px solid rgba(72,112,255,0.3); display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-style:italic; font-size:18px; color:var(--amber-bright); }
+.hl-proof-name { font-weight:600; color:var(--cream); font-size:14px; }
+.hl-proof-role { font-size:12px; color:rgba(240,242,245,0.32); margin-top:2px; }
+.hl-proof-stat { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:4px; padding:48px 40px; position:relative; overflow:hidden; }
+.hl-proof-stat::before { content:''; position:absolute; top:-60%; right:-30%; width:300px; height:300px; background:radial-gradient(circle,rgba(72,112,255,0.15) 0%,transparent 70%); border-radius:50%; }
+.hl-proof-stat-tag { font-family:var(--mono); font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:var(--amber-bright); margin-bottom:20px; position:relative; }
+.hl-proof-stat-num { font-family:var(--sans); font-weight:200; font-size:clamp(72px,10vw,110px); line-height:0.9; color:var(--cream); letter-spacing:-0.05em; font-variation-settings:"opsz" 144; margin-bottom:20px; position:relative; }
+.hl-proof-stat-num span { color:var(--amber-bright); }
+.hl-proof-stat-desc { font-size:14.5px; line-height:1.65; color:rgba(240,242,245,0.48); position:relative; }
+
+/* ================================================================
+   ADJACENT + CTA
+   ================================================================ */
+.hl-adjacent { background:var(--paper); padding:100px 0; }
+.hl-adj-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:48px; }
+.hl-adj-card { background:var(--cream-warm); border:1px solid var(--line); border-radius:4px; padding:40px 36px; display:flex; flex-direction:column; transition:all 0.3s ease; }
+.hl-adj-card:hover { background:var(--navy); transform:translateY(-4px); }
+.hl-adj-num { font-family:var(--sans); font-style:italic; color:var(--amber); font-size:14px; margin-bottom:16px; transition:color 0.3s; }
+.hl-adj-card:hover .hl-adj-num { color:var(--amber-bright); }
+.hl-adj-h { font-family:var(--sans); font-weight:500; font-size:22px; line-height:1.2; color:var(--navy); letter-spacing:-0.01em; font-variation-settings:"opsz" 144; margin-bottom:12px; flex:1; transition:color 0.3s; }
+.hl-adj-card:hover .hl-adj-h { color:var(--cream); }
+.hl-adj-p { font-size:14.5px; line-height:1.6; color:var(--muted); margin-bottom:20px; transition:color 0.3s; }
+.hl-adj-card:hover .hl-adj-p { color:rgba(240,242,245,0.58); }
+.hl-adj-lnk { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; font-weight:600; display:inline-flex; align-items:center; gap:8px; color:var(--navy); transition:color 0.3s; }
+.hl-adj-card:hover .hl-adj-lnk { color:var(--amber-bright); }
+
+.hl-cta { background:var(--cream-warm); padding:100px 0; }
+.hl-cta-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.hl-cta h2 { font-family:var(--sans); font-weight:400; font-size:clamp(32px,4vw,52px); line-height:1.05; letter-spacing:-0.03em; color:var(--navy); font-variation-settings:"opsz" 144; margin-bottom:16px; }
+.hl-cta h2 em { font-family:var(--serif); font-style:italic; color:var(--amber); font-weight:300; font-variation-settings:"opsz" 144; }
+.hl-cta p { font-size:17px; line-height:1.7; color:var(--navy-soft); margin-bottom:32px; }
+.hl-cta-list { list-style:none; display:flex; flex-direction:column; gap:12px; }
+.hl-cta-list li { display:flex; align-items:flex-start; gap:12px; font-size:15px; line-height:1.55; color:var(--navy-soft); padding-bottom:12px; border-bottom:1px solid var(--line); }
+.hl-cta-list li:last-child { border-bottom:none; }
+.hl-cta-list li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--amber-bright); flex-shrink:0; margin-top:6px; }
+
+/* ================================================================
+   SHARED
+   ================================================================ */
+.r { opacity:0; transform:translateY(20px); transition:opacity 0.65s ease, transform 0.65s ease; }
+.r.in { opacity:1; transform:none; }
+.r[data-d="1"]{ transition-delay:0.1s; } .r[data-d="2"]{ transition-delay:0.2s; } .r[data-d="3"]{ transition-delay:0.3s; }
+.st-eyebrow { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:var(--amber-bright); display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.st-eyebrow::before { content:''; width:24px; height:1px; background:var(--amber-bright); }
+.st-eyebrow.dark { color:var(--amber); } .st-eyebrow.dark::before { background:var(--amber); }
+.st-h { font-family:var(--sans); font-weight:400; font-size:clamp(32px,4vw,52px); line-height:1.05; letter-spacing:-0.03em; color:var(--navy); font-variation-settings:"opsz" 144; margin-bottom:16px; }
+.st-h em { font-family:var(--serif); font-style:italic; color:var(--amber); font-weight:300; font-variation-settings:"opsz" 144; }
+.st-h.cream { color:var(--cream); } .st-h.cream em { color:var(--amber-bright); }
+.st-lede { font-size:17px; line-height:1.7; color:var(--navy-soft); max-width:640px; }
+.st-lede.light { color:rgba(240,242,245,0.55); }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width:960px){
+  .hl-hero-inner,.hl-past-grid,.hl-answer-grid,.hl-ai-grid,.hl-proof-grid,.hl-cta-inner { grid-template-columns:1fr; gap:40px; }
+  .hl-ai-cards,.hl-cards-grid { grid-template-columns:1fr 1fr; }
+  .hl-pain-grid { grid-template-columns:1fr; }
+  .hl-adj-grid { grid-template-columns:1fr; }
+  .hl-stat-inner { grid-template-columns:repeat(2,1fr); }
+  .hl-hero-inner { padding:110px 24px 60px; }
+}
+@media (max-width:600px){
+  .hl-ai-cards,.hl-cards-grid { grid-template-columns:1fr; }
+  .hl-stat-inner { grid-template-columns:1fr; }
+  .hl-stat-item { border-right:none; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .hl-sla-step { grid-template-columns:48px 1fr; gap:20px; }
+  .hl-past,.hl-answer,.hl-ai,.hl-usecases,.hl-proof,.hl-adjacent,.hl-cta { padding:80px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-lockup">
+        <span class="logo-text"><span class="logo-cap">P</span>roteam</span>
+        <span class="logo-advisory">Advisory Solutions LLP</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-mega">
+        <a href="services.html" class="active">Services <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="mega-menu" role="menu" aria-label="Services">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <a href="services.html#sam" class="mega-head">Software Asset Management</a>
+              <ul>
+                <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+                <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+                <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ham" class="mega-head">Hardware Asset Management</a>
+              <ul>
+                <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+                <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#finops" class="mega-head">Cloud FinOps</a>
+              <ul>
+                <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+                <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ai-transformation" class="mega-head">AI Transformation Services</a>
+              <ul>
+                <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+                <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#itam-tech" class="mega-head">ITAM Technology</a>
+              <ul>
+                <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+                <li><a href="service-itam-flexera.html">Flexera</a></li>
+                <li><a href="service-itam-snow.html">Snow</a></li>
+                <li><a href="service-itam-zylo.html">Zylo</a></li>
+                <li><a href="service-itam-aspera.html">Aspera</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Free Consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <ul class="mobile-nav-links">
+    <li><a href="index.html">Home <span>&rarr;</span></a></li>
+    <li class="has-sub">
+      <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="m-svc-sub">
+        Services
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul id="m-svc-sub" class="sub-menu">
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-sam-sub">
+            Software Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-sam-sub" class="sub-menu-2">
+            <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+            <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+            <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ham-sub">
+            Hardware Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ham-sub" class="sub-menu-2">
+            <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+            <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-finops-sub">
+            Cloud FinOps
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-finops-sub" class="sub-menu-2">
+            <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+            <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ai-sub">
+            AI Transformation Services
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ai-sub" class="sub-menu-2">
+            <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+            <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-itam-sub">
+            ITAM Technology
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-itam-sub" class="sub-menu-2">
+            <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+            <li><a href="service-itam-flexera.html">Flexera</a></li>
+            <li><a href="service-itam-snow.html">Snow</a></li>
+            <li><a href="service-itam-zylo.html">Zylo</a></li>
+            <li><a href="service-itam-aspera.html">Aspera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="case-studies.html">Case Studies <span>&rarr;</span></a></li>
+    <li><a href="about.html">About <span>&rarr;</span></a></li>
+    <li><a href="insights.html">Insights <span>&rarr;</span></a></li>
+    <li><a href="contact.html">Contact <span>&rarr;</span></a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta">Book Free Consultation &rarr;</a>
+  <div class="mobile-nav-contact">
+    <a href="tel:+919676889797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      +91 9676 889 797
+    </a>
+    <a href="mailto:vpatel@proteamadvisory.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      vpatel@proteamadvisory.com
+    </a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hl-hero">
+  <div class="hl-hero-inner">
+    <div>
+      <div class="hl-eyebrow">— 01 &nbsp; Licence Helpdesk Services</div>
+      <h1 class="hl-hero-h1">The answer<br>your team<br>needs — in <em>hours,</em><br>not weeks.</h1>
+      <p class="hl-hero-sub">Senior SAM specialists on-demand. SLA-backed. Covering Oracle, IBM, Microsoft, SAP, and 30+ vendors. Every licensing question answered with evidence — not guesswork.</p>
+      <div class="hl-cta-row">
+        <a href="contact.html" class="btn-signal">Book free consultation</a>
+        <a href="service-sam-baselining.html" class="btn-ghost-cream">See full SAM offering</a>
+      </div>
+    </div>
+    <div>
+      <div class="hl-panel-card">
+        <div class="hl-panel-header">
+          <div class="hl-panel-dot green"></div>
+          <div class="hl-panel-dot amber"></div>
+          <div class="hl-panel-dot red"></div>
+          <div class="hl-panel-title">Live Helpdesk Queue</div>
+        </div>
+        <div class="hl-ticker-wrap"><div id="tickerFeed"></div></div>
+        <div class="hl-panel-footer">
+          <div class="hl-sla-badge">SLA Active</div>
+          <div class="hl-resp">Response: &lt;24h</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hl-stat-strip">
+    <div class="hl-stat-inner">
+      <div class="hl-stat-item"><div class="hl-stat-num"><span>24</span>h</div><div class="hl-stat-lbl">SLA response on every ticket, every working day</div></div>
+      <div class="hl-stat-item"><div class="hl-stat-num"><span>30</span>+</div><div class="hl-stat-lbl">Vendors covered — Oracle to long-tail SaaS</div></div>
+      <div class="hl-stat-item"><div class="hl-stat-num">8<span>×</span></div><div class="hl-stat-lbl">Average ROI on a single avoided non-compliance finding</div></div>
+      <div class="hl-stat-item"><div class="hl-stat-num"><span>200</span>+</div><div class="hl-stat-lbl">Vendors reviewed in a single M&amp;A engagement</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACT 1: THE BROKEN PAST ===== -->
+<section class="hl-past">
+  <div class="container">
+    <div class="hl-past-grid">
+      <div class="r">
+        <div class="hl-past-ey">— Before Proteam</div>
+        <h2 class="hl-past-h">A licensing question used to mean<br><em>weeks of silence</em> — or a guess that cost millions.</h2>
+        <p class="hl-past-sub">Your IT team emails the vendor. The vendor points to a guide. The guide links to another guide. Three weeks later someone makes a judgment call. Sometimes that judgment call costs six figures.</p>
+      </div>
+      <div class="r" data-d="1">
+        <div class="hl-etm" id="errTerm">
+          <div class="hl-etm-hd"><div class="hl-edot"></div><span>licensing-support.log — no active helpdesk</span></div>
+          <div class="hl-elog" id="errLog"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hl-pain-grid" id="painGrid">
+    <div class="hl-pain-card r"><div class="hl-pain-n">01</div><h3 class="hl-pain-h">No one owns the question</h3><p class="hl-pain-p">IT passes it to procurement. Procurement sends it to legal. Legal asks the vendor. The vendor stalls. The decision happens anyway — without an answer.</p></div>
+    <div class="hl-pain-card r" data-d="1"><div class="hl-pain-n">02</div><h3 class="hl-pain-h">The audit letter arrives first</h3><p class="hl-pain-p">Without proactive entitlement management, compliance gaps compound quietly. The first notification is a claims letter with a 30-day window to respond.</p></div>
+    <div class="hl-pain-card r" data-d="2"><div class="hl-pain-n">03</div><h3 class="hl-pain-h">Every M&amp;A resets the exposure clock</h3><p class="hl-pain-p">Acquisitions collapse two licence estates into one unknown. Without a specialist to map entitlements fast, integration milestones create compliance debt.</p></div>
+  </div>
+</section>
+
+<!-- ===== ACT 2: THE PROTEAM ANSWER ===== -->
+<section class="hl-answer">
+  <div class="container">
+    <div class="hl-answer-grid r">
+      <div>
+        <div class="hl-ans-ey">— The Proteam Way</div>
+        <h2 class="hl-ans-h">A senior specialist<br>owns it. <em>In hours.</em></h2>
+        <p class="hl-ans-sub">Not a ticket in a queue. A specialist who has answered this exact Oracle metric question — or that SAP indirect access scenario — hundreds of times. With your contract in front of them.</p>
+      </div>
+      <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-end;">
+        <div><div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,242,245,0.28);margin-bottom:6px;">First response</div><div style="font-family:var(--sans);font-weight:300;font-size:40px;letter-spacing:-0.03em;color:var(--cream);font-variation-settings:'opsz' 144;">&lt; 2h</div></div>
+        <div><div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,242,245,0.28);margin-bottom:6px;">Full resolution SLA</div><div style="font-family:var(--sans);font-weight:300;font-size:40px;letter-spacing:-0.03em;color:var(--amber-bright);font-variation-settings:'opsz' 144;">24h</div></div>
+      </div>
+    </div>
+
+    <div class="hl-sla-path" id="slaPath">
+      <div class="hl-sla-spine"><div class="hl-sla-fill" id="slaFill"></div></div>
+      <div class="hl-sla-step" data-d="0"><div class="hl-sla-node"><div class="hl-sla-circ"></div><div class="hl-sla-t">T + 0</div></div><div><div class="hl-sla-tag">Issue Raised</div><h3 class="hl-sla-h">Your team logs the question — any channel, any complexity</h3><p class="hl-sla-p">IT flagging a deployment change. Procurement needing entitlement clarity before a PO. Finance questioning an invoice. The helpdesk accepts everything licensing-related across your 30+ vendor estate.</p></div></div>
+      <div class="hl-sla-step" data-d="200"><div class="hl-sla-node"><div class="hl-sla-circ"></div><div class="hl-sla-t">T + 2h</div></div><div><div class="hl-sla-tag">Specialist Assigned</div><h3 class="hl-sla-h">A senior SAM analyst owns it — matched to your vendor</h3><p class="hl-sla-p">Assigned by vendor expertise, not availability. The specialist reviewing your Oracle metric question has done this for Oracle hundreds of times. Triage is fast because experience replaces process.</p></div></div>
+      <div class="hl-sla-step" data-d="400"><div class="hl-sla-node"><div class="hl-sla-circ"></div><div class="hl-sla-t">T + 8h</div></div><div><div class="hl-sla-tag">Analysis Underway</div><h3 class="hl-sla-h">Contracts, entitlements, deployment data — cross-referenced</h3><p class="hl-sla-p">Not a web search. Your entitlement records pulled, deployment data cross-referenced, licensing metrics interpreted against your actual contractual rights. Automation accelerates. Expertise decides.</p></div></div>
+      <div class="hl-sla-step" data-d="600"><div class="hl-sla-node"><div class="hl-sla-circ"></div><div class="hl-sla-t">T + 24h</div></div><div><div class="hl-sla-tag">SLA Resolved</div><h3 class="hl-sla-h">Decision-ready answer — with evidence, not opinion</h3><p class="hl-sla-p">The contract clause. The usage data. The risk if you proceed. The recommended path. Full audit trail. Your team makes an informed decision in minutes, not months.</p></div></div>
+      <div class="hl-sla-step" data-d="800"><div class="hl-sla-node"><div class="hl-sla-circ"></div><div class="hl-sla-t">Ongoing</div></div><div><div class="hl-sla-tag">Continuous Intelligence</div><h3 class="hl-sla-h">Every ticket feeds the intelligence layer — the estate gets smarter</h3><p class="hl-sla-p">Each resolved issue enriches your licence baseline. Patterns surface. Anomalies flag before they become problems. The helpdesk compounds in value. This is the bridge to AI-led SAM.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACT 3: AI INTELLIGENCE ===== -->
+<section class="hl-ai">
+  <canvas class="hl-ai-canvas" id="aiCanvas"></canvas>
+  <div class="container hl-ai-inner">
+    <div class="hl-ai-grid">
+      <div class="r">
+        <div class="hl-ai-ey">— The AI Layer</div>
+        <h2 class="hl-ai-h">From answering questions<br>to <em>anticipating</em> them.</h2>
+        <p class="hl-ai-sub">Every ticket Proteam resolves feeds a growing intelligence layer. What starts as reactive support becomes predictive — risks surfaced before they materialise, decisions recommended before your team knows to ask.</p>
+        <div class="hl-ai-stat-box">CFOs who deployed proactive SAM tooling reduced unplanned audit spend by over <strong>60%</strong>. AI-led SAM will move that number further — faster. The data layer being built into every helpdesk engagement today is how.</div>
+      </div>
+      <div class="r" data-d="1" style="display:flex;flex-direction:column;justify-content:center;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,242,245,0.25);margin-bottom:28px;">Intelligence compounds over time</div>
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">Month 1 — Reactive resolution</div>
+            <div style="height:4px;width:30%;background:var(--amber-bright);border-radius:2px;opacity:0.5;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">Month 3 — Pattern detection</div>
+            <div style="height:4px;width:55%;background:var(--amber-bright);border-radius:2px;opacity:0.65;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">Month 6 — Proactive surfacing</div>
+            <div style="height:4px;width:75%;background:var(--amber-bright);border-radius:2px;opacity:0.8;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">Month 12 — Predictive AI</div>
+            <div style="height:4px;width:95%;background:#34D399;border-radius:2px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hl-ai-cards r" data-d="1">
+      <div class="hl-ai-card">
+        <div class="hl-ai-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <h3 class="hl-ai-card-h">Anomaly Detection</h3>
+        <p class="hl-ai-card-p">Deployment patterns scanned continuously against entitlement baselines. Drift flagged weeks before it becomes a compliance event — before the audit conversation starts.</p>
+      </div>
+      <div class="hl-ai-card">
+        <div class="hl-ai-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+        <h3 class="hl-ai-card-h">Renewal Intelligence</h3>
+        <p class="hl-ai-card-p">Usage trajectory modelled against upcoming contract terms — identifying renegotiation opportunity and likely vendor positioning before the conversation begins.</p>
+      </div>
+      <div class="hl-ai-card">
+        <div class="hl-ai-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3 class="hl-ai-card-h">Audit Readiness Score</h3>
+        <p class="hl-ai-card-p">Continuous compliance health monitoring across your estate. A real-time score updated with every change — so no audit finding is ever a surprise.</p>
+      </div>
+    </div>
+
+    <div class="hl-ai-feed r" data-d="2">
+      <div class="hl-ai-feed-hd"><div class="hl-ai-feed-dot"></div>AI Insight Stream — live estate signals</div>
+      <div class="hl-ai-feed-body" id="aiFeedBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== USE CASES ===== -->
+<section class="hl-usecases">
+  <div class="container">
+    <div class="r">
+      <div class="st-eyebrow dark">— What we resolve</div>
+      <h2 class="st-h">The questions that <em>can't wait</em> for next quarter.</h2>
+      <p class="st-lede" style="margin-top:12px;margin-bottom:56px;">Six licensing moments your helpdesk was built for — the ones that halt decisions, create exposure, or cost money when left unanswered.</p>
+    </div>
+    <div class="hl-cards-grid">
+      <div class="hl-card r" data-d="1"><div class="hl-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3 class="hl-card-h">Vendor Audit Response</h3><p class="hl-card-p">The letter arrives. 30 days. We assess your position, challenge the vendor's methodology, and prepare the response — while you keep the business running.</p></div>
+      <div class="hl-card r" data-d="2"><div class="hl-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/></svg></div><h3 class="hl-card-h">Deployment Change Reviews</h3><p class="hl-card-p">Before your team adds users, moves servers, or upgrades editions — we validate the licensing impact. Prevention is a fraction of the remediation cost.</p></div>
+      <div class="hl-card r" data-d="3"><div class="hl-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><h3 class="hl-card-h">M&amp;A Licence Implications</h3><p class="hl-card-p">Acquisitions shatter licence assumptions. We map entitlement impacts across both estates before integration milestones create compliance debt.</p></div>
+      <div class="hl-card r" data-d="1"><div class="hl-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><h3 class="hl-card-h">Renewal Preparation</h3><p class="hl-card-p">Renewals built months ahead — not days. Commercial benchmarking, usage data, T&amp;C red flags, and negotiation positioning. You walk in prepared. The vendor can't rely on your urgency.</p></div>
+      <div class="hl-card r" data-d="2"><div class="hl-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div><h3 class="hl-card-h">Vendor Invoice Disputes</h3><p class="hl-card-p">That invoice looks wrong. We interrogate it against your entitlements and contract terms — and give you the evidence to push back with authority.</p></div>
+      <div class="hl-card r" data-d="3"><div class="hl-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><h3 class="hl-card-h">Entitlement Interpretation</h3><p class="hl-card-p">Oracle ULA terms. Microsoft Product Terms. SAP indirect access rules. IBM sub-capacity metrics. We translate vendor contracts into plain commercial language.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROOF ===== -->
+<section class="hl-proof">
+  <div class="container">
+    <div class="hl-proof-grid">
+      <div class="r">
+        <div class="st-eyebrow">P R O O F &nbsp; I N &nbsp; P R A C T I C E</div>
+        <div class="hl-proof-quote">A major European airline transformed a <em>struggling helpdesk operation</em> into a high-speed, insight-driven support function.</div>
+        <p class="hl-proof-body">The airline faced growing pressure from increasing request volumes, inconsistent service quality, and operational dependency on manual processes during critical flight management activities. Proteam's licensing helpdesk stabilised the operation, introduced automation-led workflows, and rebuilt confidence across business stakeholders.</p>
+        <p class="hl-proof-body" style="margin-top:16px;">Alongside operational support, Proteam designed and automated an executive dashboard that provided the CFO with a real-time view of request flows, service bottlenecks, realised savings, operational risks, and forward-looking recommendations. While internal teams remained focused on business continuity, automation handled reporting visibility and prioritisation at scale.</p>
+        <div class="hl-proof-attr">
+          <div class="hl-proof-av">SS</div>
+          <div><div class="hl-proof-name">Shubham Singh</div><div class="hl-proof-role">IT Servicedesk Engagement Lead — Proteam Advisory</div></div>
+        </div>
+      </div>
+      <div class="r" data-d="2">
+        <div class="hl-proof-stat">
+          <div class="hl-proof-stat-tag">U R G E N T &nbsp; R E Q U E S T S &nbsp; M A N A G E D &nbsp; D A I L Y</div>
+          <div class="hl-proof-stat-num"><span>50</span>+</div>
+          <p class="hl-proof-stat-desc">Critical licensing and operational support requests triaged, resolved, and tracked through an automation-driven service model — maintaining response SLAs below two hours without disruption to flight operations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ADJACENT ===== -->
+<section class="hl-adjacent">
+  <div class="container">
+    <div class="r">
+      <div class="st-eyebrow dark">Also included in SAM Baselining</div>
+      <h2 class="st-h">Deployed <em>alongside</em> the helpdesk.</h2>
+      <p class="st-lede" style="margin-top:12px;">The licence helpdesk is part of the baselining engagement's built-in operating layer — paired with SaaS management and renewal support for continuous coverage.</p>
+    </div>
+    <div class="hl-adj-grid">
+      <a href="service-saas-management.html" class="hl-adj-card r" data-d="1"><div class="hl-adj-num">— 02</div><h4 class="hl-adj-h">SaaS Management</h4><p class="hl-adj-p">Visibility, subscription governance, and spend control for the platforms that now dominate the budget — ServiceNow, Salesforce, Microsoft 365, Adobe, Workday, and the long tail.</p><span class="hl-adj-lnk">Learn more <svg width="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span></a>
+      <a href="service-renewal-management.html" class="hl-adj-card r" data-d="2"><div class="hl-adj-num">— 03</div><h4 class="hl-adj-h">Renewal Management</h4><p class="hl-adj-p">Renewal preparation months ahead of the contract date. Commercial benchmarking, negotiation positioning, T&amp;C review — so renewal cycles produce savings instead of surprises.</p><span class="hl-adj-lnk">Learn more <svg width="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="hl-cta">
+  <div class="container">
+    <div class="hl-cta-inner">
+      <div class="r">
+        <div class="st-eyebrow dark">Start today</div>
+        <h2>Stop waiting for <em>answers.</em></h2>
+        <p>The free consultation takes 30 minutes. A senior licensing specialist reviews your current support setup, your priority vendors, and the licensing questions your team is carrying — and tells you exactly what the helpdesk would resolve.</p>
+        <div class="hl-cta-row"><a href="contact.html" class="btn-signal">Book free consultation</a></div>
+      </div>
+      <div class="r" data-d="1">
+        <h4 style="font-family:var(--sans);font-weight:500;font-size:16px;color:var(--navy);margin-bottom:24px;letter-spacing:-0.01em;">What you'll get in the 30-minute call</h4>
+        <ul class="hl-cta-list">
+          <li>A senior specialist reviews your current licensing support gaps</li>
+          <li>Assessment of which vendors carry the most unresolved exposure</li>
+          <li>Sense of SLA structure and response commitment that fits your estate</li>
+          <li>View on how the helpdesk integrates with your existing ITSM tooling</li>
+          <li>Indicative timeline to activate the helpdesk layer</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" style="color:var(--cream);"><span class="logo-lockup"><span class="logo-text" style="color:var(--cream);"><span class="logo-cap">P</span>roteam</span><span class="logo-advisory" style="color:rgba(240,242,245,0.7);">Advisory Solutions LLP</span></span></a>
+        <h3>SAM specialists. Nothing else.</h3>
+        <p>An independent Software Asset Management consultancy serving enterprises across India, the UK, the US, and the Middle East.</p>
+        <div class="foot-social"><div class="foot-social-label">Follow us on</div><div class="foot-social-icons"><a href="https://in.linkedin.com/company/proteam-advisory" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a><a href="#" aria-label="X" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H21l-7.39 8.45L22.5 21h-6.83l-5.34-6.99L3.5 21H0l7.91-9.04L0.5 3h7l4.83 6.4L17.53 3zm-2.39 16h2.06L7.05 4.85H4.83L15.14 19z"/></svg></a></div></div>
+      </div>
+            <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#sam">Software Asset Management</a></li>
+          <li><a href="services.html#ham">Hardware Asset Management</a></li>
+          <li><a href="services.html#finops">Cloud FinOps</a></li>
+          <li><a href="services.html#ai-transformation">AI Transformation Services</a></li>
+          <li><a href="services.html#itam-tech">ITAM Technology</a></li>
+        </ul>
+      </div>
+      <div class="foot-col"><h5>Company</h5><ul><li><a href="about.html">About</a></li><li><a href="case-studies.html">Case Studies</a></li><li><a href="contact.html">Contact</a></li><li><a href="insights.html">Insights</a></li></ul></div>
+      <div class="foot-col"><h5>Get in touch</h5><address>Suite #309–312<br>KTC Illumination Towers<br>Madhapur, Hyderabad<br>Telangana, India<br><br><a href="tel:+919676889797">+91 9676 889 797</a><br><a href="mailto:vpatel@proteamadvisory.com">vpatel@proteamadvisory.com</a></address></div>
+    </div>
+    <div class="foot-bot"><div>© 2026 Proteam Advisory. All rights reserved.</div><div style="display:flex;gap:24px;flex-wrap:wrap;"><a href="privacy.html">Privacy</a><a href="terms.html">Terms of Use</a><a href="cookies.html">Cookies</a></div></div>
+  </div>
+</footer>
+
+<script>
+/* TICKER */
+const tix = [{v:'Oracle',d:'ULA metric clarification — data centre expansion review',t:'2m ago',s:'open'},{v:'Microsoft',d:'M365 E3→E5 upgrade — licensing impact assessment',t:'11m ago',s:'open'},{v:'SAP',d:'Indirect access exposure — business process review',t:'28m ago',s:'review'},{v:'IBM',d:'ILMT reporting gap — sub-capacity compliance check',t:'1h ago',s:'review'},{v:'VMware',d:'vSphere post-Broadcom — entitlement clarification',t:'2h ago',s:'closed'},{v:'Salesforce',d:'Org merge — licence count reconciliation needed',t:'3h ago',s:'closed'}];
+const feed=document.getElementById('tickerFeed');
+if(feed) tix.forEach((t,i)=>{const el=document.createElement('div');el.className='hl-ticket';el.style.animationDelay=(i*80)+'ms';el.innerHTML=`<span class="hl-ts ${t.s}"></span><div><div class="hl-tv">${t.v}</div><div class="hl-td">${t.d}</div></div><span class="hl-tt">${t.t}</span>`;feed.appendChild(el);});
+
+/* ERROR LOG */
+const errLines=[{ts:'09:14:02',tag:'ERR',cls:'hl-etag-err',msg:'oracle.ula_metric — no response owner assigned'},{ts:'09:16:48',tag:'WARN',cls:'hl-etag-warn',msg:'ibm.ilmt_report gap — 12 servers unreported'},{ts:'09:31:05',tag:'ERR',cls:'hl-etag-err',msg:'sap.indirect_access — scope undefined, exposure: unknown'},{ts:'10:02:19',tag:'INFO',cls:'hl-etag-info',msg:'vendor audit letter received — response window: 30d'},{ts:'10:17:33',tag:'WARN',cls:'hl-etag-warn',msg:'ms365 deployment change — no review triggered'},{ts:'11:44:51',tag:'ERR',cls:'hl-etag-err',msg:'renewal T-14d — no preparation initiated'}];
+const errLog=document.getElementById('errLog');
+if(errLog) errLines.forEach(l=>{const el=document.createElement('div');el.className='hl-eline';el.innerHTML=`<span class="hl-ets">${l.ts}</span><span class="${l.cls}">[${l.tag}]</span><span class="hl-emsg">${l.msg}</span>`;errLog.appendChild(el);});
+const eo=new IntersectionObserver(e=>{if(e[0].isIntersecting){document.querySelectorAll('.hl-eline').forEach((l,i)=>setTimeout(()=>l.classList.add('show'),i*140+200));eo.disconnect();}},{threshold:0.2});
+const et=document.getElementById('errTerm');if(et)eo.observe(et);
+
+/* SLA STEPS */
+const so=new IntersectionObserver(e=>{if(e[0].isIntersecting){document.querySelectorAll('.hl-sla-step').forEach((s,i)=>setTimeout(()=>s.classList.add('lit'),parseInt(s.getAttribute('data-d'))||i*200));const f=document.getElementById('slaFill');if(f)setTimeout(()=>f.classList.add('go'),300);so.disconnect();}},{threshold:0.1});
+const sp=document.getElementById('slaPath');if(sp)so.observe(sp);
+
+/* AI FEED TICKER */
+const ins=[{v:'Oracle',t:'Usage at 94% of contract cap. Recast risk window: 60 days.',c:'97%'},{v:'Microsoft',t:'12 inactive E5 licences detected. Downgrade saves ~£18k annually.',c:'94%'},{v:'SAP',t:'Indirect access pattern in 3 new integrated systems. Review recommended.',c:'89%'},{v:'ServiceNow',t:'T&C delta: 2 new audit-trigger clauses added since last renewal.',c:'92%'},{v:'Salesforce',t:'Active users: 847 of 1,200 licensed. Renegotiate at next renewal.',c:'96%'},{v:'VMware',t:'Post-Broadcom model creates 31% cost increase at current deployment.',c:'91%'}];
+const ab=document.getElementById('aiFeedBody');
+if(ab){[...ins,...ins].forEach(i=>{const el=document.createElement('div');el.className='hl-ai-ins';el.innerHTML=`<div class="hl-ai-ins-v">${i.v}</div><div class="hl-ai-ins-t">${i.t}</div><div class="hl-ai-ins-c">${i.c}</div>`;ab.appendChild(el);});let p=0;function st(){p+=0.4;if(p>=ab.scrollHeight/2)p=0;ab.scrollTop=p;requestAnimationFrame(st);}const aio=new IntersectionObserver(e=>{if(e[0].isIntersecting)st()},{threshold:0.3});const ais=document.querySelector('.hl-ai');if(ais)aio.observe(ais);}
+
+/* PARTICLE CANVAS */
+(function(){const c=document.getElementById('aiCanvas');if(!c)return;const x=c.getContext('2d');let W,H,P=[];function rs(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}rs();window.addEventListener('resize',rs);class Pt{constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-0.5)*0.25;this.vy=(Math.random()-0.5)*0.25;this.r=Math.random()*1.5+0.5;}up(){this.x+=this.vx;this.y+=this.vy;if(this.x<0)this.x=W;if(this.x>W)this.x=0;if(this.y<0)this.y=H;if(this.y>H)this.y=0;}}
+for(let i=0;i<70;i++)P.push(new Pt());function draw(){x.clearRect(0,0,W,H);P.forEach(p=>{x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle='rgba(52,211,153,0.3)';x.fill();});for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const dx=P[i].x-P[j].x,dy=P[i].y-P[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){x.beginPath();x.moveTo(P[i].x,P[i].y);x.lineTo(P[j].x,P[j].y);x.strokeStyle=`rgba(52,211,153,${0.07*(1-d/110)})`;x.lineWidth=0.5;x.stroke();}}P.forEach(p=>p.up());requestAnimationFrame(draw);}draw();})();
+
+/* SCROLL REVEAL */
+const ro=new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('in');ro.unobserve(el.target);}}),{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>ro.observe(el));
+
+// ---- Mobile menu (with accordion sub-menus) ----
+(function() {
+  const toggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  if (!toggle || !mobileNav) return;
+  const body = document.body;
+
+  function openMenu() {
+    mobileNav.classList.add('is-open');
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    mobileNav.classList.remove('is-open');
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    body.style.overflow = '';
+}
+  toggle.addEventListener('click', () => mobileNav.classList.contains('is-open') ? closeMenu() : openMenu());
+
+  mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) closeMenu(); });
+
+  mobileNav.querySelectorAll('.sub-toggle, .sub-toggle-2').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('aria-controls');
+      const target = id ? document.getElementById(id) : btn.nextElementSibling;
+      if (!target) return;
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      target.classList.toggle('is-open', !expanded);
+    });
+  });
+})();
+</script>
+
+<script src="sammy-chatbot.js"></script>
+<script>
+/* Desktop mega-menu: JS hover with close-delay */
+(function () {
+  var CLOSE_DELAY = 150;
+  document.querySelectorAll(".nav-links .has-mega").forEach(function (li) {
+    var timer = null;
+    function openMenu() { clearTimeout(timer); li.classList.add("mega-open"); }
+    function scheduleClose() { timer = setTimeout(function () { li.classList.remove("mega-open"); }, CLOSE_DELAY); }
+    li.addEventListener("mouseenter", openMenu);
+    li.addEventListener("mouseleave", scheduleClose);
+    var menu = li.querySelector(".mega-menu");
+    if (menu) {
+      menu.addEventListener("mouseenter", openMenu);
+      menu.addEventListener("mouseleave", scheduleClose);
+    }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") li.classList.remove("mega-open"); });
+  });
+})();
+</script>
+</body>
+</html>

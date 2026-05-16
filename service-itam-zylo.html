@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zylo SaaS Management Platform Services — Proteam Advisory</title>
+<meta name="description" content="Independent Zylo SaaS Management Platform implementation, optimisation, and adoption services. Discovery source configuration, renewal workflow design, application owner programme, and integration with the wider SAM and procurement stack." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<style>
+/* ============================================================
+   ZYLO — SAAS DISCOVERY ENGINE
+   Motion Identity: Shadow IT Emergence
+   Hidden SaaS nodes bubble up from darkness into full visibility.
+   Visual metaphor for what Zylo does: surfacing the invisible.
+   ============================================================ */
+
+/* ── HERO ── */
+.zy-hero {
+  background: var(--navy-deep);
+  position: relative;
+  overflow: hidden;
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 0 80px;
+  border-bottom: none;
+}
+
+/* Full-bleed canvas: SaaS apps emerging from shadow */
+#zy-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Subtle hex-grid overlay — feels like an app catalog */
+.zy-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(93,176,146,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(93,176,146,0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  pointer-events: none;
+}
+
+/* Bottom fade so content sits cleanly */
+.zy-hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 70% at 50% 60%, transparent 20%, rgba(20,30,43,0.75) 100%);
+  pointer-events: none;
+}
+
+.zy-hero .container {
+  position: relative;
+  z-index: 10;
+}
+
+.zy-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(240,242,245,0.4);
+  margin-bottom: 48px;
+  letter-spacing: 0.05em;
+}
+.zy-breadcrumb a { color: rgba(240,242,245,0.4); }
+.zy-breadcrumb a:hover { color: var(--zy-green); }
+.zy-breadcrumb .sep { opacity: 0.3; }
+.zy-breadcrumb .current { color: var(--zy-green); }
+
+.zy-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--zy-green);
+  margin-bottom: 28px;
+}
+.zy-eyebrow::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--zy-green);
+  opacity: 0.6;
+}
+
+.zy-hero-headline {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(42px, 6vw, 84px);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  max-width: 820px;
+  margin-bottom: 32px;
+}
+.zy-hero-headline em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--zy-green);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+
+.zy-hero-sub {
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(240,242,245,0.6);
+  max-width: 540px;
+  margin-bottom: 48px;
+}
+
+/* Live discovery ticker — SaaS apps being found in real-time */
+.zy-ticker {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 18px 24px;
+  background: rgba(20,30,43,0.7);
+  border: 1px solid rgba(93,176,146,0.2);
+  border-radius: var(--radius);
+  backdrop-filter: blur(12px);
+  width: fit-content;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.zy-ticker-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,242,245,0.35);
+}
+.zy-ticker-apps {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.zy-ticker-app {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--zy-green);
+  padding: 4px 10px;
+  border: 1px solid rgba(93,176,146,0.25);
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  animation: zy-app-emerge 0.5s ease forwards;
+}
+.zy-ticker-app:nth-child(1) { animation-delay: 0.3s; }
+.zy-ticker-app:nth-child(2) { animation-delay: 0.8s; }
+.zy-ticker-app:nth-child(3) { animation-delay: 1.4s; }
+.zy-ticker-app:nth-child(4) { animation-delay: 2.0s; }
+.zy-ticker-app:nth-child(5) { animation-delay: 2.7s; }
+.zy-ticker-app:nth-child(6) { animation-delay: 3.4s; }
+@keyframes zy-app-emerge {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.zy-ticker-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(93,176,146,0.15);
+}
+.zy-ticker-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.zy-ticker-stat-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--cream);
+  font-weight: 500;
+}
+.zy-ticker-stat-lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(240,242,245,0.35);
+  letter-spacing: 0.05em;
+}
+.zy-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--zy-green);
+  box-shadow: 0 0 10px var(--zy-green);
+  flex-shrink: 0;
+  animation: zy-pulse 2.4s ease-in-out infinite;
+}
+@keyframes zy-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.5); }
+}
+
+.zy-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+}
+.btn-cmd-zy {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--zy-green);
+  color: var(--navy-deep);
+  padding: 16px 28px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--radius);
+  transition: all 0.25s ease;
+}
+.btn-cmd-zy:hover {
+  background: var(--zy-green-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -8px rgba(93,176,146,0.4);
+}
+.btn-cmd-zy::after { content: '→'; transition: transform 0.25s; }
+.btn-cmd-zy:hover::after { transform: translateX(4px); }
+
+.btn-ghost-zy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(240,242,245,0.55);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(240,242,245,0.2);
+  padding-bottom: 2px;
+  transition: all 0.25s;
+}
+.btn-ghost-zy:hover { color: var(--zy-green); border-color: var(--zy-green); }
+
+/* Stat row */
+.zy-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(93,176,146,0.15);
+  padding-top: 48px;
+  margin-top: 0;
+}
+.zy-stat {
+  padding-right: 40px;
+  border-right: 1px solid rgba(93,176,146,0.1);
+}
+.zy-stat:first-child { padding-left: 0; }
+.zy-stat:last-child { border-right: none; padding-right: 0; padding-left: 40px; }
+.zy-stat:nth-child(2) { padding-left: 40px; }
+.zy-stat-num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 52px;
+  line-height: 0.9;
+  color: var(--zy-green);
+  letter-spacing: -0.04em;
+  margin-bottom: 10px;
+  font-variation-settings: "opsz" 144;
+}
+.zy-stat-lbl {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(240,242,245,0.45);
+}
+
+/* ── ZY COLOR VARS (v3.0) ── */
+:root {
+  --zy-green: #03AED2;        /* Cyan: visibility, found, unlocked */
+  --zy-green-bright: #68D2E8; /* Brighter hover */
+  --zy-green-dim: rgba(3,174,210,0.12);
+}
+
+/* ── SECTION TAGS ── */
+.zy-section-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--zy-green);
+  opacity: 0.8;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.zy-section-tag::before { content: '//'; opacity: 0.5; }
+
+/* ── OVERVIEW (dark bg) ── */
+.zy-overview {
+  background: var(--navy);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.zy-overview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.zy-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+  position: relative;
+}
+.zy-overview-grid h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 24px;
+}
+.zy-overview-grid h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--zy-green);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.zy-overview-grid p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: rgba(240,242,245,0.6);
+  margin-bottom: 18px;
+}
+.zy-overview-grid p strong { color: var(--cream); font-weight: 600; }
+
+/* Animated spend bar chart — visibility metaphor */
+.zy-spend-visual {
+  background: rgba(20,30,43,0.6);
+  border: 1px solid rgba(93,176,146,0.15);
+  border-radius: var(--radius);
+  padding: 32px;
+  margin-top: 24px;
+}
+.zy-spend-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,242,245,0.3);
+  margin-bottom: 20px;
+}
+.zy-spend-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.zy-spend-bar-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(240,242,245,0.5);
+  width: 80px;
+  flex-shrink: 0;
+}
+.zy-spend-bar-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.zy-spend-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-sm);
+  width: 0;
+  transition: width 1.4s cubic-bezier(0.25, 1, 0.3, 1);
+}
+.zy-spend-bar-fill.visible { width: var(--bar-w); }
+.zy-spend-bar-fill.green { background: linear-gradient(90deg, var(--zy-green), var(--zy-green-bright)); }
+.zy-spend-bar-fill.dark { background: rgba(255,255,255,0.1); }
+.zy-spend-bar-pct {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(240,242,245,0.4);
+  width: 32px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+@media (max-width: 960px) {
+  .zy-overview-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ── WORKSTREAMS ── */
+.zy-workstreams {
+  background: var(--paper);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.zy-ws-header {
+  max-width: 720px;
+  margin-bottom: 60px;
+}
+.zy-ws-header h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--navy);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 16px;
+}
+.zy-ws-header h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--zy-green);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.zy-ws-header p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.zy-ws-header .zy-section-tag { color: var(--zy-green); }
+
+/* 3-column workstream grid with left-border reveal on hover */
+.zy-ws-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.zy-ws-item {
+  background: var(--paper);
+  padding: 40px 36px;
+  position: relative;
+  transition: background 0.35s ease;
+  overflow: hidden;
+}
+.zy-ws-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--zy-green);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+.zy-ws-item:hover { background: var(--cream-warm); }
+.zy-ws-item:hover::before { transform: scaleY(1); }
+.zy-ws-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--zy-green), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.zy-ws-item:hover::after { opacity: 0.4; }
+
+.zy-ws-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--zy-green);
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+.zy-ws-icon {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 18px;
+  color: var(--zy-green);
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+.zy-ws-item:hover .zy-ws-icon { opacity: 1; }
+.zy-ws-item h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--navy);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 144;
+}
+.zy-ws-item p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--navy-soft);
+}
+@media (max-width: 960px) {
+  .zy-ws-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .zy-ws-grid { grid-template-columns: 1fr; }
+}
+
+/* ── PROCESS ── */
+.zy-process {
+  background: var(--cream);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.zy-process-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 100px;
+  align-items: start;
+}
+.zy-process-sticky {
+  position: sticky;
+  top: 120px;
+}
+.zy-process-sticky h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(32px, 3.5vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--navy);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 20px;
+}
+.zy-process-sticky h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--zy-green);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.zy-process-sticky p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.zy-steps { display: flex; flex-direction: column; }
+.zy-step {
+  border-bottom: 1px solid var(--line);
+  padding: 40px 0;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 32px;
+  align-items: start;
+  transition: padding-left 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+  position: relative;
+  cursor: default;
+}
+.zy-step::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--zy-green), transparent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+.zy-step:hover { padding-left: 16px; }
+.zy-step:hover::before { transform: scaleY(1); }
+.zy-step-num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 48px;
+  line-height: 0.9;
+  color: var(--zy-green);
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 144;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+.zy-step:hover .zy-step-num { opacity: 1; }
+.zy-step h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--navy);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 144;
+}
+.zy-step p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--navy-soft);
+}
+.zy-step-timeline {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--zy-green);
+  margin-top: 10px;
+  opacity: 0.7;
+}
+@media (max-width: 960px) {
+  .zy-process-grid { grid-template-columns: 1fr; gap: 40px; }
+  .zy-process-sticky { position: static; }
+}
+
+/* ── PROOF / OUTCOME ── */
+.zy-proof {
+  background: var(--navy-deep);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.zy-proof::before {
+  content: '';
+  position: absolute;
+  top: -20%; right: -10%;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(93,176,146,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.zy-proof::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(93,176,146,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(93,176,146,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.zy-proof-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.zy-proof-quote {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(26px, 3.2vw, 40px);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 36px;
+}
+.zy-proof-quote em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--zy-green);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.zy-proof-attribution {
+  padding-top: 28px;
+  border-top: 1px solid rgba(93,176,146,0.15);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.zy-proof-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(93,176,146,0.15);
+  border: 1px solid rgba(93,176,146,0.25);
+  color: var(--zy-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  font-style: italic;
+  font-size: 16px;
+  font-variation-settings: "opsz" 144;
+}
+.zy-proof-name { font-weight: 600; color: var(--cream); font-size: 14px; }
+.zy-proof-role { font-size: 12px; color: rgba(240,242,245,0.4); margin-top: 2px; font-family: var(--mono); }
+
+/* Big number outcome card */
+.zy-outcome-card {
+  background: rgba(20,30,43,0.8);
+  border: 1px solid rgba(93,176,146,0.2);
+  border-radius: var(--radius);
+  padding: 48px 44px;
+  position: relative;
+  overflow: hidden;
+}
+.zy-outcome-card::before {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  left: -20%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(93,176,146,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.zy-outcome-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--zy-green);
+  margin-bottom: 24px;
+  opacity: 0.8;
+  position: relative;
+}
+.zy-outcome-num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(68px, 9vw, 112px);
+  line-height: 0.85;
+  color: var(--cream);
+  margin-bottom: 24px;
+  letter-spacing: -0.05em;
+  font-variation-settings: "opsz" 144;
+  position: relative;
+}
+.zy-outcome-num span { color: var(--zy-green); }
+.zy-outcome-desc {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(240,242,245,0.55);
+  margin-bottom: 32px;
+  position: relative;
+}
+.zy-outcome-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--zy-green);
+  border-bottom: 1px solid rgba(93,176,146,0.3);
+  padding-bottom: 4px;
+  position: relative;
+  transition: gap 0.3s ease;
+}
+.zy-outcome-link:hover { gap: 16px; }
+@media (max-width: 960px) {
+  .zy-proof-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ── ADJACENT SERVICES ── */
+.zy-adjacent {
+  background: var(--paper);
+  padding: 110px 0;
+}
+.zy-adj-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+.zy-adj-card {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  padding: 40px 36px;
+  border-radius: var(--radius);
+  transition: all 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.zy-adj-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--zy-green), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+.zy-adj-card:hover { background: var(--navy); transform: translateY(-6px); box-shadow: 0 20px 48px -12px rgba(20,30,43,0.3); }
+.zy-adj-card:hover::before { transform: scaleX(1); }
+.zy-adj-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--zy-green);
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+.zy-adj-card h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+  transition: color 0.3s;
+  font-variation-settings: "opsz" 144;
+}
+.zy-adj-card:hover h4 { color: var(--cream); }
+.zy-adj-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--navy-soft);
+  margin-bottom: 24px;
+  flex: 1;
+  transition: color 0.3s;
+}
+.zy-adj-card:hover p { color: rgba(240,242,245,0.55); }
+.zy-adj-lnk {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--navy);
+  transition: color 0.3s, gap 0.3s;
+}
+.zy-adj-card:hover .zy-adj-lnk { color: var(--zy-green); }
+.zy-adj-card:hover .zy-adj-lnk { gap: 12px; }
+@media (max-width: 768px) { .zy-adj-grid { grid-template-columns: 1fr; } }
+
+/* ── REVEAL SYSTEM ── */
+.zy-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.85s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.zy-reveal.in { opacity: 1; transform: translateY(0); }
+
+.zy-reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.zy-reveal-stagger.in > *:nth-child(1) { transition-delay: 0s; }
+.zy-reveal-stagger.in > *:nth-child(2) { transition-delay: 0.08s; }
+.zy-reveal-stagger.in > *:nth-child(3) { transition-delay: 0.16s; }
+.zy-reveal-stagger.in > *:nth-child(4) { transition-delay: 0.24s; }
+.zy-reveal-stagger.in > *:nth-child(5) { transition-delay: 0.32s; }
+.zy-reveal-stagger.in > *:nth-child(6) { transition-delay: 0.40s; }
+.zy-reveal-stagger.in > * { opacity: 1; transform: translateY(0); }
+
+/* Counter-up animation */
+.zy-count-up {
+  display: inline-block;
+}
+
+/* ── COUNTER NUMBER ANIMATION ── */
+@keyframes zy-count { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-lockup">
+        <span class="logo-text"><span class="logo-cap">P</span>roteam</span>
+        <span class="logo-advisory">Advisory Solutions LLP</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-mega">
+        <a href="services.html" class="active">Services <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="mega-menu" role="menu" aria-label="Services">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <a href="services.html#sam" class="mega-head">Software Asset Management</a>
+              <ul>
+                <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+                <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+                <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ham" class="mega-head">Hardware Asset Management</a>
+              <ul>
+                <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+                <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#finops" class="mega-head">Cloud FinOps</a>
+              <ul>
+                <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+                <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ai-transformation" class="mega-head">AI Transformation Services</a>
+              <ul>
+                <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+                <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#itam-tech" class="mega-head">ITAM Technology</a>
+              <ul>
+                <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+                <li><a href="service-itam-flexera.html">Flexera</a></li>
+                <li><a href="service-itam-snow.html">Snow</a></li>
+                <li><a href="service-itam-zylo.html">Zylo</a></li>
+                <li><a href="service-itam-aspera.html">Aspera</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Free Consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <ul class="mobile-nav-links">
+    <li><a href="index.html">Home <span>&rarr;</span></a></li>
+    <li class="has-sub">
+      <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="m-svc-sub">
+        Services
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul id="m-svc-sub" class="sub-menu">
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-sam-sub">
+            Software Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-sam-sub" class="sub-menu-2">
+            <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+            <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+            <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ham-sub">
+            Hardware Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ham-sub" class="sub-menu-2">
+            <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+            <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-finops-sub">
+            Cloud FinOps
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-finops-sub" class="sub-menu-2">
+            <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+            <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ai-sub">
+            AI Transformation Services
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ai-sub" class="sub-menu-2">
+            <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+            <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-itam-sub">
+            ITAM Technology
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-itam-sub" class="sub-menu-2">
+            <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+            <li><a href="service-itam-flexera.html">Flexera</a></li>
+            <li><a href="service-itam-snow.html">Snow</a></li>
+            <li><a href="service-itam-zylo.html">Zylo</a></li>
+            <li><a href="service-itam-aspera.html">Aspera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="case-studies.html">Case Studies <span>&rarr;</span></a></li>
+    <li><a href="about.html">About <span>&rarr;</span></a></li>
+    <li><a href="insights.html">Insights <span>&rarr;</span></a></li>
+    <li><a href="contact.html">Contact <span>&rarr;</span></a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta">Book Free Consultation &rarr;</a>
+  <div class="mobile-nav-contact">
+    <a href="tel:+919676889797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      +91 9676 889 797
+    </a>
+    <a href="mailto:vpatel@proteamadvisory.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      vpatel@proteamadvisory.com
+    </a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     HERO — Shadow IT Emergence Canvas
+     SaaS app bubbles rise from darkness into light
+     ═══════════════════════════════════════════════ -->
+<section class="zy-hero">
+  <canvas id="zy-canvas"></canvas>
+  <div class="zy-hero-vignette"></div>
+
+  <div class="container">
+    <div class="zy-breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="services.html">Services</a>
+      <span class="sep">/</span>
+      <span class="current">Zylo</span>
+    </div>
+
+    <div class="zy-eyebrow">Service 15 · ITAM Technology · SaaS Discovery Engine</div>
+
+    <h1 class="zy-hero-headline">
+      Surface what's <em>hidden</em> in your SaaS estate.
+    </h1>
+
+    <p class="zy-hero-sub">
+      Implementation, optimisation, and adoption support for Zylo SaaS Management Platform. Discovery configuration, renewal workflows, application ownership, and integration with your SAM stack.
+    </p>
+
+    <!-- Animated discovery ticker -->
+    <div class="zy-ticker">
+      <div class="zy-dot"></div>
+      <div class="zy-ticker-label">Discovering</div>
+      <div class="zy-ticker-apps">
+        <span class="zy-ticker-app">Salesforce</span>
+        <span class="zy-ticker-app">Slack</span>
+        <span class="zy-ticker-app">Notion</span>
+        <span class="zy-ticker-app">Figma</span>
+        <span class="zy-ticker-app">Zoom</span>
+        <span class="zy-ticker-app">+147 more</span>
+      </div>
+      <div class="zy-ticker-divider"></div>
+      <div class="zy-ticker-stat">
+        <div class="zy-ticker-stat-num">$2.7M</div>
+        <div class="zy-ticker-stat-lbl">avg. dormant found</div>
+      </div>
+    </div>
+
+    <div class="zy-hero-actions">
+      <a href="contact.html" class="btn-cmd-zy">Book free consultation</a>
+      <a href="case-studies.html" class="btn-ghost-zy">See case studies</a>
+    </div>
+
+    <div class="zy-stat-row zy-reveal">
+      <div class="zy-stat">
+        <div class="zy-stat-num">6+</div>
+        <div class="zy-stat-lbl">Years of Zylo platform experience as it's grown from start-up to enterprise standard.</div>
+      </div>
+      <div class="zy-stat">
+        <div class="zy-stat-num">25+</div>
+        <div class="zy-stat-lbl">Zylo deployments delivered — from initial stand-up through to mature multi-region enterprise programmes.</div>
+      </div>
+      <div class="zy-stat">
+        <div class="zy-stat-num">15–25%</div>
+        <div class="zy-stat-lbl">Typical SaaS spend reduction in the first 12 months of a structured Zylo-enabled programme.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     OVERVIEW — Dark section, spend visibility
+     ═══════════════════════════════════════════════ -->
+<section class="zy-overview">
+  <div class="container">
+    <div class="zy-overview-grid">
+      <div class="zy-reveal">
+        <div class="zy-section-tag">The problem we solve</div>
+        <h2>SaaS is now <em>30–50%</em> of enterprise software spend. And mostly invisible.</h2>
+
+        <!-- Animated spend bar visual -->
+        <div class="zy-spend-visual" id="zy-spend-bars">
+          <div class="zy-spend-label">// Typical enterprise software spend breakdown</div>
+          <div class="zy-spend-bar">
+            <span class="zy-spend-bar-label">SaaS</span>
+            <div class="zy-spend-bar-track">
+              <div class="zy-spend-bar-fill green" style="--bar-w: 42%"></div>
+            </div>
+            <span class="zy-spend-bar-pct">42%</span>
+          </div>
+          <div class="zy-spend-bar">
+            <span class="zy-spend-bar-label">On-prem</span>
+            <div class="zy-spend-bar-track">
+              <div class="zy-spend-bar-fill dark" style="--bar-w: 30%"></div>
+            </div>
+            <span class="zy-spend-bar-pct">30%</span>
+          </div>
+          <div class="zy-spend-bar">
+            <span class="zy-spend-bar-label">Cloud IaaS</span>
+            <div class="zy-spend-bar-track">
+              <div class="zy-spend-bar-fill dark" style="--bar-w: 18%"></div>
+            </div>
+            <span class="zy-spend-bar-pct">18%</span>
+          </div>
+          <div class="zy-spend-bar">
+            <span class="zy-spend-bar-label">Other</span>
+            <div class="zy-spend-bar-track">
+              <div class="zy-spend-bar-fill dark" style="--bar-w: 10%"></div>
+            </div>
+            <span class="zy-spend-bar-pct">10%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="zy-reveal">
+        <p>SaaS spend has grown faster than any other software category for five years running — and is now 30–50% of total enterprise software cost in most organisations. The procurement processes, governance, and SAM discipline that took two decades to mature around traditional licensing have rarely caught up.</p>
+        <p>Zylo solves the visibility problem. The platform discovers SaaS applications through expense data, SSO, finance feeds, and direct API integration with major vendors. It produces an inventory of what you're actually paying for, who's using it, and when it renews. <strong>For most enterprises, the day Zylo goes live is the first day they have honest SaaS visibility.</strong></p>
+        <p>Visibility alone doesn't change behaviour. The savings come from <strong>what you do next</strong> — renewal preparation that starts six months early, dormant licence harvesting, application consolidation, structured application ownership, and a renewal workflow that prevents auto-renewal of unused contracts. Most failed Zylo deployments fail at that next step. We focus the engagement on what produces savings, not just dashboards.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     WORKSTREAMS — Light bg, 3-col grid with hover
+     ═══════════════════════════════════════════════ -->
+<section class="zy-workstreams">
+  <div class="container">
+    <div class="zy-ws-header zy-reveal">
+      <div class="zy-section-tag">What's included</div>
+      <h2>Six workstreams. <em>Visibility plus the operating model to use it.</em></h2>
+      <p>Whether you're standing up Zylo for the first time or extending an existing deployment — engagements cover these areas.</p>
+    </div>
+
+    <div class="zy-ws-grid zy-reveal-stagger">
+
+      <div class="zy-ws-item">
+        <div class="zy-ws-num">// 01</div>
+        <svg class="zy-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <h4>Discovery source configuration</h4>
+        <p>Configuration of every discovery source — expense data feeds, SSO integration, finance ERP connection, direct API integrations with major SaaS vendors. The more sources, the more accurate the inventory.</p>
+      </div>
+
+      <div class="zy-ws-item">
+        <div class="zy-ws-num">// 02</div>
+        <svg class="zy-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+        </svg>
+        <h4>Application inventory baseline</h4>
+        <p>Producing the first trustworthy inventory of every SaaS application in the estate — including shadow IT, departmental purchases on credit cards, and dormant contracts that nobody admits to owning.</p>
+      </div>
+
+      <div class="zy-ws-item">
+        <div class="zy-ws-num">// 03</div>
+        <svg class="zy-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <h4>Application owner programme</h4>
+        <p>Designing the ownership model — who owns Salesforce, who owns ServiceNow, who owns Slack. Clear responsibility for renewal decisions, usage reviews, and licence right-sizing. Without this, inventory data has no executive home.</p>
+      </div>
+
+      <div class="zy-ws-item">
+        <div class="zy-ws-num">// 04</div>
+        <svg class="zy-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <h4>Renewal workflow design</h4>
+        <p>Building the renewal workflow in Zylo — alerts at 9, 6, and 3 months before renewal, automatic usage data attached, decision routing through finance and IT, and structured exit gates for renewals that fail justification.</p>
+      </div>
+
+      <div class="zy-ws-item">
+        <div class="zy-ws-num">// 05</div>
+        <svg class="zy-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+        </svg>
+        <h4>Integration with broader SAM stack</h4>
+        <p>Connecting Zylo into your wider SAM and procurement environment — ServiceNow, Flexera One, Coupa, SAP Ariba. So SaaS data flows into the wider governance picture instead of living in its own dashboard.</p>
+      </div>
+
+      <div class="zy-ws-item">
+        <div class="zy-ws-num">// 06</div>
+        <svg class="zy-ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+        </svg>
+        <h4>Savings programme launch</h4>
+        <p>Translating the inventory into a structured savings programme — dormant licence harvesting, application consolidation candidates, renewal targets, and shadow-IT remediation. With a quarterly governance forum to track delivery.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PROCESS — Sticky left, scrolling steps
+     ═══════════════════════════════════════════════ -->
+<section class="zy-process">
+  <div class="container">
+    <div class="zy-process-grid">
+
+      <div class="zy-process-sticky zy-reveal">
+        <div class="zy-section-tag" style="color: var(--zy-green);">Platform execution model</div>
+        <h2>Four stages. <em>Dashboard to savings.</em></h2>
+        <p>Engagements run 8–14 weeks for initial stand-up. Optional ongoing optimisation support afterwards for renewal preparation, vendor consolidation, and embedded-AI strategy.</p>
+      </div>
+
+      <div class="zy-steps zy-reveal-stagger">
+
+        <div class="zy-step">
+          <div class="zy-step-num">01</div>
+          <div>
+            <h4>Discover &amp; scope</h4>
+            <p>Free consultation. We agree scope — net-new Zylo stand-up, extension into new regions or business units, or rescue of a stalled deployment. Stakeholders, success metrics, and timeline confirmed up front.</p>
+            <div class="zy-step-timeline">Wk 1 — Wk 2</div>
+          </div>
+        </div>
+
+        <div class="zy-step">
+          <div class="zy-step-num">02</div>
+          <div>
+            <h4>Deploy &amp; inventory</h4>
+            <p>Platform stand-up. Source integration, initial discovery, inventory reconciliation. By the end of this phase you have a complete, trustworthy SaaS inventory — usually for the first time in the organisation's history.</p>
+            <div class="zy-step-timeline">Wk 3 — Wk 7</div>
+          </div>
+        </div>
+
+        <div class="zy-step">
+          <div class="zy-step-num">03</div>
+          <div>
+            <h4>Operate &amp; optimise</h4>
+            <p>Application owner programme stand-up, renewal workflow build, savings programme launch. We run alongside your team for the first two renewal cycles to make sure the operating model holds under real conditions.</p>
+            <div class="zy-step-timeline">Wk 8 — Wk 12</div>
+          </div>
+        </div>
+
+        <div class="zy-step">
+          <div class="zy-step-num">04</div>
+          <div>
+            <h4>Stabilise &amp; hand over</h4>
+            <p>Knowledge transfer, runbook documentation, structured 30/60/90-day hyper-care. Optional ongoing optimisation support for renewal preparation, vendor consolidation, and embedded-AI strategy questions.</p>
+            <div class="zy-step-timeline">Wk 13 — Wk 14+</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PROOF — Dark section, big outcome number
+     ═══════════════════════════════════════════════ -->
+<section class="zy-proof">
+  <div class="container">
+    <div class="zy-reveal" style="margin-bottom: 56px;">
+      <div class="zy-section-tag">Proof</div>
+      <h2 style="font-family: var(--sans); font-weight: 300; font-size: clamp(34px, 4vw, 52px); line-height: 1.05; letter-spacing: -0.025em; color: var(--cream); font-variation-settings: 'opsz' 144; margin-bottom: 0;">
+        A <em style="font-family: var(--serif); font-style: italic; color: var(--zy-green); font-weight: 300; font-variation-settings: 'opsz' 144;">recent engagement</em>.
+      </h2>
+    </div>
+
+    <div class="zy-proof-grid">
+      <div class="zy-reveal">
+        <div class="zy-proof-quote">
+          A 12,000-person professional services firm discovered <em>$2.7M of dormant SaaS contracts</em> inside the first six weeks of Zylo deployment.
+        </div>
+        <div class="zy-proof-attribution">
+          <div class="zy-proof-avatar">VR</div>
+          <div>
+            <div class="zy-proof-name">Varsha Raturi</div>
+            <div class="zy-proof-role">Senior SAP &amp; Zylo Expert · Proteam Advisory · Zylo deployment, professional services</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="zy-outcome-card zy-reveal">
+        <div class="zy-outcome-tag">// Dormant SaaS discovered</div>
+        <div class="zy-outcome-num"><span>$2.7M</span></div>
+        <div class="zy-outcome-desc">
+          A professional services firm engaged us to stand up Zylo and design the surrounding operating model. The first six weeks of discovery surfaced $2.7M of annual SaaS contracts with no active owner — including duplicate purchasing across business units and several auto-renewals on tools no one was using.
+        </div>
+        <a href="case-studies.html" class="zy-outcome-link">Read more case studies →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     ADJACENT SERVICES
+     ═══════════════════════════════════════════════ -->
+<section class="zy-adjacent">
+  <div class="container">
+    <div class="zy-reveal" style="max-width: 720px;">
+      <div class="zy-section-tag" style="color: var(--zy-green);">Adjacent services</div>
+      <h2 style="font-family: var(--sans); font-weight: 300; font-size: clamp(32px, 3.8vw, 48px); line-height: 1.05; letter-spacing: -0.025em; color: var(--navy); font-variation-settings: 'opsz' 144; margin-bottom: 14px;">
+        Often deployed <em style="font-family: var(--serif); font-style: italic; color: var(--zy-green); font-weight: 300; font-variation-settings: 'opsz' 144;">alongside</em>.
+      </h2>
+      <p style="font-size: 17px; line-height: 1.7; color: var(--muted);">Zylo engagements pair naturally with broader SaaS Management and SAM transformation work.</p>
+    </div>
+
+    <div class="zy-adj-grid zy-reveal-stagger">
+      <a href="service-saas-management.html" class="zy-adj-card">
+        <div class="zy-adj-num">// 06</div>
+        <h4>SaaS Management</h4>
+        <p>The broader SaaS Management practice runs the renewal-driven optimisation engagements that Zylo data informs — ServiceNow, Salesforce, Microsoft 365, Workday, and the rest of the major SaaS portfolio.</p>
+        <span class="zy-adj-lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="service-sam-maturity.html" class="zy-adj-card">
+        <div class="zy-adj-num">// 04</div>
+        <h4>SAM Maturity Assessment &amp; Transformation</h4>
+        <p>Zylo is one component of the SAM operating model. Many clients run a maturity assessment alongside the deployment to design the broader SaaS governance structure.</p>
+        <span class="zy-adj-lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="zy-reveal">
+        <div class="section-eyebrow" style="color: var(--amber-bright);">Ready to talk</div>
+        <h2>Want to know <em>what's in your SaaS estate</em>?</h2>
+        <p>The free consultation is exactly that. A senior SaaS specialist will spend 30 minutes with you understanding your current state — what tools you have, what you know about your SaaS spend, and what you suspect is hiding — and tell you honestly whether Zylo is the right platform and what the deployment economics would look like.</p>
+        <div class="cta-actions">
+          <a href="contact.html" class="btn-amber">Book free consultation</a>
+          <a href="case-studies.html" class="btn-line">See more case studies</a>
+        </div>
+      </div>
+      <div class="cta-detail zy-reveal">
+        <h4>What you'll get</h4>
+        <ul class="cta-list">
+          <li>30-minute call with a senior Zylo and SaaS specialist.</li>
+          <li>Indicative discovery yield estimate based on enterprise size.</li>
+          <li>Deployment scope and timeline options.</li>
+          <li>Honest assessment of whether Zylo is the right fit — or another platform would serve you better.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" style="color: var(--cream);">
+          <span class="logo-lockup">
+            <span class="logo-text" style="color:var(--cream);"><span class="logo-cap">P</span>roteam</span>
+            <span class="logo-advisory" style="color:rgba(240,242,245,0.7);">Advisory Solutions LLP</span>
+          </span>
+        </a>
+        <h3>SAM specialists. Nothing else.</h3>
+        <p>An independent Software Asset Management consultancy serving enterprises across India, the UK, the US, and the Middle East.</p>
+        <div class="foot-social">
+          <div class="foot-social-label">Follow us on</div>
+          <div class="foot-social-icons">
+            <a href="https://in.linkedin.com/company/proteam-advisory" aria-label="LinkedIn" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/proteamadv" aria-label="X (Twitter)" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H21l-7.39 8.45L22.5 21h-6.83l-5.34-6.99L3.5 21H0l7.91-9.04L0.5 3h7l4.83 6.4L17.53 3zm-2.39 16h2.06L7.05 4.85H4.83L15.14 19z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/proteamadvisory/" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#sam">Software Asset Management</a></li>
+          <li><a href="services.html#ham">Hardware Asset Management</a></li>
+          <li><a href="services.html#finops">Cloud FinOps</a></li>
+          <li><a href="services.html#ai-transformation">AI Transformation Services</a></li>
+          <li><a href="services.html#itam-tech">ITAM Technology</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="case-studies.html">Case Studies</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="insights.html">Insights</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="careers.html">Careers</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h5>Get in touch</h5>
+        <address>
+          Suite #309&ndash;312<br>
+          KTC Illumination Towers<br>
+          Madhapur, Hyderabad<br>
+          Telangana, India<br><br>
+          <a href="tel:+919676889797">+91 9676 889 797</a><br>
+          <a href="mailto:vpatel@proteamadvisory.com">vpatel@proteamadvisory.com</a>
+        </address>
+      </div>
+    </div>
+
+    <div class="foot-bot">
+      <div>&copy; 2026 Proteam Advisory. All rights reserved.</div>
+      <div style="display:flex; gap:24px; flex-wrap:wrap;">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+
+  /* ══════════════════════════════════════════════════════
+     HERO CANVAS: Shadow IT Emergence
+     
+     SaaS app bubbles float up from the dark bottom,
+     starting dim and growing luminous as they rise.
+     Metaphor: hidden SaaS surfacing into visibility.
+     
+     Different from Flexera's "gravity toward a core" —
+     here nodes RISE from obscurity into light, drifting
+     upward and fading when they reach the top.
+     ══════════════════════════════════════════════════════ */
+  const canvas = document.getElementById('zy-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, bubbles = [], scanLines = [];
+
+  // SaaS app labels — the things Zylo finds
+  const SAAS_LABELS = [
+    'SLACK','ZOOM','FIGMA','NOTION','JIRA','ASANA',
+    'WORKDAY','SALESFORCE','HUBSPOT','ZENDESK','OKTA',
+    'DROPBOX','BOX','DOCUSIGN','MIRO','AIRTABLE',
+    'MONDAY','INTERCOM','STRIPE','TWILIO','BREX'
+  ];
+
+  const GY = 0.0006; // Gentle upward drift speed
+
+  function resize() {
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    initBubbles();
+  }
+
+  function rand(a, b) { return a + Math.random() * (b - a); }
+
+  function initBubbles() {
+    bubbles = [];
+    const count = Math.min(Math.floor(W / 70), 18);
+    for (let i = 0; i < count; i++) {
+      spawnBubble(true);
+    }
+
+    // Horizontal scan line — the "discovery sweep"
+    scanLines = [
+      { y: rand(0.2, 0.8) * H, vy: rand(0.12, 0.28), alpha: rand(0.04, 0.1) },
+      { y: rand(0.2, 0.8) * H, vy: rand(0.08, 0.18), alpha: rand(0.03, 0.07) },
+    ];
+  }
+
+  function spawnBubble(scattered) {
+    const r = rand(22, 36);
+    const label = SAAS_LABELS[Math.floor(Math.random() * SAAS_LABELS.length)];
+    const x = rand(r * 2, W - r * 2);
+    const y = scattered ? rand(0.1, 0.95) * H : H + r * 2;
+    bubbles.push({
+      x, y, r,
+      vx: rand(-0.08, 0.08),
+      vy: -rand(0.12, 0.32), // upward
+      label,
+      // Alpha depends on vertical position — dark at bottom, bright at top
+      phase: rand(0, Math.PI * 2),
+      born: 0,
+      dead: false,
+    });
+  }
+
+  function tick(t) {
+    ctx.clearRect(0, 0, W, H);
+
+    // ── Scan lines (horizontal discovery sweep) ──
+    scanLines.forEach(sl => {
+      sl.y -= sl.vy;
+      if (sl.y < -4) { sl.y = H + 4; }
+
+      const grad = ctx.createLinearGradient(0, sl.y, W, sl.y);
+      grad.addColorStop(0, 'transparent');
+      grad.addColorStop(0.3, `rgba(93,176,146,${sl.alpha})`);
+      grad.addColorStop(0.5, `rgba(93,176,146,${sl.alpha * 1.8})`);
+      grad.addColorStop(0.7, `rgba(93,176,146,${sl.alpha})`);
+      grad.addColorStop(1, 'transparent');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, sl.y - 1, W, 2);
+    });
+
+    // ── Bubbles (emerging SaaS apps) ──
+    for (let i = bubbles.length - 1; i >= 0; i--) {
+      const b = bubbles[i];
+      b.born++;
+
+      // Drift upward with gentle horizontal wobble
+      b.vy -= GY * 0.5; // accelerate slightly upward
+      if (b.vy < -0.5) b.vy = -0.5;
+      b.x += b.vx + Math.sin(t * 0.0006 + b.phase) * 0.15;
+      b.y += b.vy;
+
+      // Soft wall bounce for x
+      if (b.x < b.r + 8) b.vx += 0.04;
+      if (b.x > W - b.r - 8) b.vx -= 0.04;
+      b.vx *= 0.985;
+
+      // Alpha = position-based (brighter as it rises)
+      // Near bottom (y ~ H): dim; near top (y ~ 0): bright, then fade
+      const posRatio = 1 - (b.y / H); // 0 at bottom, 1 at top
+      let baseAlpha;
+      if (posRatio < 0.15) {
+        // emerging from shadow
+        baseAlpha = posRatio / 0.15 * 0.45;
+      } else if (posRatio > 0.75) {
+        // fading as it exits
+        baseAlpha = (1 - posRatio) / 0.25 * 0.55;
+      } else {
+        baseAlpha = 0.45 + (posRatio - 0.15) / 0.6 * 0.3;
+      }
+
+      const pulse = Math.sin(t * 0.0012 + b.phase) * 0.12;
+      const alpha = Math.max(0, Math.min(0.85, baseAlpha + pulse));
+
+      // Remove when off-screen top
+      if (b.y < -b.r * 3) {
+        bubbles.splice(i, 1);
+        spawnBubble(false);
+        continue;
+      }
+
+      // Glow halo
+      const glow = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r * 2.2);
+      glow.addColorStop(0, `rgba(93,176,146,${alpha * 0.12})`);
+      glow.addColorStop(1, 'rgba(93,176,146,0)');
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r * 2.2, 0, Math.PI * 2);
+      ctx.fillStyle = glow;
+      ctx.fill();
+
+      // Bubble body
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(16,26,38,${0.75 * alpha + 0.1})`;
+      ctx.strokeStyle = `rgba(93,176,146,${alpha * 0.55})`;
+      ctx.lineWidth = 0.9;
+      ctx.fill();
+      ctx.stroke();
+
+      // Label
+      ctx.fillStyle = `rgba(93,176,146,${alpha * 0.85})`;
+      ctx.font = `${Math.floor(b.r * 0.36)}px 'Geist Mono', monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(b.label, b.x, b.y);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  requestAnimationFrame(tick);
+
+
+  /* ══════════════════════════════════════════════════════
+     SCROLL REVEAL
+     ══════════════════════════════════════════════════════ */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.zy-reveal, .zy-reveal-stagger').forEach(el => revealObs.observe(el));
+
+
+  /* ══════════════════════════════════════════════════════
+     SPEND BAR ANIMATION — triggered on scroll
+     ══════════════════════════════════════════════════════ */
+  const barsEl = document.getElementById('zy-spend-bars');
+  if (barsEl) {
+    const barObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          // Stagger the bar fills
+          const fills = barsEl.querySelectorAll('.zy-spend-bar-fill');
+          fills.forEach((fill, i) => {
+            setTimeout(() => fill.classList.add('visible'), i * 180 + 100);
+          });
+          barObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    barObs.observe(barsEl);
+  }
+
+
+  /* ══════════════════════════════════════════════════════
+     MOBILE MENU
+     ══════════════════════════════════════════════════════ */
+  (function() {
+    const toggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    if (!toggle || !mobileNav) return;
+    const body = document.body;
+
+    function openMenu() {
+      mobileNav.classList.add('is-open');
+      toggle.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      mobileNav.classList.remove('is-open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      body.style.overflow = '';
+    }
+    toggle.addEventListener('click', () => mobileNav.classList.contains('is-open') ? closeMenu() : openMenu());
+    mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+    mobileNav.querySelectorAll('.sub-toggle, .sub-toggle-2').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('aria-controls');
+        const target = id ? document.getElementById(id) : btn.nextElementSibling;
+        if (!target) return;
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        target.classList.toggle('is-open', !expanded);
+      });
+    });
+  })();
+
+
+  /* ══════════════════════════════════════════════════════
+     SMOOTH SCROLL
+     ══════════════════════════════════════════════════════ */
+  document.querySelectorAll("a[href^='#']").forEach(link => {
+    link.addEventListener("click", e => {
+      const id = link.getAttribute("href");
+      if (id.length > 1) {
+        const tgt = document.querySelector(id);
+        if (tgt) { e.preventDefault(); tgt.scrollIntoView({ behavior: "smooth", block: "start" }); }
+      }
+    });
+  });
+
+})();
+</script>
+
+<script src="sammy-chatbot.js"></script>
+<script>
+/* Desktop mega-menu: JS hover with close-delay */
+(function () {
+  var CLOSE_DELAY = 150;
+  document.querySelectorAll(".nav-links .has-mega").forEach(function (li) {
+    var timer = null;
+    function openMenu() { clearTimeout(timer); li.classList.add("mega-open"); }
+    function scheduleClose() { timer = setTimeout(function () { li.classList.remove("mega-open"); }, CLOSE_DELAY); }
+    li.addEventListener("mouseenter", openMenu);
+    li.addEventListener("mouseleave", scheduleClose);
+    var menu = li.querySelector(".mega-menu");
+    if (menu) {
+      menu.addEventListener("mouseenter", openMenu);
+      menu.addEventListener("mouseleave", scheduleClose);
+    }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") li.classList.remove("mega-open"); });
+  });
+})();
+</script>
+</body>
+</html>

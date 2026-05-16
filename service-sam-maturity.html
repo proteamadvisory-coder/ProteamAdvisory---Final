@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAM Maturity Assessment & Transformation — Five Dimensions, One Roadmap | Proteam Advisory</title>
+<meta name="description" content="Independent SAM maturity assessment benchmarked against industry peers. Five-dimension scoring across people, process, tooling, data, and outcomes — with a sequenced 18-month transformation roadmap." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<style>
+  /* SERVICE DETAIL PAGES */
+  .svc-detail-hero .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+  .svc-detail-hero .stat-row .stat-num {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--rust);
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+    font-variation-settings: "opsz" 144;
+  }
+  .svc-detail-hero .stat-row .stat-lbl {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--navy-soft);
+  }
+  @media (max-width: 768px) {
+    .svc-detail-hero .stat-row { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  /* Overview split */
+  .svc-overview {
+    background: var(--paper);
+    padding: 110px 0;
+  }
+  .svc-overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .svc-overview-grid h2 {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin-bottom: 24px;
+    font-variation-settings: "opsz" 144;
+  }
+  .svc-overview-grid h2 em { font-family: var(--serif); font-variation-settings: "opsz" 144; font-style: italic; color: var(--rust); font-weight: 300; }
+  .svc-overview-grid p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--navy-soft);
+    margin-bottom: 18px;
+  }
+  .svc-overview-grid p strong { color: var(--navy); font-weight: 600; }
+  @media (max-width: 960px) {
+    .svc-overview-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* What's included */
+  .includes {
+    background: var(--cream);
+    padding: 110px 0;
+  }
+  .includes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 48px;
+  }
+  .includes-item {
+    background: var(--cream);
+    padding: 40px 36px;
+    transition: background 0.3s ease;
+  }
+  .includes-item:hover { background: var(--paper); }
+  .includes-item .num {
+    font-family: var(--sans);
+    font-style: italic;
+    color: var(--amber);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .includes-item h4 {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.2;
+    color: var(--navy);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 144;
+  }
+  .includes-item p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--navy-soft);
+  }
+  @media (max-width: 768px) {
+    .includes-grid { grid-template-columns: 1fr; }
+  }
+
+  /* PROCESS (numbered timeline-style) */
+  .svc-process {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 120px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .svc-process::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .svc-process .container { position: relative; }
+  .svc-process .section-title { color: var(--cream); }
+  .svc-process .section-eyebrow { color: var(--amber-bright); }
+  .svc-process .section-eyebrow::before { background: var(--amber-bright); }
+  .svc-process .section-lede { color: rgba(240,242,245,0.7); }
+
+  .svc-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 56px;
+    border-top: 1px solid var(--line-cream);
+  }
+  .svc-step {
+    border-bottom: 1px solid var(--line-cream);
+    padding: 40px 0;
+    display: grid;
+    grid-template-columns: 80px 280px 1fr;
+    gap: 40px;
+    align-items: start;
+    transition: padding 0.3s ease;
+  }
+  .svc-step:hover { padding-left: 16px; }
+  .svc-step .num {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 56px;
+    line-height: 0.9;
+    color: var(--amber-bright);
+    letter-spacing: -0.04em;
+    font-variation-settings: "opsz" 144;
+  }
+  .svc-step h4 {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.15;
+    color: var(--cream);
+    letter-spacing: -0.015em;
+    font-variation-settings: "opsz" 144;
+  }
+  .svc-step p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: rgba(240,242,245,0.75);
+  }
+  @media (max-width: 960px) {
+    .svc-step { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  /* Featured proof */
+  .proof {
+    background: var(--paper);
+    padding: 110px 0;
+  }
+  .proof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .proof-quote {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: clamp(28px, 3.6vw, 42px);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--navy);
+    font-variation-settings: "opsz" 144;
+  }
+  .proof-quote em { font-family: var(--serif); font-variation-settings: "opsz" 144; font-style: italic; color: var(--rust); font-weight: 400; }
+  .proof-attribution {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .proof-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--amber-bright);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--sans);
+    font-style: italic;
+    font-size: 20px;
+    font-variation-settings: "opsz" 144;
+  }
+  .proof-name { font-weight: 600; color: var(--navy); }
+  .proof-role { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .proof-stat-card {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 56px 48px;
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+  }
+  .proof-stat-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, var(--amber) 0%, transparent 70%);
+    opacity: 0.18;
+    border-radius: 50%;
+  }
+  .proof-stat-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber-bright);
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .proof-stat-num {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: clamp(72px, 9vw, 120px);
+    line-height: 0.9;
+    color: var(--cream);
+    margin-bottom: 24px;
+    letter-spacing: -0.04em;
+    position: relative;
+    font-variation-settings: "opsz" 144;
+  }
+  .proof-stat-num span { color: var(--amber-bright); }
+  .proof-stat-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(240,242,245,0.75);
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .proof-stat-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--amber-bright);
+    border-bottom: 1px solid var(--amber-bright);
+    padding-bottom: 4px;
+    position: relative;
+    transition: gap 0.3s ease;
+  }
+  .proof-stat-link:hover { gap: 16px; }
+  @media (max-width: 960px) {
+    .proof-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  /* Other services */
+  .other-svc {
+    background: var(--cream);
+    padding: 110px 0;
+  }
+  .other-svc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .other-svc-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 40px 36px;
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .other-svc-card:hover {
+    background: var(--navy);
+    color: var(--cream);
+    transform: translateY(-4px);
+  }
+  .other-svc-card .num {
+    font-family: var(--sans);
+    font-style: italic;
+    color: var(--amber);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .other-svc-card:hover .num { color: var(--amber-bright); }
+  .other-svc-card h4 {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+    transition: color 0.3s;
+    font-variation-settings: "opsz" 144;
+  }
+  .other-svc-card:hover h4 { color: var(--cream); }
+  .other-svc-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--navy-soft);
+    margin-bottom: 20px;
+    flex: 1;
+    transition: color 0.3s;
+  }
+  .other-svc-card:hover p { color: rgba(240,242,245,0.75); }
+  .other-svc-card .lnk {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--navy);
+    transition: color 0.3s;
+  }
+  .other-svc-card:hover .lnk { color: var(--amber-bright); }
+  @media (max-width: 768px) {
+    .other-svc-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ============================================================
+     SAM MATURITY — signature visual sections
+     ============================================================ */
+
+  /* THE FIVE DIMENSIONS  (replaces tile-grid "What's Included") */
+  .dimensions {
+    background: var(--cream);
+    padding: 110px 0;
+  }
+  .dimensions-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 56px;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .dim-card {
+    background: var(--cream);
+    padding: 36px 24px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: background 0.3s ease;
+    position: relative;
+  }
+  .dim-card:hover { background: var(--paper); }
+  .dim-card .dim-icon {
+    width: 44px;
+    height: 44px;
+    color: var(--rust);
+    margin-bottom: 4px;
+  }
+  .dim-card .dim-icon svg { width: 100%; height: 100%; }
+  .dim-card .dim-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .dim-card h4 {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 1.18;
+    color: var(--navy);
+    letter-spacing: -0.012em;
+    font-variation-settings: "opsz" 144;
+  }
+  .dim-card p {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--navy-soft);
+    flex: 1;
+  }
+  .dim-meter {
+    margin-top: 14px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .dim-meter-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .dim-meter-label .meter-name { color: var(--muted); }
+  .dim-meter-label .meter-score { color: var(--navy); font-family: var(--mono); font-weight: 500; }
+  .dim-meter-bar {
+    display: flex;
+    gap: 4px;
+    height: 6px;
+  }
+  .dim-meter-bar span {
+    flex: 1;
+    background: var(--cream-warm);
+    border-radius: 1.5px;
+    transition: background 0.6s ease, transform 0.6s ease;
+    transform-origin: left center;
+    transform: scaleX(0.4);
+  }
+  .dim-meter-bar.is-in span {
+    transform: scaleX(1);
+  }
+  .dim-meter-bar.is-in span.is-on {
+    background: var(--rust);
+  }
+  /* Staggered fill for each card via nth-child */
+  .dim-card:nth-child(1) .dim-meter-bar.is-in span { transition-delay: 0.05s; }
+  .dim-card:nth-child(2) .dim-meter-bar.is-in span { transition-delay: 0.15s; }
+  .dim-card:nth-child(3) .dim-meter-bar.is-in span { transition-delay: 0.25s; }
+  .dim-card:nth-child(4) .dim-meter-bar.is-in span { transition-delay: 0.35s; }
+  .dim-card:nth-child(5) .dim-meter-bar.is-in span { transition-delay: 0.45s; }
+
+  @media (max-width: 1100px) {
+    .dimensions-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 720px) {
+    .dimensions-grid { grid-template-columns: 1fr; }
+  }
+
+  /* MATURITY LADDER — subtle horizontal scale showing the 5 levels */
+  .ladder {
+    margin-top: 72px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 40px 40px 36px;
+  }
+  .ladder-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .ladder-head .lh-title {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+  .ladder-head .lh-title em {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--rust);
+    font-weight: 400;
+  }
+  .ladder-head .lh-note {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .ladder-rail {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .ladder-step {
+    padding: 22px 18px;
+    border-right: 1px solid var(--line);
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .ladder-step:last-child { border-right: none; }
+  .ladder-step:hover { background: var(--cream); }
+  .ladder-step .step-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--rust);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+  .ladder-step .step-name {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--navy);
+    margin-top: 6px;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .ladder-step .step-desc {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--navy-soft);
+  }
+  .ladder-step.is-typical {
+    background: var(--cream);
+  }
+  .ladder-step.is-typical::before {
+    content: 'TYPICAL';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background: var(--rust);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+  }
+  @media (max-width: 900px) {
+    .ladder { padding: 32px 24px 28px; }
+    .ladder-rail { grid-template-columns: repeat(2, 1fr); }
+    .ladder-step { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .ladder-step:nth-child(2n) { border-right: none; }
+    .ladder-step:last-child { border-right: none; border-bottom: none; }
+  }
+  @media (max-width: 520px) {
+    .ladder-rail { grid-template-columns: 1fr; }
+    .ladder-step { border-right: none; border-bottom: 1px solid var(--line); }
+    .ladder-step:last-child { border-bottom: none; }
+  }
+
+
+  /* THE ENGAGEMENT LIFECYCLE  (replaces numbered "How we work" timeline) */
+  .lifecycle {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 120px 0 130px;
+    position: relative;
+    overflow: hidden;
+  }
+  .lifecycle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .lifecycle .container { position: relative; z-index: 1; }
+  .lifecycle .section-title { color: var(--cream); }
+  .lifecycle .section-eyebrow { color: var(--amber-bright); }
+  .lifecycle .section-eyebrow::before { background: var(--amber-bright); }
+  .lifecycle .section-lede { color: rgba(240,242,245,0.72); }
+
+  .lifecycle-diagram {
+    margin-top: 72px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  /* The two large circles + connector arrow row */
+  .lc-circles {
+    display: grid;
+    grid-template-columns: 1fr 140px 1fr;
+    gap: 0;
+    align-items: center;
+    margin-bottom: -10px;
+  }
+  .lc-circle-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 280px;
+  }
+  .lc-circle {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: var(--navy-deep);
+    border: 1px solid rgba(72, 112, 255, 0.35);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    position: relative;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.05);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .lc-circle:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 36px 72px -20px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07);
+  }
+  .lc-circle .lc-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--amber-bright);
+  }
+  .lc-circle .lc-icon svg { width: 100%; height: 100%; }
+  .lc-circle .lc-name {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.15;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+    text-align: center;
+    padding: 0 24px;
+  }
+  .lc-circle .lc-time {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber-bright);
+    font-weight: 500;
+  }
+
+  /* Dashed rotating ring around Phase 2 circle */
+  .lc-circle--phase2 { position: relative; }
+  .lc-circle--phase2::after {
+    content: '';
+    position: absolute;
+    inset: -14px;
+    border-radius: 50%;
+    border: 2px dashed rgba(72, 112, 255, 0.45);
+    animation: lc-rotate 38s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes lc-rotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  /* Small dot on the dashed ring (recurring milestone marker) */
+  .lc-circle--phase2::before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--amber-bright);
+    border-radius: 50%;
+    top: 50%;
+    right: -20px;
+    transform: translateY(-50%);
+    box-shadow: 0 0 16px rgba(72, 112, 255, 0.6);
+    z-index: 2;
+  }
+
+  /* Connector arrow between the two circles */
+  .lc-connector {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .lc-connector svg {
+    width: 100%;
+    height: 24px;
+    display: block;
+  }
+  .lc-connector .lc-arrow-line {
+    stroke: var(--amber-bright);
+    stroke-width: 2;
+    stroke-dasharray: 8 6;
+    fill: none;
+    animation: lc-flow 1.6s linear infinite;
+  }
+  @keyframes lc-flow {
+    to { stroke-dashoffset: -28; }
+  }
+  .lc-connector .lc-arrow-head {
+    fill: var(--amber-bright);
+  }
+
+  /* The phase-progression bar (with arrow tip) */
+  .lc-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 12px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .lc-bar-cell {
+    background: var(--navy-deep);
+    border: 1px solid rgba(72, 112, 255, 0.25);
+    padding: 18px 24px;
+    text-align: center;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--cream);
+    letter-spacing: -0.005em;
+    position: relative;
+  }
+  .lc-bar-cell:first-child {
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+  }
+  .lc-bar-cell:last-child {
+    border-radius: 0 4px 4px 0;
+    padding-right: 56px;
+  }
+  /* Right-pointing arrow tip on the right edge of the bar */
+  .lc-bar-cell:last-child::after {
+    content: '';
+    position: absolute;
+    right: -22px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-left: 22px solid var(--navy-deep);
+    filter: drop-shadow(1px 0 0 rgba(72, 112, 255, 0.25));
+  }
+
+  /* Two activity panels under each circle */
+  .lc-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .lc-panel {
+    background: rgba(240, 242, 245, 0.04);
+    border: 1px solid rgba(72, 112, 255, 0.25);
+    border-radius: var(--radius);
+    padding: 28px 28px 26px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .lc-panel:hover {
+    background: rgba(240, 242, 245, 0.06);
+    border-color: rgba(72, 112, 255, 0.45);
+  }
+  .lc-panel .lc-panel-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber-bright);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .lc-panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .lc-panel li {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: rgba(240,242,245,0.85);
+    padding-left: 22px;
+    position: relative;
+  }
+  .lc-panel li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 8px;
+    height: 8px;
+    background: var(--amber-bright);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(72, 112, 255, 0.5);
+  }
+
+  /* Bottom continuous-support arrow band */
+  .lc-support {
+    margin-top: 40px;
+    background: var(--rust);
+    border-radius: 4px 0 0 4px;
+    padding: 22px 56px 22px 32px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    color: var(--cream);
+  }
+  .lc-support::after {
+    content: '';
+    position: absolute;
+    right: -32px;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    border-top: 35px solid transparent;
+    border-bottom: 35px solid transparent;
+    border-left: 32px solid var(--rust);
+  }
+  .lc-support-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(240,242,245,0.85);
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .lc-support-items {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    font-family: var(--sans);
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--cream);
+  }
+  .lc-support-items span {
+    position: relative;
+    padding-left: 18px;
+  }
+  .lc-support-items span::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--cream);
+    border-radius: 50%;
+    opacity: 0.85;
+  }
+
+  /* Responsive: stack circles vertically */
+  @media (max-width: 900px) {
+    .lc-circles {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .lc-connector { transform: rotate(90deg); height: 56px; }
+    .lc-circle-wrap { height: auto; padding: 12px 0; }
+    .lc-circle { width: 200px; height: 200px; }
+    .lc-bar { grid-template-columns: 1fr; }
+    .lc-bar-cell:first-child { border-radius: 4px 4px 0 0; border-right: 1px solid rgba(72,112,255,0.25); border-bottom: none; }
+    .lc-bar-cell:last-child { border-radius: 0 0 4px 4px; padding-right: 24px; }
+    .lc-bar-cell:last-child::after { display: none; }
+    .lc-panels { grid-template-columns: 1fr; }
+    .lc-circle--phase2::before { right: auto; left: 50%; top: auto; bottom: -20px; transform: translateX(-50%); }
+    .lc-support::after { display: none; }
+    .lc-support { border-radius: var(--radius); padding-right: 32px; }
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .lc-circle--phase2::after { animation: none; }
+    .lc-connector .lc-arrow-line { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-lockup">
+        <span class="logo-text"><span class="logo-cap">P</span>roteam</span>
+        <span class="logo-advisory">Advisory Solutions LLP</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-mega">
+        <a href="services.html" class="active">Services <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="mega-menu" role="menu" aria-label="Services">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <a href="services.html#sam" class="mega-head">Software Asset Management</a>
+              <ul>
+                <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+                <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+                <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ham" class="mega-head">Hardware Asset Management</a>
+              <ul>
+                <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+                <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#finops" class="mega-head">Cloud FinOps</a>
+              <ul>
+                <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+                <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ai-transformation" class="mega-head">AI Transformation Services</a>
+              <ul>
+                <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+                <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#itam-tech" class="mega-head">ITAM Technology</a>
+              <ul>
+                <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+                <li><a href="service-itam-flexera.html">Flexera</a></li>
+                <li><a href="service-itam-snow.html">Snow</a></li>
+                <li><a href="service-itam-zylo.html">Zylo</a></li>
+                <li><a href="service-itam-aspera.html">Aspera</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Free Consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <ul class="mobile-nav-links">
+    <li><a href="index.html">Home <span>&rarr;</span></a></li>
+    <li class="has-sub">
+      <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="m-svc-sub">
+        Services
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul id="m-svc-sub" class="sub-menu">
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-sam-sub">
+            Software Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-sam-sub" class="sub-menu-2">
+            <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+            <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+            <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ham-sub">
+            Hardware Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ham-sub" class="sub-menu-2">
+            <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+            <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-finops-sub">
+            Cloud FinOps
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-finops-sub" class="sub-menu-2">
+            <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+            <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ai-sub">
+            AI Transformation Services
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ai-sub" class="sub-menu-2">
+            <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+            <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-itam-sub">
+            ITAM Technology
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-itam-sub" class="sub-menu-2">
+            <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+            <li><a href="service-itam-flexera.html">Flexera</a></li>
+            <li><a href="service-itam-snow.html">Snow</a></li>
+            <li><a href="service-itam-zylo.html">Zylo</a></li>
+            <li><a href="service-itam-aspera.html">Aspera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="case-studies.html">Case Studies <span>&rarr;</span></a></li>
+    <li><a href="about.html">About <span>&rarr;</span></a></li>
+    <li><a href="insights.html">Insights <span>&rarr;</span></a></li>
+    <li><a href="contact.html">Contact <span>&rarr;</span></a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta">Book Free Consultation &rarr;</a>
+  <div class="mobile-nav-contact">
+    <a href="tel:+919676889797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      +91 9676 889 797
+    </a>
+    <a href="mailto:vpatel@proteamadvisory.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      vpatel@proteamadvisory.com
+    </a>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero svc-detail-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="services.html">Services</a>
+      <span class="sep">/</span>
+      <span class="current">SAM Maturity Assessment &amp; Transformation</span>
+    </div>
+    <div class="page-hero-grid">
+      <div>
+        <div class="page-hero-eyebrow">Software Asset Management &middot; 02</div>
+        <h1>SAM maturity assessment <em>&amp; transformation</em>.</h1>
+      </div>
+      <p class="page-hero-lede">
+        Where does your SAM practice sit today &mdash; and where should it be in 18 months? Five dimensions, benchmarked against your industry. A roadmap that gets you there without rip-and-replace.
+      </p>
+    </div>
+
+    <div class="stat-row reveal">
+      <div>
+        <div class="stat-num">5</div>
+        <div class="stat-lbl">Maturity dimensions assessed &mdash; people, process, tooling, data, outcomes.</div>
+      </div>
+      <div>
+        <div class="stat-num">18mo</div>
+        <div class="stat-lbl">Typical transformation horizon to move up at least one maturity level.</div>
+      </div>
+      <div>
+        <div class="stat-num">40%+</div>
+        <div class="stat-lbl">Average reduction in audit and licensing risk across post-transformation programmes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="svc-overview">
+  <div class="container">
+    <div class="svc-overview-grid">
+      <div class="reveal">
+        <div class="section-eyebrow">The problem we solve</div>
+        <h2>Your SAM practice has a ceiling. <em>You can feel it.</em></h2>
+      </div>
+      <div class="reveal">
+        <p>Every SAM team eventually hits a wall. The savings get harder to find. The same vendors keep generating the same risks. The tool deployment that was supposed to fix everything still requires three analysts to keep it producing usable data. The board wants a single number for software cost and risk &mdash; and nobody can produce it without two weeks of manual reconciliation.</p>
+        <p>That ceiling has a shape, and once you can see it, you can dismantle it. Maturity assessment is how we make the shape visible: <strong>where the practice is leaking</strong>, <strong>where it&rsquo;s mature but isolated</strong>, and <strong>where it&rsquo;s mature on paper but failing in execution</strong>.</p>
+        <p>The output is a sequenced transformation roadmap &mdash; not a slide deck. Each capability gap has a defined owner, dependency map, business case, and 12&ndash;18 month timeline. <strong>The goal is the next maturity level, not the perfect one.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIVE DIMENSIONS -->
+<section class="dimensions">
+  <div class="container">
+    <div class="reveal" style="max-width: 760px;">
+      <div class="section-eyebrow">The five dimensions</div>
+      <h2 class="section-title">Where we look. <em>And how we score it.</em></h2>
+      <p class="section-lede">Every dimension is scored 1&ndash;5 against the ISO/IEC 19770 framework, with evidence captured from interviews, tool exports, and process walkthroughs. The shaded score on each card is the industry median &mdash; where most enterprises actually sit today.</p>
+    </div>
+
+    <div class="dimensions-grid reveal-stagger">
+      <div class="dim-card">
+        <div class="dim-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="8" r="2.6"/><path d="M21 19c0-2.7-1.9-4.9-4.5-5.4"/></svg></div>
+        <div class="dim-label">Dimension 01</div>
+        <h4>People</h4>
+        <p>Roles, skills, span of control, and the operating relationships between SAM, procurement, IT, and finance. Where the function reports, and how senior the owner is.</p>
+        <div class="dim-meter">
+          <div class="dim-meter-label"><span class="meter-name">Industry median</span><span class="meter-score">2 / 5</span></div>
+          <div class="dim-meter-bar reveal-bar"><span class="is-on"></span><span class="is-on"></span><span class=""></span><span class=""></span><span class=""></span></div>
+        </div>
+      </div>
+
+      <div class="dim-card">
+        <div class="dim-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="6" height="4" rx="0.6"/><rect x="15" y="5" width="6" height="4" rx="0.6"/><rect x="3" y="15" width="6" height="4" rx="0.6"/><rect x="15" y="15" width="6" height="4" rx="0.6"/><path d="M9 7h6M9 17h6M6 9v6M18 9v6"/></svg></div>
+        <div class="dim-label">Dimension 02</div>
+        <h4>Process</h4>
+        <p>Documented workflows for request, approval, deployment, true-up, renewal, and retirement. The extent to which the right things happen by default rather than by individual heroics.</p>
+        <div class="dim-meter">
+          <div class="dim-meter-label"><span class="meter-name">Industry median</span><span class="meter-score">2 / 5</span></div>
+          <div class="dim-meter-bar reveal-bar"><span class="is-on"></span><span class="is-on"></span><span class=""></span><span class=""></span><span class=""></span></div>
+        </div>
+      </div>
+
+      <div class="dim-card">
+        <div class="dim-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1A1.7 1.7 0 0 0 10 3.1V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></div>
+        <div class="dim-label">Dimension 03</div>
+        <h4>Tooling</h4>
+        <p>The SAM platform stack &mdash; ServiceNow, Flexera, Snow, Zylo, Aspera &mdash; and its actual operating state. Recognition coverage, data freshness, connector health, and the gap between &ldquo;deployed&rdquo; and &ldquo;trusted&rdquo;.</p>
+        <div class="dim-meter">
+          <div class="dim-meter-label"><span class="meter-name">Industry median</span><span class="meter-score">3 / 5</span></div>
+          <div class="dim-meter-bar reveal-bar"><span class="is-on"></span><span class="is-on"></span><span class="is-on"></span><span class=""></span><span class=""></span></div>
+        </div>
+      </div>
+
+      <div class="dim-card">
+        <div class="dim-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div>
+        <div class="dim-label">Dimension 04</div>
+        <h4>Data quality</h4>
+        <p>Entitlement records, deployment data, consumption telemetry, and the contractual ground truth behind them. Whether the numbers in last quarter&rsquo;s report would survive a vendor audit.</p>
+        <div class="dim-meter">
+          <div class="dim-meter-label"><span class="meter-name">Industry median</span><span class="meter-score">2 / 5</span></div>
+          <div class="dim-meter-bar reveal-bar"><span class="is-on"></span><span class="is-on"></span><span class=""></span><span class=""></span><span class=""></span></div>
+        </div>
+      </div>
+
+      <div class="dim-card">
+        <div class="dim-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/></svg></div>
+        <div class="dim-label">Dimension 05</div>
+        <h4>Outcomes</h4>
+        <p>Measurable business value &mdash; savings delivered, risk reduced, decisions accelerated. Whether the SAM function can articulate, in numbers a CFO trusts, what it returned this year.</p>
+        <div class="dim-meter">
+          <div class="dim-meter-label"><span class="meter-name">Industry median</span><span class="meter-score">2 / 5</span></div>
+          <div class="dim-meter-bar reveal-bar"><span class="is-on"></span><span class="is-on"></span><span class=""></span><span class=""></span><span class=""></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Maturity ladder -->
+    <div class="ladder reveal">
+      <div class="ladder-head">
+        <div class="lh-title">The maturity scale. <em>Five levels.</em></div>
+        <div class="lh-note">ISO/IEC 19770 &middot; aligned</div>
+      </div>
+      <div class="ladder-rail">
+        <div class="ladder-step">
+          <div class="step-num">LEVEL 01</div>
+          <div class="step-name">Ad&#8209;hoc</div>
+          <div class="step-desc">Reactive. Spreadsheet-driven. The function exists because someone insisted it should.</div>
+        </div>
+        <div class="ladder-step is-typical">
+          <div class="step-num">LEVEL 02</div>
+          <div class="step-name">Reactive</div>
+          <div class="step-desc">Audits and renewals drive the calendar. Tooling deployed but data isn&rsquo;t trusted yet.</div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-num">LEVEL 03</div>
+          <div class="step-name">Defined</div>
+          <div class="step-desc">Documented processes, owned roles, repeatable cycles. Savings start to compound.</div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-num">LEVEL 04</div>
+          <div class="step-name">Managed</div>
+          <div class="step-desc">Cross-functional integration. Decisions are evidence-led. Outcomes reported quarterly.</div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-num">LEVEL 05</div>
+          <div class="step-name">Optimised</div>
+          <div class="step-desc">Continuous optimisation. Predictive. The SAM function shapes IT strategy, not the reverse.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIFECYCLE — engagement structure (signature visual, inspired by reference diagram) -->
+<section class="lifecycle">
+  <div class="container">
+    <div class="reveal" style="max-width: 760px;">
+      <div class="section-eyebrow">The engagement lifecycle</div>
+      <h2 class="section-title">Two phases. <em>Bundled, not bolted.</em></h2>
+      <p class="section-lede">Maturity work is a managed journey, not a one-off report. We bundle the diagnostic with the transformation into a single engagement &mdash; with continuous advisory running underneath the entire programme.</p>
+    </div>
+
+    <div class="lifecycle-diagram reveal">
+      <!-- Two large phase circles connected by an animated arrow -->
+      <div class="lc-circles">
+        <div class="lc-circle-wrap">
+          <div class="lc-circle">
+            <div class="lc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.5-4.5"/><path d="M8 10.5h5M10.5 8v5"/></svg></div>
+            <div class="lc-name">Assess &amp; Diagnose</div>
+            <div class="lc-time">Weeks 1 &ndash; 6</div>
+          </div>
+        </div>
+
+        <div class="lc-connector" aria-hidden="true">
+          <svg viewBox="0 0 140 24" preserveAspectRatio="none">
+            <line class="lc-arrow-line" x1="6" y1="12" x2="118" y2="12"/>
+            <polygon class="lc-arrow-head" points="118,4 134,12 118,20"/>
+          </svg>
+        </div>
+
+        <div class="lc-circle-wrap">
+          <div class="lc-circle lc-circle--phase2">
+            <div class="lc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3.4-7"/><path d="M21 4v5h-5"/><path d="M12 8v5l3 2"/></svg></div>
+            <div class="lc-name">Transform &amp; Sustain</div>
+            <div class="lc-time">Months 2 &ndash; 18</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time-bar with phase labels (arrow tip on the right) -->
+      <div class="lc-bar">
+        <div class="lc-bar-cell">First Quarter</div>
+        <div class="lc-bar-cell">Second Quarter Onwards</div>
+      </div>
+
+      <!-- Two activity panels under each phase -->
+      <div class="lc-panels">
+        <div class="lc-panel">
+          <div class="lc-panel-label">Phase 01 &mdash; Assess</div>
+          <ul>
+            <li>Five-dimension maturity scoring across people, process, tooling, data, outcomes</li>
+            <li>Anonymised industry benchmark against peers of similar scale and sector</li>
+            <li>Target operating model design &mdash; RACI, headcount, reporting lines, tooling stack</li>
+            <li>Capability gap analysis with prioritised 4&ndash;6 high-leverage workstreams</li>
+          </ul>
+        </div>
+        <div class="lc-panel">
+          <div class="lc-panel-label">Phase 02 &mdash; Transform</div>
+          <ul>
+            <li>Sequenced 12&ndash;18 month transformation roadmap with monthly milestones</li>
+            <li>Quarterly steering committee &amp; monthly delivery reviews</li>
+            <li>Periodic dashboard reporting &mdash; capability uplift, savings, risk reduction</li>
+            <li>Independent maturity re-assessment at month 12 to confirm the next level</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Continuous-support arrow band -->
+      <div class="lc-support" aria-label="Continuous support">
+        <div class="lc-support-label">Running underneath</div>
+        <div class="lc-support-items">
+          <span>Licensing specialist support</span>
+          <span>Procurement advisory</span>
+          <span>Audit defence integration</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="container">
+    <div class="reveal" style="margin-bottom: 56px;">
+      <div class="section-eyebrow">Proof</div>
+      <h2 class="section-title">A <em>recent engagement</em>.</h2>
+    </div>
+    <div class="proof-grid">
+      <div class="reveal">
+        <div class="proof-quote">
+          A global pharma client moved from maturity level 2 to <em>level 4 inside 14 months</em> &mdash; and their internal audit team independently signed off the improvement.
+        </div>
+        <div class="proof-attribution">
+          <div class="proof-avatar">AS</div>
+          <div>
+            <div class="proof-name">Ashish</div>
+            <div class="proof-role">SAM Lifecycle Management Lead · Proteam Advisory &middot; SAM transformation, pharmaceutical sector</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proof-stat-card reveal">
+        <div class="proof-stat-label">Maturity levels gained</div>
+        <div class="proof-stat-num"><span>+2</span></div>
+        <div class="proof-stat-desc">A 60,000-employee pharmaceutical group engaged us after a failed internal SAM transformation attempt. We assessed, redesigned the operating model, and supported execution over 14 months. Audit exposure dropped by an estimated $18M over the same period.</div>
+        <a href="case-studies.html" class="proof-stat-link">Read more case studies &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADJACENT SERVICES -->
+<section class="other-svc">
+  <div class="container">
+    <div class="reveal" style="max-width: 760px;">
+      <div class="section-eyebrow">Adjacent services</div>
+      <h2 class="section-title">Often deployed <em>alongside</em>.</h2>
+      <p class="section-lede">Maturity assessment usually leads into one of two follow-on programmes &mdash; depending on which gaps are most acute.</p>
+    </div>
+
+    <div class="other-svc-grid">
+      <a href="service-sam-baselining.html" class="other-svc-card reveal">
+        <div class="num">— 01</div>
+        <h4>SAM Baselining &amp; Managed Services</h4>
+        <p>If the assessment finds that your foundation isn&rsquo;t defensible, baselining is the first transformation workstream. We baseline the estate forensically, then run managed services to sustain it.</p>
+        <span class="lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="service-audit-defence.html" class="other-svc-card reveal">
+        <div class="num">— 02</div>
+        <h4>SAM Audit Defense</h4>
+        <p>If the assessment finds acute audit exposure, defence is the first transformation workstream. We neutralise the active risk while the wider operating-model work proceeds in parallel.</p>
+        <span class="lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="reveal">
+        <div class="section-eyebrow" style="color: var(--amber-bright);">Ready to talk</div>
+        <h2>Want to know <em>where your SAM ceiling is</em>?</h2>
+        <p>The free SAM consultation is exactly that. A senior consultant will spend 30 minutes with you walking through your current operating model, recent pain points, and biggest sources of cost and risk — and tell you honestly whether a maturity assessment is the right next step.</p>
+        <div class="cta-actions">
+          <a href="contact.html" class="btn-amber">Book free consultation</a>
+          <a href="case-studies.html" class="btn-line">See more case studies</a>
+        </div>
+      </div>
+      <div class="cta-detail reveal">
+        <h4>What you'll get</h4>
+        <ul class="cta-list">
+          <li>30-minute call with a senior SAM transformation specialist.</li>
+          <li>Quick maturity self-scoring against the five-dimension model.</li>
+          <li>Indicative benchmark range against your industry.</li>
+          <li>Honest assessment of whether maturity work is your highest-leverage move right now.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" style="color: var(--cream);">
+          <span class="logo-lockup">
+            <span class="logo-text" style="color:var(--cream);"><span class="logo-cap">P</span>roteam</span>
+            <span class="logo-advisory" style="color:rgba(240,242,245,0.7);">Advisory Solutions LLP</span>
+          </span>
+        </a>
+        <h3>SAM specialists. Nothing else.</h3>
+        <p>An independent Software Asset Management consultancy serving enterprises across India, the UK, the US, and the Middle East.</p>
+
+        <div class="foot-social">
+          <div class="foot-social-label">Follow us on</div>
+          <div class="foot-social-icons">
+            <a href="https://in.linkedin.com/company/proteam-advisory" aria-label="LinkedIn" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/proteamadv" aria-label="X (Twitter)" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H21l-7.39 8.45L22.5 21h-6.83l-5.34-6.99L3.5 21H0l7.91-9.04L0.5 3h7l4.83 6.4L17.53 3zm-2.39 16h2.06L7.05 4.85H4.83L15.14 19z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/proteamadvisory/" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://www.youtube.com/channel/UCaajUe2N_6AFw3dvPmH1b7A" aria-label="YouTube" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#sam">Software Asset Management</a></li>
+          <li><a href="services.html#ham">Hardware Asset Management</a></li>
+          <li><a href="services.html#finops">Cloud FinOps</a></li>
+          <li><a href="services.html#ai-transformation">AI Transformation Services</a></li>
+          <li><a href="services.html#itam-tech">ITAM Technology</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="case-studies.html">Case Studies</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="insights.html">Insights</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="careers.html">Careers</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h5>Get in touch</h5>
+        <address>
+          Suite #309&ndash;312<br>
+          KTC Illumination Towers<br>
+          Madhapur, Hyderabad<br>
+          Telangana, India<br><br>
+          <a href="tel:+919676889797">+91 9676 889 797</a><br>
+          <a href="mailto:vpatel@proteamadvisory.com">vpatel@proteamadvisory.com</a>
+        </address>
+      </div>
+    </div>
+
+    <div class="foot-bot">
+      <div>&copy; 2026 Proteam Advisory. All rights reserved.</div>
+      <div style="display:flex; gap:24px; flex-wrap:wrap;">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- Scroll reveal ----
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+  document.querySelectorAll(".reveal, .reveal-stagger").forEach(el => obs.observe(el));
+
+  // ---- Dimension meter-bar fill on scroll ----
+  const meterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("is-in"); meterObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.3, rootMargin: "0px 0px -40px 0px" });
+  document.querySelectorAll(".dim-meter-bar").forEach(el => meterObs.observe(el));
+
+  // ---- Smooth scroll ----
+  document.querySelectorAll("a[href^='#']").forEach(link => {
+    link.addEventListener("click", e => {
+      const id = link.getAttribute("href");
+      if (id.length > 1) { const tgt = document.querySelector(id); if (tgt) { e.preventDefault(); tgt.scrollIntoView({ behavior: "smooth", block: "start" }); } }
+    });
+  });
+
+    // ---- Mobile menu (with accordion sub-menus) ----
+  (function() {
+    const toggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    if (!toggle || !mobileNav) return;
+    const body = document.body;
+
+    function openMenu() {
+      mobileNav.classList.add('is-open');
+      toggle.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      mobileNav.classList.remove('is-open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      body.style.overflow = '';
+    }
+    toggle.addEventListener('click', () => mobileNav.classList.contains('is-open') ? closeMenu() : openMenu());
+
+    // Close on actual link clicks only (not on sub-menu toggle buttons)
+    mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) closeMenu(); });
+
+    // Accordion behavior for nested sub-menus
+    mobileNav.querySelectorAll('.sub-toggle, .sub-toggle-2').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('aria-controls');
+        const target = id ? document.getElementById(id) : btn.nextElementSibling;
+        if (!target) return;
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        target.classList.toggle('is-open', !expanded);
+      });
+    });
+  })();
+</script>
+
+<script src="sammy-chatbot.js"></script>
+<script>
+/* Desktop mega-menu: JS hover with close-delay */
+(function () {
+  var CLOSE_DELAY = 150;
+  document.querySelectorAll(".nav-links .has-mega").forEach(function (li) {
+    var timer = null;
+    function openMenu() { clearTimeout(timer); li.classList.add("mega-open"); }
+    function scheduleClose() { timer = setTimeout(function () { li.classList.remove("mega-open"); }, CLOSE_DELAY); }
+    li.addEventListener("mouseenter", openMenu);
+    li.addEventListener("mouseleave", scheduleClose);
+    var menu = li.querySelector(".mega-menu");
+    if (menu) {
+      menu.addEventListener("mouseenter", openMenu);
+      menu.addEventListener("mouseleave", scheduleClose);
+    }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") li.classList.remove("mega-open"); });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SaaS Management — Proteam Advisory</title>
+<meta name="description" content="Manage the SaaS portfolio that now accounts for 30-50% of your software bill. ServiceNow, Salesforce, Microsoft 365, Workday, Adobe — and the long tail." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ================================================================
+   SAAS MANAGEMENT — Identity: THE PORTFOLIO ROOM
+   Narrative: SaaS sprawl → Visibility → Control → Renewal leverage
+   Aesthetic: Dark command centre. Amber signal. Cold clarity.
+   Mirrors the Licence Helpdesk visual system exactly.
+   ================================================================ */
+
+/* ---- HERO ---- */
+.sm-hero {
+  background: var(--navy-deep);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+}
+.sm-hero::before {
+  content:''; position:absolute; inset:0;
+  background-image: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.012) 3px,rgba(255,255,255,0.012) 4px);
+  pointer-events:none; z-index:0;
+}
+.sm-hero::after {
+  content:''; position:absolute; top:-10%; right:-5%;
+  width:700px; height:700px;
+  background:radial-gradient(circle, rgba(230,138,50,0.07) 0%, transparent 60%);
+  pointer-events:none; animation:smHeroGlow 6s ease-in-out infinite alternate;
+}
+@keyframes smHeroGlow { from{transform:scale(1);opacity:1;} to{transform:scale(1.15);opacity:0.5;} }
+
+.sm-hero-inner {
+  flex:1; max-width:var(--max-w); margin:0 auto;
+  padding:130px 32px 80px;
+  display:grid; grid-template-columns:1fr 1.05fr;
+  gap:80px; align-items:center;
+  position:relative; z-index:1; width:100%;
+}
+
+.sm-eyebrow { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:var(--amber-bright); display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.sm-eyebrow::before { content:''; width:32px; height:1px; background:var(--amber-bright); }
+
+.sm-hero-h1 { font-family:var(--sans); font-weight:300; font-size:clamp(44px,5.5vw,80px); line-height:1; letter-spacing:-0.04em; color:var(--cream); font-variation-settings:"opsz" 144; margin-bottom:12px; }
+.sm-hero-h1 em { font-family:var(--serif); font-style:italic; font-weight:300; color:var(--amber-bright); font-variation-settings:"opsz" 144; }
+.sm-hero-sub { font-size:17px; line-height:1.65; color:rgba(240,242,245,0.55); max-width:500px; margin:24px 0 40px; }
+.sm-cta-row { display:flex; gap:16px; flex-wrap:wrap; }
+.btn-signal { display:inline-flex; align-items:center; gap:10px; background:var(--amber); color:#fff; font-size:13px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; padding:16px 28px; border-radius:2px; transition:background 0.25s, transform 0.2s; }
+.btn-signal:hover { background:var(--amber-bright); transform:translateY(-2px); }
+.btn-ghost-cream { display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(240,242,245,0.2); color:rgba(240,242,245,0.7); font-size:13px; font-weight:500; padding:15px 28px; border-radius:2px; transition:border-color 0.25s, color 0.25s; }
+.btn-ghost-cream:hover { border-color:rgba(240,242,245,0.5); color:var(--cream); }
+
+/* Portfolio panel */
+.sm-panel-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; }
+.sm-panel-header { display:flex; align-items:center; gap:10px; padding:14px 20px; border-bottom:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.2); }
+.sm-panel-dot { width:8px; height:8px; border-radius:50%; }
+.sm-panel-dot.green { background:#34D399; animation:pulseG 2s infinite; }
+.sm-panel-dot.amber { background:var(--amber-bright); }
+.sm-panel-dot.red { background:#F87171; }
+.sm-panel-title { font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(240,242,245,0.32); margin-left:auto; }
+@keyframes pulseG { 0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,0.4);} 50%{box-shadow:0 0 0 6px rgba(52,211,153,0);} }
+.sm-feed-wrap { max-height:320px; overflow:hidden; }
+.sm-feed-item { padding:16px 20px; border-bottom:1px solid rgba(255,255,255,0.04); display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; animation:smSlideIn 0.4s ease both; }
+@keyframes smSlideIn { from{opacity:0;transform:translateY(-8px);} to{opacity:1;transform:none;} }
+.sm-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.sm-dot.waste { background:#F87171; } .sm-dot.risk { background:var(--amber-bright); } .sm-dot.ok { background:rgba(240,242,245,0.2); }
+.sm-vendor { font-family:var(--mono); font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--amber-bright); margin-bottom:3px; }
+.sm-detail { font-size:12.5px; line-height:1.4; color:rgba(240,242,245,0.6); }
+.sm-tag { font-family:var(--mono); font-size:10px; color:rgba(240,242,245,0.22); white-space:nowrap; }
+.sm-panel-footer { padding:14px 20px; border-top:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:space-between; }
+.sm-status-badge { font-family:var(--mono); font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#F87171; display:flex; align-items:center; gap:6px; }
+.sm-status-badge::before { content:''; width:6px; height:6px; border-radius:50%; background:#F87171; animation:pulseR 2s infinite; }
+@keyframes pulseR { 0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,0.4);} 50%{box-shadow:0 0 0 6px rgba(248,113,113,0);} }
+.sm-resp { font-size:11px; color:rgba(240,242,245,0.28); font-family:var(--mono); }
+
+/* Stat strip */
+.sm-stat-strip { background:rgba(0,0,0,0.35); border-top:1px solid rgba(255,255,255,0.05); }
+.sm-stat-inner { max-width:var(--max-w); margin:0 auto; padding:0 32px; display:grid; grid-template-columns:repeat(4,1fr); }
+.sm-stat-item { padding:36px 32px; border-right:1px solid rgba(255,255,255,0.05); }
+.sm-stat-item:last-child { border-right:none; }
+.sm-stat-num { font-family:var(--sans); font-weight:300; font-size:48px; line-height:1; color:var(--cream); letter-spacing:-0.04em; font-variation-settings:"opsz" 144; }
+.sm-stat-num span { color:var(--amber-bright); }
+.sm-stat-lbl { font-size:13px; color:rgba(240,242,245,0.42); margin-top:8px; line-height:1.5; }
+
+/* ================================================================
+   ACT 1 — THE BROKEN PAST: Waste log + sprawl cards
+   ================================================================ */
+.sm-past { background:#053B45; padding:120px 0 0; position:relative; overflow:hidden; }
+.sm-past::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,0.013) 39px,rgba(255,255,255,0.013) 40px); pointer-events:none; }
+.sm-past-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.sm-past-ey { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:rgba(248,113,113,0.75); display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.sm-past-ey::before { content:''; width:24px; height:1px; background:rgba(248,113,113,0.75); }
+.sm-past-h { font-family:var(--sans); font-weight:300; font-size:clamp(28px,3.5vw,46px); line-height:1.05; letter-spacing:-0.03em; color:var(--cream); font-variation-settings:"opsz" 144; margin-bottom:20px; }
+.sm-past-h em { font-family:var(--serif); font-style:italic; color:#F87171; font-weight:300; font-variation-settings:"opsz" 144; }
+.sm-past-sub { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.42); }
+
+/* Waste terminal */
+.sm-etm { background:rgba(248,113,113,0.03); border:1px solid rgba(248,113,113,0.14); border-radius:4px; overflow:hidden; font-family:var(--mono); font-size:11.5px; line-height:1.8; }
+.sm-etm-hd { background:rgba(248,113,113,0.07); border-bottom:1px solid rgba(248,113,113,0.1); padding:10px 16px; display:flex; align-items:center; gap:8px; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(248,113,113,0.55); }
+.sm-edot { width:7px; height:7px; border-radius:50%; background:rgba(248,113,113,0.5); }
+.sm-elog { padding:20px 24px; display:flex; flex-direction:column; gap:4px; }
+.sm-eline { display:flex; gap:12px; opacity:0; transform:translateX(-8px); transition:opacity 0.35s ease, transform 0.35s ease; }
+.sm-eline.show { opacity:1; transform:none; }
+.sm-ets { color:rgba(240,242,245,0.2); white-space:nowrap; font-size:10.5px; }
+.sm-etag-err { color:#F87171; } .sm-etag-warn { color:var(--amber-bright); } .sm-etag-info { color:rgba(240,242,245,0.35); }
+.sm-emsg { color:rgba(240,242,245,0.52); }
+
+/* Sprawl cards */
+.sm-pain-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.04); margin-top:80px; }
+.sm-pain-card { background:#053B45; padding:48px 36px; }
+.sm-pain-n { font-family:var(--sans); font-weight:200; font-size:72px; line-height:0.9; color:rgba(248,113,113,0.1); letter-spacing:-0.04em; font-variation-settings:"opsz" 144; margin-bottom:20px; }
+.sm-pain-h { font-family:var(--sans); font-weight:500; font-size:17px; color:rgba(240,242,245,0.78); letter-spacing:-0.01em; margin-bottom:12px; line-height:1.25; font-variation-settings:"opsz" 144; }
+.sm-pain-p { font-size:14px; line-height:1.7; color:rgba(240,242,245,0.37); }
+
+/* ================================================================
+   ACT 2 — THE PROTEAM ANSWER: Lifecycle timeline
+   ================================================================ */
+.sm-answer { background:var(--navy-deep); padding:120px 0; position:relative; overflow:hidden; }
+.sm-answer-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; margin-bottom:72px; }
+.sm-ans-ey { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:var(--amber-bright); display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.sm-ans-ey::before { content:''; width:24px; height:1px; background:var(--amber-bright); }
+.sm-ans-h { font-family:var(--sans); font-weight:300; font-size:clamp(28px,3.5vw,46px); line-height:1.05; letter-spacing:-0.03em; color:var(--cream); font-variation-settings:"opsz" 144; }
+.sm-ans-h em { font-family:var(--serif); font-style:italic; color:var(--amber-bright); font-weight:300; font-variation-settings:"opsz" 144; }
+.sm-ans-sub { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.48); margin-top:20px; }
+
+/* Lifecycle path */
+.sm-lifecycle { position:relative; }
+.sm-lc-spine { position:absolute; left:28px; top:28px; bottom:28px; width:2px; background:rgba(255,255,255,0.05); }
+.sm-lc-fill { position:absolute; top:0; width:100%; background:linear-gradient(180deg,var(--amber-bright),#34D399); height:0%; transition:height 1.8s cubic-bezier(0.4,0,0.2,1); }
+.sm-lc-fill.go { height:100%; }
+.sm-lc-step { display:grid; grid-template-columns:60px 1fr; gap:40px; padding:36px 0; border-bottom:1px solid rgba(255,255,255,0.04); position:relative; z-index:1; opacity:0; transform:translateX(-12px); transition:opacity 0.5s ease, transform 0.5s ease; }
+.sm-lc-step:last-child { border-bottom:none; }
+.sm-lc-step.lit { opacity:1; transform:none; }
+.sm-lc-node { display:flex; flex-direction:column; align-items:center; gap:8px; }
+.sm-lc-circ { width:16px; height:16px; border-radius:50%; border:2px solid rgba(255,255,255,0.15); background:var(--navy-deep); transition:background 0.4s, border-color 0.4s, box-shadow 0.4s; }
+.sm-lc-step.lit .sm-lc-circ { background:var(--amber-bright); border-color:var(--amber-bright); box-shadow:0 0 16px rgba(230,138,50,0.5); }
+.sm-lc-step:last-child.lit .sm-lc-circ { background:#34D399; border-color:#34D399; box-shadow:0 0 16px rgba(52,211,153,0.5); }
+.sm-lc-t { font-family:var(--mono); font-size:8px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(240,242,245,0.2); text-align:center; transition:color 0.4s; }
+.sm-lc-step.lit .sm-lc-t { color:var(--amber-bright); }
+.sm-lc-tag { font-family:var(--mono); font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(240,242,245,0.22); margin-bottom:10px; transition:color 0.4s; }
+.sm-lc-step.lit .sm-lc-tag { color:var(--amber-bright); }
+.sm-lc-h { font-family:var(--sans); font-weight:500; font-size:clamp(17px,2vw,22px); letter-spacing:-0.015em; color:rgba(240,242,245,0.3); font-variation-settings:"opsz" 144; margin-bottom:10px; transition:color 0.4s; }
+.sm-lc-step.lit .sm-lc-h { color:var(--cream); }
+.sm-lc-p { font-size:15px; line-height:1.7; color:rgba(240,242,245,0.22); max-width:600px; transition:color 0.4s; }
+.sm-lc-step.lit .sm-lc-p { color:rgba(240,242,245,0.55); }
+
+/* ================================================================
+   ACT 3 — AI INTELLIGENCE: Particle canvas + capability cards
+   ================================================================ */
+.sm-ai { background:linear-gradient(135deg,#042E37 0%,#053B45 60%,#053B45 100%); padding:120px 0; position:relative; overflow:hidden; }
+.sm-ai-canvas { position:absolute; inset:0; pointer-events:none; z-index:0; }
+.sm-ai-inner { position:relative; z-index:1; }
+.sm-ai-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; margin-bottom:64px; }
+.sm-ai-ey { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:#34D399; display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.sm-ai-ey::before { content:''; width:24px; height:1px; background:#34D399; }
+.sm-ai-h { font-family:var(--sans); font-weight:300; font-size:clamp(28px,3.5vw,46px); line-height:1.05; letter-spacing:-0.03em; color:var(--cream); font-variation-settings:"opsz" 144; }
+.sm-ai-h em { font-family:var(--serif); font-style:italic; color:#34D399; font-weight:300; font-variation-settings:"opsz" 144; }
+.sm-ai-sub { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.45); margin-top:20px; }
+.sm-ai-stat-box { background:rgba(52,211,153,0.05); border:1px solid rgba(52,211,153,0.12); border-radius:4px; padding:24px 28px; margin-top:24px; font-size:14px; line-height:1.7; color:rgba(240,242,245,0.48); }
+.sm-ai-stat-box strong { color:#34D399; font-weight:600; }
+
+.sm-ai-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:48px; }
+.sm-ai-card { background:rgba(255,255,255,0.025); border:1px solid rgba(52,211,153,0.09); border-radius:4px; padding:36px 28px; position:relative; overflow:hidden; transition:border-color 0.35s, transform 0.3s; }
+.sm-ai-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,#34D399,transparent); transform:scaleX(0); transform-origin:center; transition:transform 0.5s ease; }
+.sm-ai-card:hover { border-color:rgba(52,211,153,0.28); transform:translateY(-4px); }
+.sm-ai-card:hover::after { transform:scaleX(1); }
+.sm-ai-icon { width:40px; height:40px; border-radius:50%; background:rgba(52,211,153,0.07); border:1px solid rgba(52,211,153,0.18); display:flex; align-items:center; justify-content:center; color:#34D399; margin-bottom:20px; }
+.sm-ai-card-h { font-family:var(--sans); font-weight:500; font-size:16px; color:rgba(240,242,245,0.82); letter-spacing:-0.01em; margin-bottom:10px; font-variation-settings:"opsz" 144; }
+.sm-ai-card-p { font-size:14px; line-height:1.68; color:rgba(240,242,245,0.37); }
+
+/* AI live spend stream */
+.sm-ai-feed { background:rgba(52,211,153,0.03); border:1px solid rgba(52,211,153,0.09); border-radius:4px; overflow:hidden; }
+.sm-ai-feed-hd { padding:12px 20px; border-bottom:1px solid rgba(52,211,153,0.07); background:rgba(52,211,153,0.05); font-family:var(--mono); font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:#34D399; display:flex; align-items:center; gap:8px; }
+.sm-ai-feed-dot { width:6px; height:6px; border-radius:50%; background:#34D399; animation:pulseG 2s infinite; }
+.sm-ai-feed-body { height:200px; overflow:hidden; position:relative; }
+.sm-ai-ins { padding:16px 24px; border-bottom:1px solid rgba(52,211,153,0.05); display:grid; grid-template-columns:auto 1fr auto; gap:16px; align-items:center; }
+.sm-ai-ins-v { font-family:var(--mono); font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:#34D399; padding:3px 8px; background:rgba(52,211,153,0.07); border-radius:2px; white-space:nowrap; }
+.sm-ai-ins-t { font-size:13.5px; color:rgba(240,242,245,0.58); line-height:1.4; }
+.sm-ai-ins-c { font-family:var(--mono); font-size:10px; color:rgba(240,242,245,0.22); white-space:nowrap; }
+
+/* ================================================================
+   USE CASES — Six workstreams
+   ================================================================ */
+.sm-workstreams { background:var(--paper); padding:120px 0; }
+.sm-cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:56px; }
+.sm-card { background:var(--cream-warm); border:1px solid var(--line); border-radius:4px; padding:36px 32px; position:relative; overflow:hidden; transition:transform 0.3s, border-color 0.3s, box-shadow 0.3s; }
+.sm-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--amber-bright); transform:scaleX(0); transform-origin:left; transition:transform 0.4s ease; }
+.sm-card:hover { transform:translateY(-4px); border-color:rgba(72,112,255,0.2); box-shadow:0 16px 40px rgba(30,43,60,0.08); }
+.sm-card:hover::before { transform:scaleX(1); }
+.sm-card-icon { width:44px; height:44px; background:var(--navy); border-radius:4px; display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:var(--amber-bright); }
+.sm-card-h { font-family:var(--sans); font-weight:500; font-size:18px; letter-spacing:-0.01em; color:var(--navy); margin-bottom:10px; font-variation-settings:"opsz" 144; }
+.sm-card-p { font-size:14.5px; line-height:1.65; color:var(--muted); }
+
+/* ================================================================
+   PROOF
+   ================================================================ */
+.sm-proof { background:var(--navy); padding:120px 0; position:relative; overflow:hidden; }
+.sm-proof::before { content:'SAAS'; position:absolute; right:-40px; bottom:-20px; font-family:var(--sans); font-weight:700; font-size:200px; letter-spacing:-0.05em; color:rgba(255,255,255,0.022); pointer-events:none; user-select:none; font-variation-settings:"opsz" 144; }
+.sm-proof-grid { display:grid; grid-template-columns:1.1fr 1fr; gap:80px; align-items:center; }
+.sm-proof-quote { font-family:var(--sans); font-weight:400; font-size:clamp(22px,3vw,36px); line-height:1.2; letter-spacing:-0.02em; color:var(--cream); font-variation-settings:"opsz" 144; }
+.sm-proof-quote em { font-family:var(--serif); font-style:italic; color:var(--amber-bright); font-weight:300; font-variation-settings:"opsz" 144; }
+.sm-proof-body { font-size:16px; line-height:1.72; color:rgba(240,242,245,0.52); margin-top:24px; }
+.sm-proof-attr { margin-top:32px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.08); display:flex; gap:14px; align-items:center; }
+.sm-proof-av { width:44px; height:44px; border-radius:50%; background:rgba(72,112,255,0.15); border:1px solid rgba(72,112,255,0.3); display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-style:italic; font-size:18px; color:var(--amber-bright); }
+.sm-proof-name { font-weight:600; color:var(--cream); font-size:14px; }
+.sm-proof-role { font-size:12px; color:rgba(240,242,245,0.32); margin-top:2px; }
+.sm-proof-stat { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:4px; padding:48px 40px; position:relative; overflow:hidden; }
+.sm-proof-stat::before { content:''; position:absolute; top:-60%; right:-30%; width:300px; height:300px; background:radial-gradient(circle,rgba(72,112,255,0.15) 0%,transparent 70%); border-radius:50%; }
+.sm-proof-stat-tag { font-family:var(--mono); font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:var(--amber-bright); margin-bottom:20px; position:relative; }
+.sm-proof-stat-num { font-family:var(--sans); font-weight:200; font-size:clamp(72px,10vw,110px); line-height:0.9; color:var(--cream); letter-spacing:-0.05em; font-variation-settings:"opsz" 144; margin-bottom:20px; position:relative; }
+.sm-proof-stat-num span { color:var(--amber-bright); }
+.sm-proof-stat-desc { font-size:14.5px; line-height:1.65; color:rgba(240,242,245,0.48); position:relative; }
+
+/* ================================================================
+   ADJACENT + CTA
+   ================================================================ */
+.sm-adjacent { background:var(--paper); padding:100px 0; }
+.sm-adj-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:48px; }
+.sm-adj-card { background:var(--cream-warm); border:1px solid var(--line); border-radius:4px; padding:40px 36px; display:flex; flex-direction:column; transition:all 0.3s ease; }
+.sm-adj-card:hover { background:var(--navy); transform:translateY(-4px); }
+.sm-adj-num { font-family:var(--sans); font-style:italic; color:var(--amber); font-size:14px; margin-bottom:16px; transition:color 0.3s; }
+.sm-adj-card:hover .sm-adj-num { color:var(--amber-bright); }
+.sm-adj-h { font-family:var(--sans); font-weight:500; font-size:22px; line-height:1.2; color:var(--navy); letter-spacing:-0.01em; font-variation-settings:"opsz" 144; margin-bottom:12px; flex:1; transition:color 0.3s; }
+.sm-adj-card:hover .sm-adj-h { color:var(--cream); }
+.sm-adj-p { font-size:14.5px; line-height:1.6; color:var(--muted); margin-bottom:20px; transition:color 0.3s; }
+.sm-adj-card:hover .sm-adj-p { color:rgba(240,242,245,0.58); }
+.sm-adj-lnk { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; font-weight:600; display:inline-flex; align-items:center; gap:8px; color:var(--navy); transition:color 0.3s; }
+.sm-adj-card:hover .sm-adj-lnk { color:var(--amber-bright); }
+
+.sm-cta { background:var(--cream-warm); padding:100px 0; }
+.sm-cta-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.sm-cta h2 { font-family:var(--sans); font-weight:400; font-size:clamp(32px,4vw,52px); line-height:1.05; letter-spacing:-0.03em; color:var(--navy); font-variation-settings:"opsz" 144; margin-bottom:16px; }
+.sm-cta h2 em { font-family:var(--serif); font-style:italic; color:var(--amber); font-weight:300; font-variation-settings:"opsz" 144; }
+.sm-cta p { font-size:17px; line-height:1.7; color:var(--navy-soft); margin-bottom:32px; }
+.sm-cta-list { list-style:none; display:flex; flex-direction:column; gap:12px; }
+.sm-cta-list li { display:flex; align-items:flex-start; gap:12px; font-size:15px; line-height:1.55; color:var(--navy-soft); padding-bottom:12px; border-bottom:1px solid var(--line); }
+.sm-cta-list li:last-child { border-bottom:none; }
+.sm-cta-list li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--amber-bright); flex-shrink:0; margin-top:6px; }
+
+/* ================================================================
+   SHARED
+   ================================================================ */
+.r { opacity:0; transform:translateY(20px); transition:opacity 0.65s ease, transform 0.65s ease; }
+.r.in { opacity:1; transform:none; }
+.r[data-d="1"]{ transition-delay:0.1s; } .r[data-d="2"]{ transition-delay:0.2s; } .r[data-d="3"]{ transition-delay:0.3s; }
+.st-eyebrow { font-family:var(--mono); font-size:9px; letter-spacing:0.28em; text-transform:uppercase; color:var(--amber-bright); display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.st-eyebrow::before { content:''; width:24px; height:1px; background:var(--amber-bright); }
+.st-eyebrow.dark { color:var(--amber); } .st-eyebrow.dark::before { background:var(--amber); }
+.st-h { font-family:var(--sans); font-weight:400; font-size:clamp(32px,4vw,52px); line-height:1.05; letter-spacing:-0.03em; color:var(--navy); font-variation-settings:"opsz" 144; margin-bottom:16px; }
+.st-h em { font-family:var(--serif); font-style:italic; color:var(--amber); font-weight:300; font-variation-settings:"opsz" 144; }
+.st-h.cream { color:var(--cream); } .st-h.cream em { color:var(--amber-bright); }
+.st-lede { font-size:17px; line-height:1.7; color:var(--navy-soft); max-width:640px; }
+.st-lede.light { color:rgba(240,242,245,0.55); }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width:960px){
+  .sm-hero-inner,.sm-past-grid,.sm-answer-grid,.sm-ai-grid,.sm-proof-grid,.sm-cta-inner { grid-template-columns:1fr; gap:40px; }
+  .sm-ai-cards,.sm-cards-grid { grid-template-columns:1fr 1fr; }
+  .sm-pain-grid { grid-template-columns:1fr; }
+  .sm-adj-grid { grid-template-columns:1fr; }
+  .sm-stat-inner { grid-template-columns:repeat(2,1fr); }
+  .sm-hero-inner { padding:110px 24px 60px; }
+}
+@media (max-width:600px){
+  .sm-ai-cards,.sm-cards-grid { grid-template-columns:1fr; }
+  .sm-stat-inner { grid-template-columns:1fr; }
+  .sm-stat-item { border-right:none; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .sm-lc-step { grid-template-columns:48px 1fr; gap:20px; }
+  .sm-past,.sm-answer,.sm-ai,.sm-workstreams,.sm-proof,.sm-adjacent,.sm-cta { padding:80px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-lockup">
+        <span class="logo-text"><span class="logo-cap">P</span>roteam</span>
+        <span class="logo-advisory">Advisory Solutions LLP</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-mega">
+        <a href="services.html" class="active">Services <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="mega-menu" role="menu" aria-label="Services">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <a href="services.html#sam" class="mega-head">Software Asset Management</a>
+              <ul>
+                <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+                <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+                <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ham" class="mega-head">Hardware Asset Management</a>
+              <ul>
+                <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+                <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#finops" class="mega-head">Cloud FinOps</a>
+              <ul>
+                <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+                <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ai-transformation" class="mega-head">AI Transformation Services</a>
+              <ul>
+                <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+                <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#itam-tech" class="mega-head">ITAM Technology</a>
+              <ul>
+                <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+                <li><a href="service-itam-flexera.html">Flexera</a></li>
+                <li><a href="service-itam-snow.html">Snow</a></li>
+                <li><a href="service-itam-zylo.html">Zylo</a></li>
+                <li><a href="service-itam-aspera.html">Aspera</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Free Consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <ul class="mobile-nav-links">
+    <li><a href="index.html">Home <span>&rarr;</span></a></li>
+    <li class="has-sub">
+      <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="m-svc-sub">
+        Services
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul id="m-svc-sub" class="sub-menu">
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-sam-sub">
+            Software Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-sam-sub" class="sub-menu-2">
+            <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+            <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+            <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ham-sub">
+            Hardware Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ham-sub" class="sub-menu-2">
+            <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+            <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-finops-sub">
+            Cloud FinOps
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-finops-sub" class="sub-menu-2">
+            <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+            <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ai-sub">
+            AI Transformation Services
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ai-sub" class="sub-menu-2">
+            <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+            <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-itam-sub">
+            ITAM Technology
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-itam-sub" class="sub-menu-2">
+            <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+            <li><a href="service-itam-flexera.html">Flexera</a></li>
+            <li><a href="service-itam-snow.html">Snow</a></li>
+            <li><a href="service-itam-zylo.html">Zylo</a></li>
+            <li><a href="service-itam-aspera.html">Aspera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="case-studies.html">Case Studies <span>&rarr;</span></a></li>
+    <li><a href="about.html">About <span>&rarr;</span></a></li>
+    <li><a href="insights.html">Insights <span>&rarr;</span></a></li>
+    <li><a href="contact.html">Contact <span>&rarr;</span></a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta">Book Free Consultation &rarr;</a>
+  <div class="mobile-nav-contact">
+    <a href="tel:+919676889797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      +91 9676 889 797
+    </a>
+    <a href="mailto:vpatel@proteamadvisory.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      vpatel@proteamadvisory.com
+    </a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="sm-hero">
+  <div class="sm-hero-inner">
+    <div>
+      <div class="sm-eyebrow">— 06 &nbsp; SaaS Management Services</div>
+      <h1 class="sm-hero-h1">Your SaaS estate<br>is <em>bleeding</em><br>spend — quietly,<br>every month.</h1>
+      <p class="sm-hero-sub">30–50% of your software bill is now SaaS. Most of it auto-renews. Most of it is under-used. We bring SAM discipline to the platforms that dominate the spend — ServiceNow, Salesforce, Microsoft 365, and the long tail.</p>
+      <div class="sm-cta-row">
+        <a href="contact.html" class="btn-signal">Book free consultation</a>
+        <a href="service-ai-spend.html" class="btn-ghost-cream">See AI spend services</a>
+      </div>
+    </div>
+    <div>
+      <div class="sm-panel-card">
+        <div class="sm-panel-header">
+          <div class="sm-panel-dot red"></div>
+          <div class="sm-panel-dot amber"></div>
+          <div class="sm-panel-dot green"></div>
+          <div class="sm-panel-title">Live Portfolio Signals</div>
+        </div>
+        <div class="sm-feed-wrap"><div id="portfolioFeed"></div></div>
+        <div class="sm-panel-footer">
+          <div class="sm-status-badge">Waste Detected</div>
+          <div class="sm-resp">3 renewals in 60 days</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sm-stat-strip">
+    <div class="sm-stat-inner">
+      <div class="sm-stat-item"><div class="sm-stat-num"><span>30</span>–50%</div><div class="sm-stat-lbl">Of total software spend now flows through SaaS platforms</div></div>
+      <div class="sm-stat-item"><div class="sm-stat-num"><span>20</span>–30%</div><div class="sm-stat-lbl">Of SaaS seats are typically dormant or underutilised</div></div>
+      <div class="sm-stat-item"><div class="sm-stat-num"><span>15</span>–25%</div><div class="sm-stat-lbl">Reduction in total SaaS spend our clients aim for in year one</div></div>
+      <div class="sm-stat-item"><div class="sm-stat-num"><span>10</span>+</div><div class="sm-stat-lbl">Major SaaS platforms with deep specialist expertise</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACT 1: THE SPRAWL PROBLEM ===== -->
+<section class="sm-past">
+  <div class="container">
+    <div class="sm-past-grid">
+      <div class="r">
+        <div class="sm-past-ey">— Before Proteam</div>
+        <h2 class="sm-past-h">SaaS sprawl compounds<br>in silence — until the <em>renewal lands.</em></h2>
+        <p class="sm-past-sub">Procurement happened in every team. Finance sees the invoice. IT doesn't own the contract. The vendor calls the account rep. By then, the negotiation window has already narrowed to nothing.</p>
+      </div>
+      <div class="r" data-d="1">
+        <div class="sm-etm" id="wasteTerminal">
+          <div class="sm-etm-hd"><div class="sm-edot"></div><span>saas-portfolio.log — no governance layer</span></div>
+          <div class="sm-elog" id="wasteLog"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sm-pain-grid" id="sprawlGrid">
+    <div class="sm-pain-card r"><div class="sm-pain-n">01</div><h3 class="sm-pain-h">Sprawl — the root cause</h3><p class="sm-pain-p">Hundreds of distinct SaaS apps. Most procured outside formal channels. Many redundant. Few governed. Every team has a Slack, a Notion, a Monday. No one has a map.</p></div>
+    <div class="sm-pain-card r" data-d="1"><div class="sm-pain-n">02</div><h3 class="sm-pain-h">Waste — always recurring</h3><p class="sm-pain-p">Dormant seats. Over-tiered editions. Unused modules. Departed employees still consuming licences. AppExchange apps no one remembers buying. It resets every billing cycle.</p></div>
+    <div class="sm-pain-card r" data-d="2"><div class="sm-pain-n">03</div><h3 class="sm-pain-h">Renewal opacity — the trap</h3><p class="sm-pain-p">SaaS contracts auto-renew. Few enterprises prepare until the vendor's account team initiates the conversation — at which point the negotiation window has already closed.</p></div>
+  </div>
+</section>
+
+<!-- ===== ACT 2: THE PROTEAM ANSWER ===== -->
+<section class="sm-answer">
+  <div class="container">
+    <div class="sm-answer-grid r">
+      <div>
+        <div class="sm-ans-ey">— The Proteam Way</div>
+        <h2 class="sm-ans-h">Discovery to renewal<br><em>leverage.</em> In one programme.</h2>
+        <p class="sm-ans-sub">Not a dashboard refresh. A structured engagement that maps the estate, quantifies the waste, and puts you in the room with the vendor six months ahead — with data they can't argue with.</p>
+      </div>
+      <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-end;">
+        <div><div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,242,245,0.28);margin-bottom:6px;">Engagement start</div><div style="font-family:var(--sans);font-weight:300;font-size:40px;letter-spacing:-0.03em;color:var(--cream);font-variation-settings:'opsz' 144;">8–12 wk</div></div>
+        <div><div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,242,245,0.28);margin-bottom:6px;">Renewal trigger</div><div style="font-family:var(--sans);font-weight:300;font-size:40px;letter-spacing:-0.03em;color:var(--amber-bright);font-variation-settings:'opsz' 144;">T–6mo</div></div>
+      </div>
+    </div>
+
+    <div class="sm-lifecycle" id="lcPath">
+      <div class="sm-lc-spine"><div class="sm-lc-fill" id="lcFill"></div></div>
+      <div class="sm-lc-step" data-d="0"><div class="sm-lc-node"><div class="sm-lc-circ"></div><div class="sm-lc-t">Week 1</div></div><div><div class="sm-lc-tag">Discover</div><h3 class="sm-lc-h">Free consultation — scope the estate, agree the savings target</h3><p class="sm-lc-p">We scope the SaaS estate, identify priority vendors, align the engagement plan with your major upcoming renewals. You leave the call with a view of where the biggest opportunities are before we start.</p></div></div>
+      <div class="sm-lc-step" data-d="200"><div class="sm-lc-node"><div class="sm-lc-circ"></div><div class="sm-lc-t">Week 2–5</div></div><div><div class="sm-lc-tag">Inventory &amp; Analyse</div><h3 class="sm-lc-h">Full estate mapped — shadow IT, dormant seats, edition waste</h3><p class="sm-lc-p">Discovery across SSO logs, finance, expense reports, and SaaS management platforms. Per-application utilisation analysis, edition fitness, dormancy flagging. Output: a single source of truth for every SaaS subscription and where savings live.</p></div></div>
+      <div class="sm-lc-step" data-d="400"><div class="sm-lc-node"><div class="sm-lc-circ"></div><div class="sm-lc-t">Week 6–9</div></div><div><div class="sm-lc-tag">Optimise</div><h3 class="sm-lc-h">Right-sizing executed — renegotiation playbooks live per vendor</h3><p class="sm-lc-p">Right-sizing execution, consolidation programmes, vendor-by-vendor negotiation playbooks with pricing benchmarks, escalation paths, and alternative-vendor positioning. Each move quantified, tracked, and reported.</p></div></div>
+      <div class="sm-lc-step" data-d="600"><div class="sm-lc-node"><div class="sm-lc-circ"></div><div class="sm-lc-t">Week 10–12</div></div><div><div class="sm-lc-tag">Renewal Calendar</div><h3 class="sm-lc-h">Twelve-month renewal roadmap — you walk in prepared, not reactive</h3><p class="sm-lc-p">Every major renewal kicked off six to nine months ahead of the vendor's cycle. Dedicated negotiation playbook per platform: pricing benchmarks, T&amp;C red flags, AI add-on positioning. You set the agenda. The vendor responds.</p></div></div>
+      <div class="sm-lc-step" data-d="800"><div class="sm-lc-node"><div class="sm-lc-circ"></div><div class="sm-lc-t">Ongoing</div></div><div><div class="sm-lc-tag">Managed Service</div><h3 class="sm-lc-h">Monthly reviews, quarterly vendor check-ins — savings become recurring</h3><p class="sm-lc-p">Ongoing managed service: monthly utilisation reviews, quarterly business reviews, embedded support for ad hoc licensing questions. The estate stays visible. Renewal preparation runs automatically. Savings compound.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACT 3: AI + EMBEDDED INTELLIGENCE ===== -->
+<section class="sm-ai">
+  <canvas class="sm-ai-canvas" id="aiCanvas"></canvas>
+  <div class="container sm-ai-inner">
+    <div class="sm-ai-grid">
+      <div class="r">
+        <div class="sm-ai-ey">— The AI Layer</div>
+        <h2 class="sm-ai-h">Every SaaS vendor is now<br><em>monetising AI.</em> We negotiate it.</h2>
+        <p class="sm-ai-sub">ServiceNow Now Assist. Salesforce Agentforce. Microsoft Copilot. Adobe Firefly. Atlassian Intelligence. Every major SaaS platform has layered AI add-ons into its renewal — each with its own pricing motion, its own value case. We cut through it.</p>
+        <div class="sm-ai-stat-box">Enterprises that negotiate AI add-ons as part of the renewal — rather than accepting vendor defaults — reduce embedded AI cost by <strong>30–45%</strong> in the first cycle. The data layer we build into every SaaS engagement makes that conversation possible.</div>
+      </div>
+      <div class="r" data-d="1" style="display:flex;flex-direction:column;justify-content:center;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,242,245,0.25);margin-bottom:28px;">AI monetisation wave by platform</div>
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">Microsoft Copilot M365</div>
+            <div style="height:4px;width:88%;background:var(--amber-bright);border-radius:2px;opacity:0.85;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">Salesforce Agentforce</div>
+            <div style="height:4px;width:74%;background:var(--amber-bright);border-radius:2px;opacity:0.72;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">ServiceNow Now Assist</div>
+            <div style="height:4px;width:68%;background:var(--amber-bright);border-radius:2px;opacity:0.66;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:14px;color:rgba(240,242,245,0.5);">Adobe Firefly / Workfront</div>
+            <div style="height:4px;width:55%;background:#34D399;border-radius:2px;opacity:0.8;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sm-ai-cards r" data-d="1">
+      <div class="sm-ai-card">
+        <div class="sm-ai-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/></svg></div>
+        <h3 class="sm-ai-card-h">SaaS Discovery &amp; Inventory</h3>
+        <p class="sm-ai-card-p">Every active SaaS application mapped — including shadow IT procured outside formal channels. Pulled from SSO logs, finance, expense reports, and management platforms (Zylo, Productiv, Torii).</p>
+      </div>
+      <div class="sm-ai-card">
+        <div class="sm-ai-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+        <h3 class="sm-ai-card-h">Utilisation Intelligence</h3>
+        <p class="sm-ai-card-p">Per-application analysis of seat utilisation, edition fitness, module usage, and dormancy. Vendor-by-vendor right-sizing recommendations with quantified savings figures before any conversation starts.</p>
+      </div>
+      <div class="sm-ai-card">
+        <div class="sm-ai-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <h3 class="sm-ai-card-h">Renewal Intelligence</h3>
+        <p class="sm-ai-card-p">Renewals triggered six to nine months ahead. Commercial benchmarking, T&amp;C red flags, AI add-on positioning. Usage data modelled against upcoming contract terms. You set the negotiation agenda.</p>
+      </div>
+    </div>
+
+    <div class="sm-ai-feed r" data-d="2">
+      <div class="sm-ai-feed-hd"><div class="sm-ai-feed-dot"></div>AI Spend Signal Stream — live portfolio insights</div>
+      <div class="sm-ai-feed-body" id="aiFeedBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROOF ===== -->
+<section class="sm-proof">
+  <div class="container">
+    <div class="sm-proof-grid">
+      <div class="r">
+        <div class="st-eyebrow">Proof in practice</div>
+        <div class="sm-proof-quote">ServiceNow, Salesforce, Workday, Microsoft 365 — SaaS changed the delivery model, not the licensing game.</em></div>
+        <p class="sm-proof-body">The same SAM discipline used to navigate Oracle and IBM complexity now helps enterprises control spiralling SaaS costs and renewal pressure. Cutting unused Salesforce spend. Negotiating ServiceNow pricing against real platform usage. Challenging Microsoft 365 upsell before renewal cycles hit. Different vendors. Different dashboards. Same need for visibility, leverage, and control.</p>
+        <div class="sm-proof-attr">
+          <div class="sm-proof-av">VP</div>
+          <div><div class="sm-proof-name">Vash Patel</div><div class="sm-proof-role">Founder — Proteam Advisory</div></div>
+        </div>
+      </div>
+      <div class="r" data-d="2">
+        <div class="sm-proof-stat">
+          <div class="sm-proof-stat-tag">Major SaaS platforms — deep specialist expertise</div>
+          <div class="sm-proof-stat-num"><span>10</span>+</div>
+          <p class="sm-proof-stat-desc">ServiceNow, Salesforce, Microsoft 365, Workday, Adobe, Atlassian, Slack, Zoom, Box, DocuSign — and the long tail. Each negotiated on your usage data, not the vendor's default position.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ADJACENT ===== -->
+<section class="sm-adjacent">
+  <div class="container">
+    <div class="r">
+      <div class="st-eyebrow dark">Often deployed alongside</div>
+      <h2 class="st-h">SaaS touches <em>AI and Cloud.</em></h2>
+      <p class="st-lede" style="margin-top:12px;">SaaS Management overlaps with both. Most SaaS now embeds AI. Most SaaS runs on cloud commitments. The strongest engagements span all three layers.</p>
+    </div>
+    <div class="sm-adj-grid">
+      <a href="service-ai-spend.html" class="sm-adj-card r" data-d="1">
+        <div class="sm-adj-num">— 04</div>
+        <h4 class="sm-adj-h">AI Spend Management</h4>
+        <p class="sm-adj-p">Embedded AI in ServiceNow, Salesforce, and Microsoft 365 is a SaaS problem and an AI problem simultaneously. We negotiate both at the same renewal table.</p>
+        <span class="sm-adj-lnk">Learn more <svg width="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="service-cloud-finops.html" class="sm-adj-card r" data-d="2">
+        <div class="sm-adj-num">— 07</div>
+        <h4 class="sm-adj-h">Cloud FinOps</h4>
+        <p class="sm-adj-p">SaaS runs on cloud. Major SaaS contracts now interact with AWS, Azure, and GCP commitments through bring-your-own-cloud arrangements. We optimise both layers together.</p>
+        <span class="sm-adj-lnk">Learn more <svg width="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="sm-cta">
+  <div class="container">
+    <div class="sm-cta-inner">
+      <div class="r">
+        <div class="st-eyebrow dark">Start today</div>
+        <h2>Big SaaS renewal <em>coming up?</em></h2>
+        <p>The single highest-leverage moment in SaaS Management is six to nine months ahead of a major renewal. If you have one approaching — Microsoft EA, ServiceNow, Salesforce, Workday — that's the time to talk.</p>
+        <div class="sm-cta-row"><a href="contact.html" class="btn-signal">Book free consultation</a></div>
+      </div>
+      <div class="r" data-d="1">
+        <h4 style="font-family:var(--sans);font-weight:500;font-size:16px;color:var(--navy);margin-bottom:24px;letter-spacing:-0.01em;">What you'll get in the 30-minute call</h4>
+        <ul class="sm-cta-list">
+          <li>A senior SaaS specialist reviews your current portfolio and upcoming renewals</li>
+          <li>Vendor-by-vendor view of where SaaS waste typically hides in estates like yours</li>
+          <li>Pricing benchmark indication for your major upcoming renewal</li>
+          <li>View on embedded AI cost across your current SaaS stack</li>
+          <li>Honest read on whether external help is warranted — and timeline to start</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" style="color:var(--cream);"><span class="logo-lockup"><span class="logo-text" style="color:var(--cream);"><span class="logo-cap">P</span>roteam</span><span class="logo-advisory" style="color:rgba(240,242,245,0.7);">Advisory Solutions LLP</span></span></a>
+        <h3>SAM specialists. Nothing else.</h3>
+        <p>An independent Software Asset Management consultancy serving enterprises across India, the UK, the US, and the Middle East.</p>
+        <div class="foot-social"><div class="foot-social-label">Follow us on</div><div class="foot-social-icons"><a href="https://in.linkedin.com/company/proteam-advisory" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a><a href="#" aria-label="X" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H21l-7.39 8.45L22.5 21h-6.83l-5.34-6.99L3.5 21H0l7.91-9.04L0.5 3h7l4.83 6.4L17.53 3zm-2.39 16h2.06L7.05 4.85H4.83L15.14 19z"/></svg></a></div></div>
+      </div>
+            <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#sam">Software Asset Management</a></li>
+          <li><a href="services.html#ham">Hardware Asset Management</a></li>
+          <li><a href="services.html#finops">Cloud FinOps</a></li>
+          <li><a href="services.html#ai-transformation">AI Transformation Services</a></li>
+          <li><a href="services.html#itam-tech">ITAM Technology</a></li>
+        </ul>
+      </div>
+      <div class="foot-col"><h5>Company</h5><ul><li><a href="about.html">About</a></li><li><a href="case-studies.html">Case Studies</a></li><li><a href="contact.html">Contact</a></li><li><a href="insights.html">Insights</a></li></ul></div>
+      <div class="foot-col"><h5>Get in touch</h5><address>Suite #309–312<br>KTC Illumination Towers<br>Madhapur, Hyderabad<br>Telangana, India<br><br><a href="tel:+919676889797">+91 9676 889 797</a><br><a href="mailto:vpatel@proteamadvisory.com">vpatel@proteamadvisory.com</a></address></div>
+    </div>
+    <div class="foot-bot"><div>© 2026 Proteam Advisory. All rights reserved.</div><div style="display:flex;gap:24px;flex-wrap:wrap;"><a href="privacy.html">Privacy</a><a href="terms.html">Terms of Use</a><a href="cookies.html">Cookies</a></div></div>
+  </div>
+</footer>
+
+<script>
+/* PORTFOLIO FEED */
+const portfolio = [
+  {v:'Salesforce',d:'847 of 1,200 licensed seats active — 353 dormant',t:'4m ago',s:'waste'},
+  {v:'ServiceNow',d:'Now Assist AI add-on — renewal T-45 days, no prep',t:'12m ago',s:'risk'},
+  {v:'Microsoft 365',d:'E5 tier on 620 users — 290 could downgrade to E3',t:'31m ago',s:'waste'},
+  {v:'Adobe CC',d:'Indirect access pattern — 14 unnamed users detected',t:'1h ago',s:'risk'},
+  {v:'Workday',d:'HCM module utilisation at 38% — right-sizing opportunity',t:'2h ago',s:'waste'},
+  {v:'Atlassian',d:'Intelligence add-on bundled into renewal — not opted in',t:'3h ago',s:'ok'}
+];
+const feed = document.getElementById('portfolioFeed');
+if(feed) portfolio.forEach((p,i)=>{
+  const el = document.createElement('div');
+  el.className = 'sm-feed-item';
+  el.style.animationDelay = (i*80)+'ms';
+  el.innerHTML = `<span class="sm-dot ${p.s}"></span><div><div class="sm-vendor">${p.v}</div><div class="sm-detail">${p.d}</div></div><span class="sm-tag">${p.t}</span>`;
+  feed.appendChild(el);
+});
+
+/* WASTE TERMINAL */
+const wasteLines = [
+  {ts:'08:02:14',tag:'WARN',cls:'sm-etag-warn',msg:'salesforce.seats — 353 dormant licences, last login >90d'},
+  {ts:'08:15:31',tag:'ERR',cls:'sm-etag-err',msg:'servicenow.renewal — T-45d, no negotiation playbook initiated'},
+  {ts:'08:44:07',tag:'WARN',cls:'sm-etag-warn',msg:'microsoft.e5 — 290 users eligible for E3 downgrade (~£190k saving)'},
+  {ts:'09:01:52',tag:'ERR',cls:'sm-etag-err',msg:'adobe.indirect — unnamed users outside licence scope, audit risk'},
+  {ts:'09:28:40',tag:'WARN',cls:'sm-etag-warn',msg:'workday.hcm — 62% module unused, no right-sizing review triggered'},
+  {ts:'10:13:09',tag:'ERR',cls:'sm-etag-err',msg:'shadow_it — 47 apps in expense reports not in SaaS inventory'}
+];
+const wasteLog = document.getElementById('wasteLog');
+if(wasteLog) wasteLines.forEach(l=>{
+  const el = document.createElement('div');
+  el.className = 'sm-eline';
+  el.innerHTML = `<span class="sm-ets">${l.ts}</span><span class="${l.cls}">[${l.tag}]</span><span class="sm-emsg">${l.msg}</span>`;
+  wasteLog.appendChild(el);
+});
+const termObs = new IntersectionObserver(e=>{
+  if(e[0].isIntersecting){
+    document.querySelectorAll('.sm-eline').forEach((l,i)=>setTimeout(()=>l.classList.add('show'),i*140+200));
+    termObs.disconnect();
+  }},{threshold:0.2});
+const wt = document.getElementById('wasteTerminal');
+if(wt) termObs.observe(wt);
+
+/* LIFECYCLE STEPS */
+const lcObs = new IntersectionObserver(e=>{
+  if(e[0].isIntersecting){
+    document.querySelectorAll('.sm-lc-step').forEach((s,i)=>setTimeout(()=>s.classList.add('lit'),parseInt(s.getAttribute('data-d'))||i*200));
+    const f = document.getElementById('lcFill');
+    if(f) setTimeout(()=>f.classList.add('go'),300);
+    lcObs.disconnect();
+  }},{threshold:0.1});
+const lcp = document.getElementById('lcPath');
+if(lcp) lcObs.observe(lcp);
+
+/* AI FEED TICKER */
+const insights = [
+  {v:'Salesforce',t:'353 dormant seats detected. Downgrade saves ~£290k annually.',c:'96%'},
+  {v:'Microsoft',t:'E5→E3 migration for 290 users viable. Saves ~£190k at next EA.',c:'94%'},
+  {v:'ServiceNow',t:'Now Assist AI add-on T-45d. Negotiate against Zylo benchmark.',c:'91%'},
+  {v:'Adobe',t:'14 unnamed users in indirect-access scope. Remediate before audit.',c:'89%'},
+  {v:'Workday',t:'HCM at 38% utilisation. Right-size before annual renewal in Q3.',c:'92%'},
+  {v:'Atlassian',t:'Intelligence bundled by default. Opt-out window closes in 60 days.',c:'88%'}
+];
+const ab = document.getElementById('aiFeedBody');
+if(ab){
+  [...insights,...insights].forEach(i=>{
+    const el = document.createElement('div');
+    el.className = 'sm-ai-ins';
+    el.innerHTML = `<div class="sm-ai-ins-v">${i.v}</div><div class="sm-ai-ins-t">${i.t}</div><div class="sm-ai-ins-c">${i.c}</div>`;
+    ab.appendChild(el);
+  });
+  let pos = 0;
+  function scrollFeed(){pos += 0.4; if(pos >= ab.scrollHeight/2) pos=0; ab.scrollTop=pos; requestAnimationFrame(scrollFeed);}
+  const feedObs = new IntersectionObserver(e=>{if(e[0].isIntersecting) scrollFeed();},{threshold:0.3});
+  const ais = document.querySelector('.sm-ai');
+  if(ais) feedObs.observe(ais);
+}
+
+/* PARTICLE CANVAS */
+(function(){
+  const c = document.getElementById('aiCanvas');
+  if(!c) return;
+  const x = c.getContext('2d');
+  let W,H,P=[];
+  function rs(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}
+  rs(); window.addEventListener('resize',rs);
+  class Pt{constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-0.5)*0.25;this.vy=(Math.random()-0.5)*0.25;this.r=Math.random()*1.5+0.5;}up(){this.x+=this.vx;this.y+=this.vy;if(this.x<0)this.x=W;if(this.x>W)this.x=0;if(this.y<0)this.y=H;if(this.y>H)this.y=0;}}
+  for(let i=0;i<70;i++) P.push(new Pt());
+  function draw(){
+    x.clearRect(0,0,W,H);
+    P.forEach(p=>{x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle='rgba(52,211,153,0.3)';x.fill();});
+    for(let i=0;i<P.length;i++) for(let j=i+1;j<P.length;j++){
+      const dx=P[i].x-P[j].x,dy=P[i].y-P[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<110){x.beginPath();x.moveTo(P[i].x,P[i].y);x.lineTo(P[j].x,P[j].y);x.strokeStyle=`rgba(52,211,153,${0.07*(1-d/110)})`;x.lineWidth=0.5;x.stroke();}
+    }
+    P.forEach(p=>p.up());
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* SCROLL REVEAL */
+const ro = new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('in');ro.unobserve(el.target);}}),{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>ro.observe(el));
+
+/* MOBILE MENU */
+(function(){
+  const toggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  if(!toggle||!mobileNav) return;
+  const body = document.body;
+  function openMenu(){mobileNav.classList.add('is-open');toggle.classList.add('open');toggle.setAttribute('aria-expanded','true');body.style.overflow='hidden';}
+  function closeMenu(){mobileNav.classList.remove('is-open');toggle.classList.remove('open');toggle.setAttribute('aria-expanded','false');body.style.overflow='';}
+  toggle.addEventListener('click',()=>mobileNav.classList.contains('is-open')?closeMenu():openMenu());
+  mobileNav.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&mobileNav.classList.contains('is-open'))closeMenu();});
+  mobileNav.querySelectorAll('.sub-toggle, .sub-toggle-2').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id=btn.getAttribute('aria-controls');
+      const target=id?document.getElementById(id):btn.nextElementSibling;
+      if(!target) return;
+      const expanded=btn.getAttribute('aria-expanded')==='true';
+      btn.setAttribute('aria-expanded',String(!expanded));
+      target.classList.toggle('is-open',!expanded);
+    });
+  });
+})();
+</script>
+
+<script src="sammy-chatbot.js"></script>
+<script>
+/* Desktop mega-menu: JS hover with close-delay */
+(function () {
+  var CLOSE_DELAY = 150;
+  document.querySelectorAll(".nav-links .has-mega").forEach(function (li) {
+    var timer = null;
+    function openMenu() { clearTimeout(timer); li.classList.add("mega-open"); }
+    function scheduleClose() { timer = setTimeout(function () { li.classList.remove("mega-open"); }, CLOSE_DELAY); }
+    li.addEventListener("mouseenter", openMenu);
+    li.addEventListener("mouseleave", scheduleClose);
+    var menu = li.querySelector(".mega-menu");
+    if (menu) {
+      menu.addEventListener("mouseenter", openMenu);
+      menu.addEventListener("mouseleave", scheduleClose);
+    }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") li.classList.remove("mega-open"); });
+  });
+})();
+</script>
+</body>
+</html>

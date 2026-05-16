@@ -1,0 +1,2031 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Snow Software & Snow Atlas Services — Proteam Advisory</title>
+<meta name="description" content="Implementation, optimisation, and Flexera-One migration support for Snow Software deployments. Snow Licence Manager, Snow Atlas, inventory connectors, and SAM library tuning." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<style>
+/* ============================================================
+   SNOW — LICENCE VISIBILITY ENGINE
+   Motion Identity: Licence Crystallisation
+   Fragmented software signals converge into clear licence positions.
+   Visual: scattered inventory data shards crystallise into ordered
+   compliance geometry — echoing Snow's core user-centric SAM model.
+   ============================================================ */
+
+/* ── HERO ── */
+.sn-hero {
+  background: var(--navy-deep);
+  position: relative;
+  overflow: hidden;
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 0 80px;
+  border-bottom: none;
+}
+
+/* Full-bleed canvas for crystallisation animation */
+#sn-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Subtle grid overlay — consistent with Flexera */
+.sn-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(85,133,187,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(85,133,187,0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  pointer-events: none;
+}
+
+/* Radial vignette — keep text legible */
+.sn-hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 75% 55% at 50% 50%, transparent 25%, rgba(20,30,43,0.75) 100%);
+  pointer-events: none;
+}
+
+.sn-hero .container {
+  position: relative;
+  z-index: 10;
+}
+
+/* ── Hero breadcrumb ── */
+.sn-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(240,242,245,0.35);
+  margin-bottom: 48px;
+  letter-spacing: 0.05em;
+}
+.sn-breadcrumb a { color: rgba(240,242,245,0.35); }
+.sn-breadcrumb a:hover { color: var(--amber-bright); transition: color 0.2s; }
+.sn-breadcrumb .sep { opacity: 0.25; }
+.sn-breadcrumb .current { color: var(--amber-bright); }
+
+/* ── Hero eyebrow ── */
+.sn-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber-bright);
+  margin-bottom: 28px;
+}
+.sn-eyebrow::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--amber-bright);
+  opacity: 0.6;
+}
+
+/* ── Headline ── */
+.sn-hero-headline {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(42px, 6vw, 84px);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  max-width: 840px;
+  margin-bottom: 32px;
+}
+.sn-hero-headline em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--amber-bright);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+
+.sn-hero-sub {
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(240,242,245,0.55);
+  max-width: 540px;
+  margin-bottom: 48px;
+}
+
+/* ── Live status bar — licence-centre feel ── */
+.sn-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 20px 28px;
+  background: rgba(30,43,60,0.65);
+  border: 1px solid rgba(85,133,187,0.18);
+  border-radius: var(--radius);
+  backdrop-filter: blur(12px);
+  width: fit-content;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.sn-status-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: rgba(240,242,245,0.45);
+}
+.sn-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+  animation: sn-pulse-green 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.sn-status-dot.amber {
+  background: var(--amber-bright);
+  box-shadow: 0 0 8px var(--amber-bright);
+  animation: sn-pulse-amber 2s ease-in-out infinite 0.5s;
+}
+.sn-status-dot.blue {
+  background: #7dd3fc;
+  box-shadow: 0 0 8px #7dd3fc;
+  animation: sn-pulse-blue 2s ease-in-out infinite 1s;
+}
+.sn-status-val {
+  color: var(--cream);
+  font-weight: 500;
+}
+@keyframes sn-pulse-green {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(1.5); }
+}
+@keyframes sn-pulse-amber {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(1.5); }
+}
+@keyframes sn-pulse-blue {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(1.5); }
+}
+
+/* ── Hero actions ── */
+.sn-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+}
+.btn-cmd-sn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--amber);
+  color: var(--navy-deep);
+  padding: 16px 28px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--radius);
+  transition: all 0.25s ease;
+}
+.btn-cmd-sn:hover {
+  background: var(--amber-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -8px rgba(85,133,187,0.45);
+}
+.btn-cmd-sn::after { content: '→'; transition: transform 0.25s; }
+.btn-cmd-sn:hover::after { transform: translateX(4px); }
+
+.btn-ghost-sn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(240,242,245,0.55);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(240,242,245,0.18);
+  padding-bottom: 2px;
+  transition: all 0.25s;
+}
+.btn-ghost-sn:hover { color: var(--amber-bright); border-color: var(--amber-bright); }
+
+/* ── Hero stat row ── */
+.sn-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(85,133,187,0.14);
+  padding-top: 48px;
+  margin-top: 0;
+}
+.sn-stat {
+  padding-right: 40px;
+  border-right: 1px solid rgba(85,133,187,0.1);
+}
+.sn-stat:first-child { padding-left: 0; }
+.sn-stat:last-child { border-right: none; padding-right: 0; padding-left: 40px; }
+.sn-stat:nth-child(2) { padding-left: 40px; }
+.sn-stat-num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 52px;
+  line-height: 0.9;
+  color: var(--amber-bright);
+  letter-spacing: -0.04em;
+  margin-bottom: 12px;
+  font-variation-settings: "opsz" 144;
+}
+.sn-stat-lbl {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(240,242,245,0.4);
+}
+
+/* ── SECTION: OVERVIEW (Problem → Solution) ── */
+.sn-overview {
+  background: var(--navy);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.sn-overview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* Section tag — consistent with Flexera */
+.sn-section-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--amber-bright);
+  opacity: 0.7;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sn-section-tag::before { content: '//'; opacity: 0.5; }
+
+.sn-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+.sn-overview-grid h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 20px;
+}
+.sn-overview-grid h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--amber-bright);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.sn-overview-grid p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: rgba(240,242,245,0.58);
+  margin-bottom: 16px;
+}
+.sn-overview-grid p strong { color: var(--cream); font-weight: 500; }
+
+/* ── Visual: Migration Decision Tool ── */
+.sn-decision-panel {
+  background: rgba(20,30,43,0.7);
+  border: 1px solid rgba(85,133,187,0.18);
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+.sn-decision-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--amber-bright), transparent);
+}
+.sn-dp-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(85,133,187,0.12);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(240,242,245,0.35);
+  text-transform: uppercase;
+}
+.sn-dp-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber-bright); opacity: 0.7; }
+
+.sn-dp-body { padding: 28px 24px; }
+
+.sn-decision-track {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sn-decision-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(30,43,60,0.5);
+  border: 1px solid rgba(85,133,187,0.08);
+  border-radius: var(--radius-sm);
+  transition: all 0.35s ease;
+  opacity: 0;
+  transform: translateX(-16px);
+}
+.sn-decision-row.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.sn-decision-row:hover { background: rgba(30,43,60,0.9); border-color: rgba(85,133,187,0.22); }
+
+.sn-dr-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240,242,245,0.35);
+}
+.sn-dr-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sn-dr-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(85,133,187,0.1);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.sn-dr-fill {
+  height: 100%;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, var(--amber), var(--amber-bright));
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sn-dr-fill.green { background: linear-gradient(90deg, #22c55e, #4ade80); }
+.sn-dr-val {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--amber-bright);
+  min-width: 36px;
+  text-align: right;
+}
+
+/* ── SECTION: WHAT'S INCLUDED (Operational Flows) ── */
+.sn-includes {
+  background: var(--navy-deep);
+  padding: 120px 0;
+  position: relative;
+}
+.sn-includes-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: end;
+  margin-bottom: 64px;
+}
+.sn-includes-header h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+}
+.sn-includes-header h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--amber-bright);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.sn-includes-header p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(240,242,245,0.5);
+  margin-top: 12px;
+}
+
+.sn-flows-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(85,133,187,0.1);
+  border: 1px solid rgba(85,133,187,0.1);
+}
+.sn-flow-item {
+  background: var(--navy-deep);
+  padding: 40px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s ease;
+  cursor: default;
+}
+.sn-flow-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--amber-bright), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s ease;
+}
+.sn-flow-item:hover { background: rgba(30,43,60,0.9); }
+.sn-flow-item:hover::before { transform: scaleX(1); }
+
+.sn-flow-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(85,133,187,0.5);
+  margin-bottom: 20px;
+}
+.sn-flow-icon {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 20px;
+  color: var(--amber-bright);
+  opacity: 0.8;
+}
+.sn-flow-item h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--cream);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 144;
+}
+.sn-flow-item p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(240,242,245,0.45);
+}
+
+/* ── SECTION: PLATFORM EXECUTION MODEL (Process) ── */
+.sn-process {
+  background: var(--paper);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.sn-process-grid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 100px;
+  align-items: start;
+}
+.sn-process-sticky {
+  position: sticky;
+  top: 120px;
+}
+.sn-process-sticky h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(32px, 3.5vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--navy);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 20px;
+}
+.sn-process-sticky h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--rust);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.sn-process-sticky p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.sn-steps { display: flex; flex-direction: column; }
+.sn-step {
+  border-bottom: 1px solid var(--line);
+  padding: 40px 0;
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 32px;
+  align-items: start;
+  transition: padding-left 0.3s ease;
+  position: relative;
+}
+/* Animated left border reveal on hover */
+.sn-step::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--amber);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.4s ease;
+}
+.sn-step:hover { padding-left: 12px; }
+.sn-step:hover::before { transform: scaleY(1); }
+
+.sn-step-num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 48px;
+  line-height: 0.9;
+  color: var(--amber);
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 144;
+  opacity: 0.7;
+}
+.sn-step h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--navy);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 144;
+}
+.sn-step p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--navy-soft);
+}
+
+/* ── SECTION: CRYSTALLISATION — Visual Insight ── */
+.sn-crystal {
+  background: var(--navy);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.sn-crystal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: center;
+}
+
+/* Animated SVG orca — Snow's crystallisation metaphor */
+.sn-crystal-vis {
+  position: relative;
+  height: 420px;
+}
+#sn-crystal-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.sn-crystal-copy h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 24px;
+}
+.sn-crystal-copy h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--amber-bright);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.sn-crystal-copy p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: rgba(240,242,245,0.58);
+  margin-bottom: 16px;
+}
+.sn-crystal-copy p strong { color: var(--cream); font-weight: 500; }
+
+/* Crystal metrics grid */
+.sn-crystal-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 40px;
+  background: rgba(85,133,187,0.1);
+  border: 1px solid rgba(85,133,187,0.14);
+}
+.sn-crystal-metric {
+  background: var(--navy);
+  padding: 24px 28px;
+  transition: background 0.3s ease;
+}
+.sn-crystal-metric:hover { background: rgba(30,43,60,0.95); }
+.sn-crystal-metric-val {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 36px;
+  letter-spacing: -0.03em;
+  color: var(--amber-bright);
+  font-variation-settings: "opsz" 144;
+  line-height: 1;
+  margin-bottom: 6px;
+  counter-reset: none;
+}
+.sn-crystal-metric-lbl {
+  font-size: 12px;
+  color: rgba(240,242,245,0.38);
+  line-height: 1.4;
+}
+
+/* ── PROOF ── */
+.sn-proof {
+  background: var(--navy);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.sn-proof::before {
+  content: '';
+  position: absolute;
+  top: -20%; right: -10%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(85,133,187,0.07) 0%, transparent 68%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.sn-proof-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.sn-proof-quote {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(26px, 3.2vw, 40px);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 36px;
+}
+.sn-proof-quote em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--amber-bright);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.sn-proof-attr {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(85,133,187,0.14);
+}
+.sn-proof-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(85,133,187,0.18);
+  border: 1px solid rgba(85,133,187,0.28);
+  color: var(--amber-bright);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--sans);
+  font-style: italic;
+  font-size: 16px;
+  font-variation-settings: "opsz" 144;
+  flex-shrink: 0;
+}
+.sn-proof-name { font-weight: 600; color: var(--cream); font-size: 14px; }
+.sn-proof-role { font-size: 12px; color: rgba(240,242,245,0.38); margin-top: 3px; }
+
+/* Recovery card — animated counter */
+.sn-recovery-card {
+  background: rgba(20,30,43,0.8);
+  border: 1px solid rgba(85,133,187,0.18);
+  border-radius: var(--radius);
+  padding: 48px 44px;
+  position: relative;
+  overflow: hidden;
+}
+.sn-recovery-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--amber), var(--amber-bright), transparent);
+}
+.sn-rc-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber-bright);
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+.sn-rc-num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 96px;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 20px;
+}
+.sn-rc-num span { color: var(--amber-bright); }
+.sn-rc-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(240,242,245,0.52);
+  margin-bottom: 28px;
+}
+.sn-rc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber-bright);
+  border-bottom: 1px solid rgba(85,133,187,0.38);
+  padding-bottom: 4px;
+  transition: gap 0.25s ease;
+}
+.sn-rc-link:hover { gap: 14px; }
+
+/* ── ADJACENT SERVICES ── */
+.sn-adjacent {
+  background: var(--cream);
+  padding: 120px 0;
+}
+.sn-adj-header { margin-bottom: 56px; }
+.sn-adj-header h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(30px, 3.5vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--navy);
+  font-variation-settings: "opsz" 144;
+  margin-top: 12px;
+}
+.sn-adj-header h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--rust);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.sn-adj-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.sn-adj-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 40px 36px;
+  border-radius: var(--radius);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.sn-adj-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.sn-adj-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -12px rgba(30,43,60,0.1); }
+.sn-adj-card:hover::before { transform: scaleX(1); }
+.sn-adj-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(85,133,187,0.45);
+  margin-bottom: 20px;
+}
+.sn-adj-card h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+  font-variation-settings: "opsz" 144;
+}
+.sn-adj-card p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted);
+  flex: 1;
+  margin-bottom: 24px;
+}
+.sn-adj-lnk {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--amber);
+  transition: gap 0.25s;
+}
+.sn-adj-lnk:hover { gap: 14px; }
+
+/* ── CTA ── */
+.sn-cta {
+  background: var(--navy-deep);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.sn-cta::before {
+  content: '';
+  position: absolute;
+  top: -30%; left: -10%;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(85,133,187,0.065) 0%, transparent 60%);
+  border-radius: 50%;
+}
+.sn-cta-inner {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 100px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+.sn-cta h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(34px, 4vw, 54px);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 24px;
+}
+.sn-cta h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--amber-bright);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.sn-cta p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(240,242,245,0.52);
+  margin-bottom: 36px;
+}
+.sn-cta-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.sn-cta-detail h4 {
+  font-family: var(--mono);
+  font-weight: 500;
+  color: var(--amber-bright);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 11px;
+  margin-bottom: 20px;
+}
+.sn-cta-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sn-cta-list li {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(240,242,245,0.55);
+}
+.sn-cta-list li::before {
+  content: '→';
+  color: var(--amber-bright);
+  font-size: 12px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ── SCROLL REVEAL animations ── */
+.sn-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.sn-reveal.in {
+  opacity: 1;
+  transform: none;
+}
+.sn-reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.sn-reveal-stagger.in > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0s; }
+.sn-reveal-stagger.in > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.1s; }
+.sn-reveal-stagger.in > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.2s; }
+.sn-reveal-stagger.in > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.3s; }
+.sn-reveal-stagger.in > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.4s; }
+.sn-reveal-stagger.in > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.5s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1080px) {
+  .sn-overview-grid, .sn-crystal-grid, .sn-proof-grid, .sn-cta-inner { grid-template-columns: 1fr; gap: 56px; }
+  .sn-process-grid { grid-template-columns: 1fr; gap: 48px; }
+  .sn-process-sticky { position: static; }
+  .sn-flows-grid { grid-template-columns: repeat(2, 1fr); }
+  .sn-includes-header { grid-template-columns: 1fr; gap: 24px; }
+}
+@media (max-width: 768px) {
+  .sn-hero { min-height: 100svh; padding-bottom: 56px; }
+  .sn-stat-row { grid-template-columns: 1fr; gap: 28px; }
+  .sn-stat:last-child, .sn-stat:nth-child(2) { padding-left: 0; }
+  .sn-stat { border-right: none; padding-right: 0; border-bottom: 1px solid rgba(85,133,187,0.08); padding-bottom: 24px; }
+  .sn-stat:last-child { border-bottom: none; }
+  .sn-flows-grid { grid-template-columns: 1fr; }
+  .sn-adj-grid { grid-template-columns: 1fr; }
+  .sn-crystal-metrics { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-lockup">
+        <span class="logo-text"><span class="logo-cap">P</span>roteam</span>
+        <span class="logo-advisory">Advisory Solutions LLP</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-mega">
+        <a href="services.html" class="active">Services <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="mega-menu" role="menu" aria-label="Services">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <a href="services.html#sam" class="mega-head">Software Asset Management</a>
+              <ul>
+                <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+                <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+                <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ham" class="mega-head">Hardware Asset Management</a>
+              <ul>
+                <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+                <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#finops" class="mega-head">Cloud FinOps</a>
+              <ul>
+                <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+                <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ai-transformation" class="mega-head">AI Transformation Services</a>
+              <ul>
+                <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+                <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#itam-tech" class="mega-head">ITAM Technology</a>
+              <ul>
+                <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+                <li><a href="service-itam-flexera.html">Flexera</a></li>
+                <li><a href="service-itam-snow.html">Snow</a></li>
+                <li><a href="service-itam-zylo.html">Zylo</a></li>
+                <li><a href="service-itam-aspera.html">Aspera</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Free Consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <ul class="mobile-nav-links">
+    <li><a href="index.html" class="active">Home <span>&rarr;</span></a></li>
+    <li class="has-sub">
+      <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="m-svc-sub">
+        Services
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul id="m-svc-sub" class="sub-menu">
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-sam-sub">
+            Software Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-sam-sub" class="sub-menu-2">
+            <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+            <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+            <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ham-sub">
+            Hardware Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ham-sub" class="sub-menu-2">
+            <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+            <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-finops-sub">
+            Cloud FinOps
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-finops-sub" class="sub-menu-2">
+            <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+            <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ai-sub">
+            AI Transformation Services
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ai-sub" class="sub-menu-2">
+            <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+            <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-itam-sub">
+            ITAM Technology
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-itam-sub" class="sub-menu-2">
+            <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+            <li><a href="service-itam-flexera.html">Flexera</a></li>
+            <li><a href="service-itam-snow.html">Snow</a></li>
+            <li><a href="service-itam-zylo.html">Zylo</a></li>
+            <li><a href="service-itam-aspera.html">Aspera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="case-studies.html">Case Studies <span>&rarr;</span></a></li>
+    <li><a href="about.html">About <span>&rarr;</span></a></li>
+    <li><a href="insights.html">Insights <span>&rarr;</span></a></li>
+    <li><a href="contact.html">Contact <span>&rarr;</span></a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta">Book Free Consultation &rarr;</a>
+  <div class="mobile-nav-contact">
+    <a href="tel:+919676889797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      +91 9676 889 797
+    </a>
+    <a href="mailto:vpatel@proteamadvisory.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      vpatel@proteamadvisory.com
+    </a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- HERO                                              -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="sn-hero">
+  <canvas id="sn-canvas"></canvas>
+  <div class="sn-hero-vignette"></div>
+  <div class="container">
+
+    <div class="sn-breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="services.html">Services</a>
+      <span class="sep">/</span>
+      <span class="current">Snow</span>
+    </div>
+
+    <div class="sn-eyebrow">Service 14 · ITAM Technology</div>
+
+    <h1 class="sn-hero-headline">
+      <em>Snow</em> Software &amp;<br>Snow Atlas services.
+    </h1>
+
+    <p class="sn-hero-sub">
+      Implementation, optimisation, and migration support for Snow Software deployments — Snow Licence Manager, Snow Atlas, inventory connectors, and the Flexera One migration path.
+    </p>
+
+    <div class="sn-hero-actions">
+      <a href="contact.html" class="btn-cmd-sn">Book free consultation</a>
+      <a href="case-studies.html" class="btn-ghost-sn">View case studies</a>
+    </div>
+
+    <div class="sn-status-bar sn-reveal">
+      <div class="sn-status-item">
+        <span class="sn-status-dot"></span>
+        <span>SLM Active</span>
+        <span class="sn-status-val">Snow Licence Manager</span>
+      </div>
+      <div class="sn-status-item">
+        <span class="sn-status-dot amber"></span>
+        <span>Atlas</span>
+        <span class="sn-status-val">Evolving roadmap</span>
+      </div>
+      <div class="sn-status-item">
+        <span class="sn-status-dot blue"></span>
+        <span>Migration path</span>
+        <span class="sn-status-val">Flexera One</span>
+      </div>
+    </div>
+
+    <div class="sn-stat-row sn-reveal">
+      <div class="sn-stat">
+        <div class="sn-stat-num">10+</div>
+        <div class="sn-stat-lbl">Years of Snow Software experience across Licence Manager and the Snow Atlas platform.</div>
+      </div>
+      <div class="sn-stat">
+        <div class="sn-stat-num">35+</div>
+        <div class="sn-stat-lbl">Snow deployments — net-new builds, optimisations, and Flexera One migrations.</div>
+      </div>
+      <div class="sn-stat">
+        <div class="sn-stat-num">6–14wk</div>
+        <div class="sn-stat-lbl">Typical timeline for an optimisation engagement to lift a deployment into production-grade output.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- OVERVIEW                                          -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="sn-overview">
+  <div class="container">
+    <div class="sn-overview-grid">
+
+      <div class="sn-reveal">
+        <div class="sn-section-tag">The problem we solve</div>
+        <h2>Snow is <em>changing</em>. So is the question of when to migrate.</h2>
+      </div>
+
+      <div class="sn-reveal">
+        <p>Snow Software has been one of the most widely deployed SAM platforms globally for over a decade — particularly strong on user-centric SAM, application metering, and SaaS discovery. The 2022 acquisition by Flexera changed the strategic trajectory. Snow Licence Manager remains supported, and Snow Atlas continues to evolve. But the long-term consolidation onto Flexera One is now visible on the roadmap.</p>
+        <p>That creates two distinct sets of questions. <strong>For those staying</strong> — how do we get the most from Snow Licence Manager and Snow Atlas right now? Connector tuning, SRL management, software model maintenance, integration with the wider IT estate. <strong>For those migrating</strong> — what's the right sequence, what data carries over, what gets rebuilt in Flexera One, and how do we run both in parallel during the transition?</p>
+        <p><strong>Vendor-independent.</strong> No reseller agreement with Flexera or Snow. The advice is grounded in your interests, not the platform vendor's renewal calendar.</p>
+
+        <!-- Animated decision panel -->
+        <div class="sn-decision-panel" style="margin-top: 36px;" id="sn-dp">
+          <div class="sn-dp-header">
+            <span class="sn-dp-dot"></span>
+            Strategic positioning diagnostic
+          </div>
+          <div class="sn-dp-body">
+            <div class="sn-decision-track" id="sn-dt">
+              <div class="sn-decision-row"><span class="sn-dr-label">SLM maturity</span><div class="sn-dr-bar-wrap"><div class="sn-dr-bar"><div class="sn-dr-fill" data-pct="72"></div></div><span class="sn-dr-val">72%</span></div></div>
+              <div class="sn-decision-row"><span class="sn-dr-label">SRL coverage</span><div class="sn-dr-bar-wrap"><div class="sn-dr-bar"><div class="sn-dr-fill" data-pct="58"></div></div><span class="sn-dr-val">58%</span></div></div>
+              <div class="sn-decision-row"><span class="sn-dr-label">Atlas readiness</span><div class="sn-dr-bar-wrap"><div class="sn-dr-bar"><div class="sn-dr-fill amber" data-pct="41"></div></div><span class="sn-dr-val">41%</span></div></div>
+              <div class="sn-decision-row"><span class="sn-dr-label">Migration fit</span><div class="sn-dr-bar-wrap"><div class="sn-dr-bar"><div class="sn-dr-fill green" data-pct="85"></div></div><span class="sn-dr-val">85%</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- WHAT'S INCLUDED                                   -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="sn-includes">
+  <div class="container">
+    <div class="sn-includes-header sn-reveal">
+      <div>
+        <div class="sn-section-tag">What's included</div>
+        <h2>Six workstreams. <em>Whatever your Snow future looks like.</em></h2>
+      </div>
+      <p>Whether you're staying on Snow, optimising your current deployment, or migrating onto Flexera One — engagements cover these areas.</p>
+    </div>
+
+    <div class="sn-flows-grid sn-reveal-stagger">
+
+      <div class="sn-flow-item">
+        <div class="sn-flow-num">// 01</div>
+        <svg class="sn-flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+        </svg>
+        <h4>Inventory connector tuning</h4>
+        <p>Configuration and tuning of Snow Inventory connectors — agents, agentless discovery, virtualisation source integration. The platform's accuracy depends entirely on the input data, and Snow connectors reward careful configuration.</p>
+      </div>
+
+      <div class="sn-flow-item">
+        <div class="sn-flow-num">// 02</div>
+        <svg class="sn-flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+        </svg>
+        <h4>Software recognition library management</h4>
+        <p>SRL tuning, custom application records, suite identification, and ongoing curation. Production-grade Snow deployments run on tuned SRL, maintained against your specific publisher portfolio.</p>
+      </div>
+
+      <div class="sn-flow-item">
+        <div class="sn-flow-num">// 03</div>
+        <svg class="sn-flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+        </svg>
+        <h4>Licence model &amp; contract load</h4>
+        <p>Loading your contractual position into Snow at the level of granularity the platform needs to produce defensible compliance positions — swap rights, downgrade rights, sub-capacity rules, geographic restrictions.</p>
+      </div>
+
+      <div class="sn-flow-item">
+        <div class="sn-flow-num">// 04</div>
+        <svg class="sn-flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+        <h4>Snow Atlas migration &amp; adoption</h4>
+        <p>For clients moving from Snow Licence Manager to Snow Atlas — structured migration support: data mapping, custom report rebuilding, integration recreation, user training. Atlas is not a like-for-like upgrade; we de-risk the transition.</p>
+      </div>
+
+      <div class="sn-flow-item">
+        <div class="sn-flow-num">// 05</div>
+        <svg class="sn-flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        <h4>Flexera One migration support</h4>
+        <p>For clients consolidating onto Flexera One — structured migration: what data carries over, what gets rebuilt from scratch, the parallel-run period design, and the cutover sequencing. Typically a 4–9 month programme.</p>
+      </div>
+
+      <div class="sn-flow-item">
+        <div class="sn-flow-num">// 06</div>
+        <svg class="sn-flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+        <h4>Reporting &amp; operating model</h4>
+        <p>Designing the operational reports, schedule, and review cadences that turn the Snow deployment into an actively useful governance system — not a data lake the SAM team peers into occasionally.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- PROCESS                                           -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="sn-process">
+  <div class="container">
+    <div class="sn-process-grid">
+
+      <div class="sn-process-sticky sn-reveal">
+        <div class="sn-section-tag" style="color: var(--amber); opacity: 0.8;">How we work</div>
+        <h2>Four stages. <em>Whichever direction you choose.</em></h2>
+        <p>Optimisation engagements run 6–14 weeks. Flexera One migrations run 4–9 months depending on estate complexity.</p>
+      </div>
+
+      <div class="sn-steps sn-reveal-stagger">
+        <div class="sn-step">
+          <div class="sn-step-num">01</div>
+          <div>
+            <h4>Discover &amp; scope</h4>
+            <p>Free consultation. We understand your current Snow deployment, the relationship with your Snow account team, your strategic intent (stay, optimise, or migrate), and your timeline pressures. Scope agreed on that basis.</p>
+          </div>
+        </div>
+        <div class="sn-step">
+          <div class="sn-step-num">02</div>
+          <div>
+            <h4>Diagnose &amp; design</h4>
+            <p>Structured diagnostic of the current deployment — connectors, SRL, licence model, reporting. For migrations, additional data-mapping and dependency analysis on the Flexera One target state.</p>
+          </div>
+        </div>
+        <div class="sn-step">
+          <div class="sn-step-num">03</div>
+          <div>
+            <h4>Implement &amp; optimise</h4>
+            <p>Execution. Connector tuning, SRL curation, licence model rebuild, or migration cut-over. Two-week sprints with weekly progress reporting and clear sprint acceptance criteria.</p>
+          </div>
+        </div>
+        <div class="sn-step">
+          <div class="sn-step-num">04</div>
+          <div>
+            <h4>Stabilise &amp; hand over</h4>
+            <p>Knowledge transfer, runbook documentation, 30/60/90-day hyper-care. For migrations, structured cut-over governance and parallel-run reconciliation.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- CRYSTALLISATION VISUAL SECTION                    -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="sn-crystal">
+  <div class="container">
+    <div class="sn-crystal-grid">
+
+      <!-- Animated crystallisation diagram -->
+      <div class="sn-crystal-vis sn-reveal">
+        <svg id="sn-crystal-svg" viewBox="0 0 520 420" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="sn-core-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(85,133,187,0.25)"/>
+              <stop offset="100%" stop-color="rgba(85,133,187,0)"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Outer ring pulse -->
+          <circle cx="260" cy="210" r="130" fill="none" stroke="rgba(85,133,187,0.08)" stroke-width="1"/>
+          <circle cx="260" cy="210" r="80" fill="none" stroke="rgba(85,133,187,0.12)" stroke-width="1"/>
+
+          <!-- Pulsing glow behind core -->
+          <circle cx="260" cy="210" r="60" fill="url(#sn-core-glow)">
+            <animate attributeName="r" from="55" to="90" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" from="0.5" to="0" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="260" cy="210" r="55" fill="url(#sn-core-glow)">
+            <animate attributeName="r" from="55" to="90" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+            <animate attributeName="opacity" from="0.4" to="0" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+          </circle>
+
+          <!-- Crystal shards — incoming inventory fragments, orbiting the core -->
+          <!-- Shard 1 -->
+          <g>
+            <animateMotion dur="7s" repeatCount="indefinite" begin="0s">
+              <mpath href="#sn-orbit-path-1"/>
+            </animateMotion>
+            <polygon points="0,-12 8,8 -8,8" fill="rgba(85,133,187,0.35)" stroke="rgba(125,211,252,0.6)" stroke-width="0.8"/>
+            <text y="22" font-family="Geist Mono, monospace" font-size="8" fill="rgba(240,242,245,0.4)" text-anchor="middle">SLM</text>
+          </g>
+
+          <!-- Shard 2 -->
+          <g>
+            <animateMotion dur="9s" repeatCount="indefinite" begin="-2s">
+              <mpath href="#sn-orbit-path-2"/>
+            </animateMotion>
+            <polygon points="0,-10 9,6 -9,6" fill="rgba(85,133,187,0.3)" stroke="rgba(125,211,252,0.5)" stroke-width="0.8"/>
+            <text y="20" font-family="Geist Mono, monospace" font-size="8" fill="rgba(240,242,245,0.35)" text-anchor="middle">SRL</text>
+          </g>
+
+          <!-- Shard 3 -->
+          <g>
+            <animateMotion dur="8s" repeatCount="indefinite" begin="-4s">
+              <mpath href="#sn-orbit-path-3"/>
+            </animateMotion>
+            <polygon points="0,-11 7,7 -7,7" fill="rgba(85,133,187,0.28)" stroke="rgba(85,133,187,0.55)" stroke-width="0.8"/>
+            <text y="19" font-family="Geist Mono, monospace" font-size="8" fill="rgba(240,242,245,0.32)" text-anchor="middle">INV</text>
+          </g>
+
+          <!-- Shard 4 -->
+          <g>
+            <animateMotion dur="11s" repeatCount="indefinite" begin="-6s">
+              <mpath href="#sn-orbit-path-4"/>
+            </animateMotion>
+            <polygon points="0,-13 10,8 -10,8" fill="rgba(85,133,187,0.22)" stroke="rgba(85,133,187,0.4)" stroke-width="0.8"/>
+            <text y="22" font-family="Geist Mono, monospace" font-size="8" fill="rgba(240,242,245,0.3)" text-anchor="middle">ATLAS</text>
+          </g>
+
+          <!-- Shard 5 -->
+          <g>
+            <animateMotion dur="6.5s" repeatCount="indefinite" begin="-1s">
+              <mpath href="#sn-orbit-path-5"/>
+            </animateMotion>
+            <polygon points="0,-9 6,6 -6,6" fill="rgba(125,211,252,0.2)" stroke="rgba(125,211,252,0.4)" stroke-width="0.8"/>
+            <text y="18" font-family="Geist Mono, monospace" font-size="7" fill="rgba(240,242,245,0.28)" text-anchor="middle">SAM</text>
+          </g>
+
+          <!-- Shard 6 -->
+          <g>
+            <animateMotion dur="10s" repeatCount="indefinite" begin="-8s">
+              <mpath href="#sn-orbit-path-6"/>
+            </animateMotion>
+            <polygon points="0,-10 8,7 -8,7" fill="rgba(85,133,187,0.18)" stroke="rgba(85,133,187,0.35)" stroke-width="0.8"/>
+            <text y="19" font-family="Geist Mono, monospace" font-size="8" fill="rgba(240,242,245,0.25)" text-anchor="middle">FLX1</text>
+          </g>
+
+          <!-- Orbit paths (ellipses at different angles) -->
+          <path id="sn-orbit-path-1" d="M 260 80 A 130 50 -30 1 1 260 340 A 130 50 -30 1 1 260 80" fill="none"/>
+          <path id="sn-orbit-path-2" d="M 130 210 A 60 130 0 1 1 390 210 A 60 130 0 1 1 130 210" fill="none"/>
+          <path id="sn-orbit-path-3" d="M 160 90 A 100 80 45 1 1 360 330 A 100 80 45 1 1 160 90" fill="none"/>
+          <path id="sn-orbit-path-4" d="M 260 60 A 130 80 0 1 1 260 360 A 130 80 0 1 1 260 60" fill="none"/>
+          <path id="sn-orbit-path-5" d="M 150 150 A 120 60 -20 1 1 370 270 A 120 60 -20 1 1 150 150" fill="none"/>
+          <path id="sn-orbit-path-6" d="M 200 80 A 80 130 20 1 1 320 340 A 80 130 20 1 1 200 80" fill="none"/>
+
+          <!-- Core: crystallised licence position -->
+          <circle cx="260" cy="210" r="30" fill="rgba(20,30,43,0.9)" stroke="rgba(85,133,187,0.5)" stroke-width="1.5"/>
+          <circle cx="260" cy="210" r="16" fill="rgba(85,133,187,0.2)" stroke="rgba(125,211,252,0.8)" stroke-width="1"/>
+          <circle cx="260" cy="210" r="7" fill="rgba(125,211,252,0.7)"/>
+
+          <!-- Core label -->
+          <text x="260" y="256" font-family="Geist Mono, monospace" font-size="9" fill="rgba(240,242,245,0.35)" text-anchor="middle" letter-spacing="2">LICENCE POSITION</text>
+
+          <!-- Compass marks -->
+          <text x="260" y="72" font-family="Geist Mono, monospace" font-size="9" fill="rgba(85,133,187,0.3)" text-anchor="middle">N</text>
+          <text x="260" y="360" font-family="Geist Mono, monospace" font-size="9" fill="rgba(85,133,187,0.3)" text-anchor="middle">S</text>
+          <text x="118" y="214" font-family="Geist Mono, monospace" font-size="9" fill="rgba(85,133,187,0.3)" text-anchor="middle">W</text>
+          <text x="402" y="214" font-family="Geist Mono, monospace" font-size="9" fill="rgba(85,133,187,0.3)" text-anchor="middle">E</text>
+        </svg>
+      </div>
+
+      <div class="sn-crystal-copy sn-reveal">
+        <div class="sn-section-tag">Licence visibility</div>
+        <h2>From fragmented data to <em>clear positions.</em></h2>
+        <p>Snow's core strength is user-centric SAM — but that only delivers if the underlying data is complete. Scattered inventory signals, an un-tuned SRL, and under-loaded contract data leave the platform producing positions you can't trust or defend.</p>
+        <p>Our work crystallises that fragmented data into a clean, defensible compliance position — <strong>one the SAM team can actually use</strong> in publisher conversations.</p>
+
+        <div class="sn-crystal-metrics">
+          <div class="sn-crystal-metric">
+            <div class="sn-crystal-metric-val">92%</div>
+            <div class="sn-crystal-metric-lbl">Average SRL coverage post-engagement</div>
+          </div>
+          <div class="sn-crystal-metric">
+            <div class="sn-crystal-metric-val">4wk</div>
+            <div class="sn-crystal-metric-lbl">Median time to first defensible position</div>
+          </div>
+          <div class="sn-crystal-metric">
+            <div class="sn-crystal-metric-val">0</div>
+            <div class="sn-crystal-metric-lbl">Reseller agreements — independence guaranteed</div>
+          </div>
+          <div class="sn-crystal-metric">
+            <div class="sn-crystal-metric-val">35+</div>
+            <div class="sn-crystal-metric-lbl">Snow deployments delivered across sectors</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- PROOF                                             -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="sn-proof">
+  <div class="container">
+    <div class="sn-reveal" style="margin-bottom: 64px;">
+      <div class="sn-section-tag">Proof</div>
+      <h2 style="font-family: var(--sans); font-weight: 300; font-size: clamp(30px, 3.5vw, 46px); line-height: 1.05; letter-spacing: -0.025em; color: var(--cream); font-variation-settings: 'opsz' 144; margin-top: 12px;">A <em style="font-family: var(--serif); font-style: italic; color: var(--amber-bright); font-weight: 300; font-variation-settings: 'opsz' 144;">recent engagement.</em></h2>
+    </div>
+    <div class="sn-proof-grid">
+      <div class="sn-reveal">
+        <div class="sn-proof-quote">
+          A consumer goods client migrated from Snow Licence Manager to Flexera One in <em>six months</em> — with no period where the SAM team was without usable licence positions.
+        </div>
+        <div class="sn-proof-attr">
+          <div class="sn-proof-avatar">AS</div>
+          <div>
+            <div class="sn-proof-name">Ashish</div>
+            <div class="sn-proof-role">SAM Lifecycle Management Lead · Proteam Advisory · Snow → Flexera One migration, CPG sector</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sn-recovery-card sn-reveal">
+        <div class="sn-rc-label">Migration duration</div>
+        <div class="sn-rc-num"><span>6mo</span></div>
+        <div class="sn-rc-desc">A multinational consumer goods client decided to consolidate onto Flexera One after Snow's acquisition. We designed a parallel-run migration with sequential publisher cut-over. Six months later, the legacy Snow environment was retired — without any operational period of impaired licence visibility.</div>
+        <a href="case-studies.html" class="sn-rc-link">Read more case studies →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- ADJACENT SERVICES                                 -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="sn-adjacent">
+  <div class="container">
+    <div class="sn-adj-header sn-reveal">
+      <div class="sn-section-tag" style="color: var(--amber); opacity: 0.8;">Adjacent services</div>
+      <h2>Often deployed <em>alongside.</em></h2>
+      <p style="font-size: 16px; line-height: 1.7; color: var(--muted); margin-top: 12px;">Snow engagements pair with the broader SAM programme — either optimisation or transformation work, depending on direction.</p>
+    </div>
+    <div class="sn-adj-grid sn-reveal-stagger">
+      <a href="service-itam-flexera.html" class="sn-adj-card">
+        <div class="sn-adj-num">// 13</div>
+        <h4>Flexera</h4>
+        <p>For clients migrating from Snow to Flexera One, the Flexera practice continues the work post-cutover. Many clients run both engagements with overlapping team continuity.</p>
+        <span class="sn-adj-lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="service-sam-baselining.html" class="sn-adj-card">
+        <div class="sn-adj-num">// 03</div>
+        <h4>SAM Baselining &amp; Managed Services</h4>
+        <p>Whatever platform you're on, the managed-services practice sustains the post-deployment licence position. Common follow-on after either optimisation or migration.</p>
+        <span class="sn-adj-lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- CTA                                               -->
+<!-- ══════════════════════════════════════════════════ -->
+<section class="sn-cta">
+  <div class="container">
+    <div class="sn-cta-inner sn-reveal">
+      <div>
+        <div class="sn-section-tag" style="color: var(--amber-bright); opacity: 1;">Ready to talk</div>
+        <h2>Staying on <em>Snow</em>, or moving to Flexera One?</h2>
+        <p>The free consultation is exactly that. A senior Snow specialist will spend 30 minutes with you understanding your current deployment, your relationship with the Snow account team, and your strategic options — and tell you honestly which direction makes most sense for your estate.</p>
+        <div class="sn-cta-actions">
+          <a href="contact.html" class="btn-cmd-sn">Book free consultation</a>
+          <a href="case-studies.html" class="btn-ghost-sn">See more case studies</a>
+        </div>
+      </div>
+      <div class="sn-cta-detail">
+        <h4>// What you'll get</h4>
+        <ul class="sn-cta-list">
+          <li>30-minute call with a senior Snow specialist.</li>
+          <li>Strategic options analysis — stay, optimise, or migrate.</li>
+          <li>Indicative timelines and effort for each option.</li>
+          <li>Honest assessment of when the right time to move is — and when it isn't.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" style="color: var(--cream);">
+          <span class="logo-lockup">
+            <span class="logo-text" style="color:var(--cream);"><span class="logo-cap">P</span>roteam</span>
+            <span class="logo-advisory" style="color:rgba(240,242,245,0.7);">Advisory Solutions LLP</span>
+          </span>
+        </a>
+        <h3>SAM specialists. Nothing else.</h3>
+        <p>An independent Software Asset Management consultancy serving enterprises across India, the UK, the US, and the Middle East.</p>
+        <div class="foot-social">
+          <div class="foot-social-label">Follow us on</div>
+          <div class="foot-social-icons">
+            <a href="https://in.linkedin.com/company/proteam-advisory" aria-label="LinkedIn" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/proteamadv" aria-label="X (Twitter)" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H21l-7.39 8.45L22.5 21h-6.83l-5.34-6.99L3.5 21H0l7.91-9.04L0.5 3h7l4.83 6.4L17.53 3zm-2.39 16h2.06L7.05 4.85H4.83L15.14 19z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#sam">Software Asset Management</a></li>
+          <li><a href="services.html#ham">Hardware Asset Management</a></li>
+          <li><a href="services.html#finops">Cloud FinOps</a></li>
+          <li><a href="services.html#ai-transformation">AI Transformation Services</a></li>
+          <li><a href="services.html#itam-tech">ITAM Technology</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="case-studies.html">Case Studies</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="insights.html">Insights</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="careers.html">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Get in touch</h5>
+        <address>
+          Suite #309&ndash;312<br>
+          KTC Illumination Towers<br>
+          Madhapur, Hyderabad<br>
+          Telangana, India<br><br>
+          <a href="tel:+919676889797">+91 9676 889 797</a><br>
+          <a href="mailto:vpatel@proteamadvisory.com">vpatel@proteamadvisory.com</a>
+        </address>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div>&copy; 2026 Proteam Advisory. All rights reserved.</div>
+      <div style="display:flex; gap:24px; flex-wrap:wrap;">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                           -->
+<!-- ══════════════════════════════════════════════════ -->
+<script>
+(function() {
+
+  /* ──────────────────────────────────────────────────
+     HERO CANVAS: Licence Crystallisation
+     Raw Snow inventory shards (labelled polygons)
+     drift in irregular orbits, converging toward
+     the central licence-position core.
+     Motion identity: Crystallisation — fragmented
+     data crystallises into ordered compliance geometry.
+  ────────────────────────────────────────────────── */
+  const canvas = document.getElementById('sn-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H;
+
+  const CORE = { rx: 0.5, ry: 0.44 };
+
+  // Snow-specific source labels
+  const SHARD_LABELS = [
+    'SLM','SRL','ATLAS','INV','SAM','ENTL',
+    'SAAS','METR','USER','CONT','ORCH','GCP',
+    'AZURE','SCCM','AGENT','RULE'
+  ];
+
+  let shards = [];
+  let packets = [];
+
+  function resize() {
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    initShards();
+  }
+
+  function rand(a, b) { return a + Math.random() * (b - a); }
+
+  function initShards() {
+    shards = [];
+    packets = [];
+
+    const count = Math.min(Math.floor(W / 65), 18);
+    for (let i = 0; i < count; i++) {
+      const label = SHARD_LABELS[i % SHARD_LABELS.length];
+      const angle = (i / count) * Math.PI * 2 + rand(-0.3, 0.3);
+      const orbitA = rand(0.18, 0.40) * Math.min(W, H);
+      const orbitB = rand(0.10, 0.28) * Math.min(W, H);
+      const tilt = rand(-0.5, 0.5);
+      const speed = rand(0.0003, 0.0008) * (Math.random() > 0.5 ? 1 : -1);
+      const sides = Math.floor(rand(3, 6));
+      const size = rand(14, 24);
+
+      shards.push({
+        label,
+        angle,
+        orbitA,
+        orbitB,
+        tilt,
+        speed,
+        sides,
+        size,
+        phase: rand(0, Math.PI * 2),
+        alpha: rand(0.25, 0.55)
+      });
+    }
+
+    // Data packets flowing toward core
+    for (let i = 0; i < 14; i++) {
+      packets.push({
+        startAngle: rand(0, Math.PI * 2),
+        startDist: rand(0.28, 0.44),
+        progress: rand(0, 1),
+        speed: rand(0.001, 0.0025),
+        alpha: rand(0.12, 0.28),
+        blue: Math.random() > 0.55
+      });
+    }
+  }
+
+  function drawPolygon(cx, cy, r, sides, rotation) {
+    ctx.beginPath();
+    for (let s = 0; s < sides; s++) {
+      const a = (s / sides) * Math.PI * 2 + rotation;
+      const x = cx + Math.cos(a) * r;
+      const y = cy + Math.sin(a) * r;
+      s === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+  }
+
+  function tick(t) {
+    ctx.clearRect(0, 0, W, H);
+
+    const cx = CORE.rx * W;
+    const cy = CORE.ry * H;
+
+    // ── Data packets streaming toward core ──
+    packets.forEach(p => {
+      p.progress += p.speed;
+      if (p.progress > 1) {
+        p.progress = 0;
+        p.startAngle = rand(0, Math.PI * 2);
+        p.startDist = rand(0.26, 0.42);
+      }
+      const dist = p.startDist * Math.min(W, H);
+      const sx = cx + Math.cos(p.startAngle) * dist;
+      const sy = cy + Math.sin(p.startAngle) * dist;
+      const px = sx + (cx - sx) * p.progress;
+      const py = sy + (cy - sy) * p.progress;
+
+      // Trail
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(px, py);
+      ctx.strokeStyle = `rgba(85,133,187,${p.alpha * 0.25})`;
+      ctx.lineWidth = 0.5;
+      ctx.setLineDash([3, 7]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Packet dot
+      const dotAlpha = p.alpha * (1 - p.progress * 0.7) + 0.15;
+      ctx.beginPath();
+      ctx.arc(px, py, 2, 0, Math.PI * 2);
+      ctx.fillStyle = p.blue
+        ? `rgba(125,211,252,${dotAlpha})`
+        : `rgba(85,133,187,${dotAlpha + 0.1})`;
+      ctx.fill();
+    });
+
+    // ── Shard (inventory crystal fragments) ──
+    shards.forEach(s => {
+      s.angle += s.speed;
+
+      // Elliptical orbit, tilted
+      const cosT = Math.cos(s.tilt);
+      const sinT = Math.sin(s.tilt);
+      const ox = Math.cos(s.angle) * s.orbitA;
+      const oy = Math.sin(s.angle) * s.orbitB;
+      const x = cx + ox * cosT - oy * sinT;
+      const y = cy + ox * sinT + oy * cosT;
+
+      const pulse = Math.sin(t * 0.0008 + s.phase) * 0.12 + 0.88;
+      const alpha = s.alpha * pulse;
+
+      // Faint orbit path
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(s.tilt);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, s.orbitA, s.orbitB, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(85,133,187,0.04)`;
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+      ctx.restore();
+
+      // Crystal shard glow halo
+      ctx.beginPath();
+      ctx.arc(x, y, s.size + 6, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(85,133,187,${alpha * 0.04})`;
+      ctx.fill();
+
+      // Shard body
+      drawPolygon(x, y, s.size, s.sides, s.angle * 0.4);
+      ctx.fillStyle = `rgba(14,22,33,0.88)`;
+      ctx.strokeStyle = `rgba(85,133,187,${alpha * 0.55})`;
+      ctx.lineWidth = 0.9;
+      ctx.fill();
+      ctx.stroke();
+
+      // Shard label
+      ctx.fillStyle = `rgba(240,242,245,${alpha * 0.65})`;
+      ctx.font = `${Math.floor(s.size * 0.42)}px 'Geist Mono', monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(s.label, x, y);
+    });
+
+    // ── Core glow ──
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 85);
+    grad.addColorStop(0, 'rgba(85,133,187,0.14)');
+    grad.addColorStop(1, 'rgba(85,133,187,0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, 85, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Core ring
+    const cr = 9 + Math.sin(t * 0.0018) * 2.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, cr, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(85,133,187,0.55)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx, cy, cr * 0.45, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(125,211,252,0.85)';
+    ctx.fill();
+
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  requestAnimationFrame(tick);
+
+
+  /* ──────────────────────────────────────────────────
+     SCROLL REVEAL — mirrors Flexera pattern exactly
+  ────────────────────────────────────────────────── */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.sn-reveal, .sn-reveal-stagger').forEach(el => revealObs.observe(el));
+
+
+  /* ──────────────────────────────────────────────────
+     DECISION PANEL bar animation
+     Fires when the panel enters viewport
+  ────────────────────────────────────────────────── */
+  const dp = document.getElementById('sn-dp');
+  if (dp) {
+    const dpObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        dpObs.unobserve(e.target);
+
+        // Stagger each row in, then animate bars
+        const rows = e.target.querySelectorAll('.sn-decision-row');
+        rows.forEach((row, i) => {
+          setTimeout(() => {
+            row.classList.add('visible');
+            // Animate the bar fill after row appears
+            setTimeout(() => {
+              const fill = row.querySelector('.sn-dr-fill');
+              if (fill) fill.style.width = fill.dataset.pct + '%';
+            }, 200);
+          }, i * 150);
+        });
+      });
+    }, { threshold: 0.3 });
+    dpObs.observe(dp);
+  }
+
+
+  /* ──────────────────────────────────────────────────
+     MOBILE MENU
+  ────────────────────────────────────────────────── */
+  (function() {
+    const toggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    if (!toggle || !mobileNav) return;
+    const body = document.body;
+
+    function openMenu() {
+      mobileNav.classList.add('is-open');
+      toggle.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      mobileNav.classList.remove('is-open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      body.style.overflow = '';
+    }
+    toggle.addEventListener('click', () => mobileNav.classList.contains('is-open') ? closeMenu() : openMenu());
+    mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) closeMenu(); });
+
+    mobileNav.querySelectorAll('.sub-toggle, .sub-toggle-2').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('aria-controls');
+        const target = id ? document.getElementById(id) : btn.nextElementSibling;
+        if (!target) return;
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        target.classList.toggle('is-open', !expanded);
+      });
+    });
+  })();
+
+
+  /* ──────────────────────────────────────────────────
+     SMOOTH SCROLL
+  ────────────────────────────────────────────────── */
+  document.querySelectorAll("a[href^='#']").forEach(link => {
+    link.addEventListener('click', e => {
+      const id = link.getAttribute('href');
+      if (id.length > 1) {
+        const tgt = document.querySelector(id);
+        if (tgt) { e.preventDefault(); tgt.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      }
+    });
+  });
+
+})();
+</script>
+
+<script src="sammy-chatbot.js"></script>
+<script>
+/* Desktop mega-menu: JS hover with close-delay */
+(function () {
+  var CLOSE_DELAY = 150;
+  document.querySelectorAll(".nav-links .has-mega").forEach(function (li) {
+    var timer = null;
+    function openMenu() { clearTimeout(timer); li.classList.add("mega-open"); }
+    function scheduleClose() { timer = setTimeout(function () { li.classList.remove("mega-open"); }, CLOSE_DELAY); }
+    li.addEventListener("mouseenter", openMenu);
+    li.addEventListener("mouseleave", scheduleClose);
+    var menu = li.querySelector(".mega-menu");
+    if (menu) {
+      menu.addEventListener("mouseenter", openMenu);
+      menu.addEventListener("mouseleave", scheduleClose);
+    }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") li.classList.remove("mega-open"); });
+  });
+})();
+</script>
+</body>
+</html>

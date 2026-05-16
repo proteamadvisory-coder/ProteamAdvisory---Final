@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FinOps Maturity Assessment & Transformation — Proteam Advisory</title>
+<meta name="description" content="Independent FinOps maturity assessment using the FinOps Foundation framework — six capabilities, four personas, three phases. Peer-benchmarked and paired with a sequenced 12–18 month transformation roadmap." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<style>
+/* ─── BRAND TOKENS (self-contained fallback) ─────── */
+:root {
+  --navy:         #08515E;
+  --navy-deep:    #053B45;
+  --navy-soft:    #1B7787;
+  --cream:        #FFF9E1;
+  --cream-warm:   #FEEFAD;
+  --paper:        #F6FCFD;
+  --signal:       #03AED2;
+  --signal-hi:    #68D2E8;
+  --amber:        #03AED2;
+  --amber-hi:     #68D2E8;
+  --amber-bright: #68D2E8;
+  --rust:         #F5C022;
+  --teal:         #1B7787;
+  --teal-bright:  #03AED2;
+  --muted:        #6B8A92;
+  --line:         rgba(8,81,94,0.10);
+  --line-cream:   rgba(255,255,255,0.18);
+  --green-ok:     #03AED2;
+  --serif:        'Fraunces','Times New Roman',serif;
+  --sans:         'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono:         'Geist Mono','JetBrains Mono',ui-monospace,monospace;
+  --radius:       8px;
+  --max-w:        1320px;
+}
+
+/* ─── RESET ─────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--paper);color:var(--navy);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+.container{max-width:var(--max-w);margin:0 auto;padding:0 32px;}
+
+/* ─── HEADER ────────────────────────────────────── */
+header{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:200;backdrop-filter:blur(12px);}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0;gap:16px;}
+.logo{display:flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:600;font-size:44px;letter-spacing:-0.03em;color:var(--navy);flex-shrink:0;}
+.logo-lockup{display:flex;flex-direction:column;line-height:1;gap:2px;}
+.logo-advisory{font-family:var(--sans);font-size:11px;font-weight:300;letter-spacing:0.18em;color:var(--muted);padding-left:1px;}
+.logo-text{text-transform:lowercase;}
+.logo-cap{text-transform:uppercase;}
+.logo-text::after{content:'.';color:var(--signal);font-weight:600;}
+.nav-links{display:flex;gap:36px;list-style:none;align-items:center;}
+.nav-links a{font-size:14px;font-weight:500;color:var(--navy);position:relative;padding:6px 0;transition:color 0.2s;display:inline-flex;align-items:center;gap:4px;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--signal);transition:width 0.3s ease;}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%;}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;background:var(--navy);color:var(--cream);font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;border-radius:var(--radius);transition:background 0.2s;white-space:nowrap;}
+.nav-cta:hover{background:var(--navy-soft);}
+
+/* ─── MEGA-MENU ─────────────────────────────────── */
+.nav-links .has-mega > a .caret{width:12px;height:12px;transition:transform 0.25s ease;opacity:0.7;}
+.nav-links .has-mega:hover > a .caret,
+.nav-links .has-mega:focus-within > a .caret{transform:rotate(180deg);}
+.mega-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(0);background:var(--paper);border:1px solid var(--line);border-radius:4px;box-shadow:0 12px 40px rgba(10,22,40,0.12),0 2px 6px rgba(10,22,40,0.04);padding:32px 36px;min-width:1060px;margin-top:6px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.25s ease,transform 0.25s ease,visibility 0.25s;z-index:250;}
+
+.nav-links .has-mega:hover::after,
+.nav-links .has-mega:focus-within::after{pointer-events:auto;}
+.nav-links .has-mega:hover .mega-menu,
+.nav-links .has-mega:focus-within .mega-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.mega-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;}
+.mega-col{min-width:170px;}
+.mega-head{display:block;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#03AED2;padding:0 0 10px 0;margin-bottom:10px;border-bottom:1px solid rgba(30,43,60,0.10);}
+.mega-head::after{display:none !important;}
+.mega-head:hover{color:#68D2E8 !important;}
+.mega-col ul{list-style:none;}
+.mega-col ul li{margin:0;}
+.mega-col ul li a{font-size:13px;color:var(--muted);transition:color 0.2s,padding-left 0.2s;line-height:1.5;display:block;padding:4px 0;}
+.mega-col ul li a::after{display:none !important;}
+.mega-col ul li a:hover{color:#03AED2 !important;padding-left:4px;}
+
+/* ─── HAMBURGER ─────────────────────────────────── */
+
+/* ─── MOBILE NAV ────────────────────────────────── */
+
+/* ─── SCROLL REVEAL ─────────────────────────────── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.in{opacity:1;transform:none;}
+.reveal-stagger > *{opacity:0;transform:translateY(28px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal-stagger.in > *:nth-child(1){opacity:1;transform:none;transition-delay:0.05s;}
+.reveal-stagger.in > *:nth-child(2){opacity:1;transform:none;transition-delay:0.15s;}
+.reveal-stagger.in > *:nth-child(3){opacity:1;transform:none;transition-delay:0.25s;}
+.reveal-stagger.in > *:nth-child(4){opacity:1;transform:none;transition-delay:0.35s;}
+.reveal-stagger.in > *:nth-child(5){opacity:1;transform:none;transition-delay:0.45s;}
+.reveal-stagger.in > *:nth-child(6){opacity:1;transform:none;transition-delay:0.55s;}
+
+/* ─── BREADCRUMB ────────────────────────────────── */
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(240,242,245,0.4);margin-bottom:48px;flex-wrap:wrap;}
+.breadcrumb .sep{opacity:0.4;}
+.breadcrumb .current{color:rgba(240,242,245,0.8);font-weight:500;}
+.breadcrumb a:hover{color:var(--signal-hi);}
+
+/* ─── SECTION LABELS ────────────────────────────── */
+.section-eyebrow{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;font-weight:500;color:var(--signal);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.section-eyebrow::before{content:'';width:24px;height:1px;background:var(--signal);}
+.section-title{font-family:var(--sans);font-weight:400;font-size:clamp(36px,4.5vw,56px);line-height:1.05;letter-spacing:-0.025em;color:var(--navy);font-variation-settings:"opsz" 144;margin-bottom:24px;}
+.section-title em{font-family:var(--serif);font-style:italic;color:var(--signal);font-weight:300;font-variation-settings:"opsz" 144;}
+.section-lede{font-size:17px;line-height:1.7;color:var(--muted);max-width:640px;}
+
+/* ─── HERO ──────────────────────────────────────── */
+.hero{background:var(--navy-deep);color:var(--cream);padding:100px 0 0;position:relative;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;}
+
+/* Animated cloud cost grid background */
+.hero-bg-canvas{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+@keyframes drift{0%{transform:translate(0,0) scale(1);opacity:0;}20%{opacity:1;}80%{opacity:1;}100%{transform:translate(var(--dx),var(--dy)) scale(0.6);opacity:0;}}
+.particle{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--signal-hi);animation:drift var(--dur,8s) linear infinite;animation-delay:var(--delay,0s);}
+.particle.p-amber{background:var(--amber-hi);}
+.particle.p-green{background:var(--green-ok);}
+@keyframes scan{0%{transform:translateY(-100%);}100%{transform:translateY(100vh);}}
+.scan-line{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(245,175,61,0.3),transparent);animation:scan 7s linear infinite;}
+
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;padding-bottom:0;}
+.hero-left{position:relative;z-index:2;}
+.page-hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber-hi);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.page-hero-eyebrow::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green-ok);box-shadow:0 0 0 2px rgba(29,164,98,0.25);}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 2px rgba(29,164,98,0.25);}50%{box-shadow:0 0 0 5px rgba(29,164,98,0.1);}}
+.page-hero-eyebrow::before{animation:pulse-dot 2s ease-in-out infinite;}
+.hero h1{font-family:var(--sans);font-weight:300;font-size:clamp(48px,6vw,80px);line-height:1.0;letter-spacing:-0.035em;color:var(--cream);font-variation-settings:"opsz" 144;margin-bottom:28px;}
+.hero h1 em{font-family:var(--serif);font-style:italic;color:var(--amber-hi);font-weight:300;font-variation-settings:"opsz" 144;}
+.hero-lede{font-size:18px;line-height:1.7;color:rgba(240,242,245,0.7);max-width:520px;margin-bottom:48px;}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:var(--amber);color:var(--navy);font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border-radius:var(--radius);transition:background 0.2s,transform 0.2s;}
+.btn-primary:hover{background:var(--amber-hi);transform:translateY(-2px);}
+.btn-outline{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border:1px solid var(--line-cream);color:var(--cream);font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;border-radius:var(--radius);transition:border-color 0.2s,background 0.2s;}
+.btn-outline:hover{border-color:rgba(240,242,245,0.4);background:rgba(240,242,245,0.05);}
+
+/* ─── HERO RIGHT: MATURITY DASHBOARD ────────────── */
+.hero-right{position:relative;z-index:2;padding-top:8px;}
+.maturity-terminal{background:rgba(5,14,28,0.85);border:1px solid rgba(245,175,61,0.3);border-radius:8px;padding:0;overflow:hidden;font-family:var(--mono);}
+.terminal-bar{background:rgba(245,175,61,0.08);border-bottom:1px solid rgba(245,175,61,0.2);padding:12px 20px;display:flex;align-items:center;gap:8px;}
+.terminal-dot{width:10px;height:10px;border-radius:50%;}
+.td-red{background:#FF5F57;}
+.td-yellow{background:#FEBC2E;}
+.td-green{background:#28C840;}
+.terminal-title{font-size:11px;letter-spacing:0.15em;color:rgba(240,242,245,0.4);margin-left:8px;text-transform:uppercase;}
+.terminal-body{padding:24px 20px;display:flex;flex-direction:column;gap:14px;}
+
+/* Maturity phase indicator */
+.phase-indicator{background:rgba(245,175,61,0.06);border:1px solid rgba(245,175,61,0.15);border-radius:4px;padding:14px 16px;}
+.phase-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,175,61,0.7);margin-bottom:8px;}
+.phase-track{display:flex;gap:4px;align-items:center;}
+.phase-node{flex:1;height:6px;border-radius:3px;position:relative;}
+.phase-node.crawl{background:rgba(29,164,98,0.6);}
+.phase-node.walk{background:rgba(245,175,61,0.7);}
+.phase-node.run{background:rgba(72,112,255,0.2);}
+@keyframes phase-pulse{0%,100%{opacity:0.7;}50%{opacity:1;}}
+.phase-node.walk{animation:phase-pulse 2s ease-in-out infinite;}
+.phase-labels{display:flex;justify-content:space-between;margin-top:6px;}
+.phase-labels span{font-size:10px;color:rgba(240,242,245,0.4);}
+.phase-labels .active-phase{color:var(--amber-hi);}
+
+/* Capability cards */
+.capability-stream{display:flex;flex-direction:column;gap:8px;}
+.cap-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:10px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;animation:slide-in 0.4s ease both;}
+@keyframes slide-in{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:none;}}
+.cap-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.cd-green{background:var(--green-ok);box-shadow:0 0 6px rgba(29,164,98,0.5);}
+.cd-amber{background:var(--amber-hi);box-shadow:0 0 6px rgba(245,175,61,0.4);}
+.cd-blue{background:var(--signal-hi);}
+.cap-body{}
+.cap-title{font-size:11px;font-weight:500;color:rgba(240,242,245,0.85);font-family:var(--sans);}
+.cap-sub{font-size:10px;color:rgba(240,242,245,0.35);margin-top:1px;}
+.cap-badge{font-size:9px;font-family:var(--mono);padding:2px 7px;border-radius:2px;white-space:nowrap;}
+.cb-walk{background:rgba(29,164,98,0.12);color:var(--green-ok);}
+.cb-crawl{background:rgba(245,175,61,0.12);color:var(--amber-hi);}
+.cb-run{background:rgba(72,112,255,0.12);color:var(--signal-hi);}
+
+/* AI insight badge */
+.ai-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:rgba(245,175,61,0.1);border:1px solid rgba(245,175,61,0.25);border-radius:20px;font-size:11px;color:rgba(245,175,61,0.9);font-family:var(--mono);}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.ai-cursor{display:inline-block;width:6px;height:11px;background:var(--amber-hi);animation:blink 1s step-end infinite;vertical-align:middle;}
+.score-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:rgba(29,164,98,0.1);border:1px solid rgba(29,164,98,0.2);border-radius:20px;font-size:11px;color:var(--green-ok);font-family:var(--mono);}
+
+/* ─── HERO STAT ROW ─────────────────────────────── */
+.hero-stat-strip{border-top:1px solid var(--line-cream);margin-top:72px;padding:40px 0 52px;}
+.hero-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+.hero-stat{padding:0 40px 0 0;border-right:1px solid var(--line-cream);}
+.hero-stat:first-child{padding-left:0;}
+.hero-stat:last-child{border-right:none;padding-right:0;padding-left:40px;}
+.hero-stat:nth-child(2){padding:0 40px;}
+.hstat-num{font-family:var(--sans);font-weight:300;font-size:52px;line-height:1;letter-spacing:-0.04em;color:var(--cream);margin-bottom:8px;font-variation-settings:"opsz" 144;}
+.hstat-num span{color:var(--amber-hi);}
+.hstat-lbl{font-size:13px;line-height:1.5;color:rgba(240,242,245,0.5);}
+
+/* ─── PROBLEM SECTION ────────────────────────────── */
+.problem-section{background:var(--paper);padding:120px 0;}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.problem-left h2{font-family:var(--sans);font-weight:400;font-size:clamp(32px,4vw,50px);line-height:1.1;letter-spacing:-0.02em;color:var(--navy);margin-bottom:24px;font-variation-settings:"opsz" 144;}
+.problem-left h2 em{font-family:var(--serif);font-style:italic;color:var(--signal);font-weight:300;font-variation-settings:"opsz" 144;}
+.problem-right p{font-size:17px;line-height:1.75;color:var(--muted);margin-bottom:18px;}
+.problem-right p strong{color:var(--navy);font-weight:600;}
+
+/* Operating model flow diagram */
+.model-flow{background:var(--navy);border-radius:8px;padding:32px;position:relative;overflow:hidden;}
+.model-flow::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:24px 24px;}
+.flow-nodes{position:relative;z-index:1;display:flex;flex-direction:column;gap:12px;}
+.flow-node{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:4px;border:1px solid rgba(245,175,61,0.2);background:rgba(245,175,61,0.04);}
+.flow-node.active{border-color:rgba(245,175,61,0.5);background:rgba(245,175,61,0.1);}
+.flow-node.resolved{border-color:rgba(29,164,98,0.4);background:rgba(29,164,98,0.06);}
+.fnode-icon{width:32px;height:32px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
+.fnode-icon.i-query{background:rgba(245,175,61,0.15);color:var(--amber-hi);}
+.fnode-icon.i-ai{background:rgba(72,112,255,0.15);color:var(--signal-hi);}
+.fnode-icon.i-spec{background:rgba(29,164,98,0.12);color:var(--green-ok);}
+.fnode-text{flex:1;}
+.fnode-label{font-size:12px;font-weight:500;color:rgba(240,242,245,0.9);font-family:var(--sans);}
+.fnode-sub{font-size:10px;color:rgba(240,242,245,0.4);font-family:var(--mono);margin-top:2px;}
+.fnode-badge{font-size:10px;font-family:var(--mono);padding:3px 8px;border-radius:2px;}
+.fnode-badge.sla{background:rgba(29,164,98,0.15);color:var(--green-ok);}
+.fnode-badge.warn{background:rgba(245,175,61,0.12);color:var(--amber-hi);}
+.flow-connector{height:16px;display:flex;align-items:center;justify-content:center;margin:0 16px;position:relative;}
+.flow-connector::after{content:'↓';font-family:var(--mono);font-size:12px;color:rgba(245,175,61,0.4);}
+@keyframes pulse-flow{0%,100%{opacity:0.4;}50%{opacity:1;}}
+.flow-connector::after{animation:pulse-flow 2s ease-in-out infinite;}
+
+/* ─── MATURITY RADAR ─────────────────────────────── */
+.radar-section{background:var(--navy);color:var(--cream);padding:120px 0;position:relative;overflow:hidden;}
+.radar-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.radar-section .container{position:relative;}
+.radar-section .section-eyebrow{color:var(--amber-hi);}
+.radar-section .section-eyebrow::before{background:var(--amber-hi);}
+.radar-section .section-title{color:var(--cream);}
+.radar-section .section-lede{color:rgba(240,242,245,0.6);}
+.radar-layout{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-top:56px;}
+.radar-viz{position:relative;display:flex;align-items:center;justify-content:center;}
+.capability-score-list{display:flex;flex-direction:column;gap:16px;}
+.cap-score-item{display:flex;flex-direction:column;gap:6px;}
+.cap-score-header{display:flex;justify-content:space-between;align-items:center;}
+.cap-score-name{font-size:13px;color:rgba(240,242,245,0.85);font-family:var(--sans);}
+.cap-score-val{font-size:12px;font-family:var(--mono);color:var(--amber-hi);}
+.cap-score-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;}
+.cap-score-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--amber),var(--amber-hi));transition:width 1.2s ease;}
+
+/* ─── WHAT'S INCLUDED ─────────────────────────────── */
+.includes{background:var(--cream-warm);padding:120px 0;}
+.includes-intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:64px;}
+.includes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden;}
+.inc-item{background:var(--cream-warm);padding:40px 36px;transition:background 0.3s;}
+.inc-item:hover{background:var(--paper);}
+.inc-num{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--amber);margin-bottom:20px;}
+.inc-icon{width:40px;height:40px;border-radius:6px;background:rgba(232,154,34,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:20px;}
+.inc-item h4{font-family:var(--sans);font-weight:500;font-size:20px;line-height:1.2;color:var(--navy);margin-bottom:10px;letter-spacing:-0.01em;font-variation-settings:"opsz" 144;}
+.inc-item p{font-size:14px;line-height:1.65;color:var(--muted);}
+
+/* ─── PROCESS STEPS ─────────────────────────────── */
+.process{background:var(--navy-deep);color:var(--cream);padding:120px 0;position:relative;overflow:hidden;}
+.process::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+.process .container{position:relative;}
+.process .section-title{color:var(--cream);}
+.process .section-eyebrow{color:var(--amber-hi);}
+.process .section-eyebrow::before{background:var(--amber-hi);}
+.process .section-lede{color:rgba(240,242,245,0.6);}
+.process-steps{display:flex;flex-direction:column;gap:0;margin-top:56px;border-top:1px solid var(--line-cream);}
+.proc-step{border-bottom:1px solid var(--line-cream);padding:40px 0;display:grid;grid-template-columns:100px 1fr 1fr;gap:40px;align-items:start;transition:padding-left 0.3s;}
+.proc-step:hover{padding-left:12px;}
+.proc-num{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:rgba(245,175,61,0.6);padding-top:4px;}
+.proc-step h4{font-family:var(--sans);font-weight:500;font-size:24px;line-height:1.15;color:var(--cream);letter-spacing:-0.015em;font-variation-settings:"opsz" 144;}
+.proc-step p{font-size:15px;line-height:1.65;color:rgba(240,242,245,0.65);}
+.proc-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(29,164,98,0.12);border:1px solid rgba(29,164,98,0.25);border-radius:2px;font-family:var(--mono);font-size:11px;color:var(--green-ok);margin-top:12px;}
+.proc-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green-ok);animation:pulse-dot 2s ease-in-out infinite;}
+
+/* ─── PROOF ─────────────────────────────────────── */
+.proof{background:var(--paper);padding:120px 0;}
+.proof-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:64px;align-items:center;}
+.proof-quote{font-family:var(--sans);font-weight:400;font-size:clamp(26px,3.2vw,38px);line-height:1.25;letter-spacing:-0.015em;color:var(--navy);font-variation-settings:"opsz" 144;}
+.proof-quote em{font-family:var(--serif);font-style:italic;color:var(--signal);font-weight:400;font-variation-settings:"opsz" 144;}
+.proof-attribution{margin-top:32px;padding-top:24px;border-top:1px solid var(--line);display:flex;gap:16px;align-items:center;}
+.proof-avatar{width:48px;height:48px;border-radius:50%;background:var(--navy);color:var(--amber-hi);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:500;}
+.proof-name{font-weight:600;color:var(--navy);}
+.proof-role{font-size:13px;color:var(--muted);margin-top:2px;}
+.proof-stat-card{background:var(--navy);color:var(--cream);padding:48px;border-radius:4px;position:relative;overflow:hidden;}
+.proof-stat-card::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:30px 30px;}
+.proof-stat-inner{position:relative;}
+.proof-stat-label{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber-hi);margin-bottom:16px;}
+.proof-stat-num{font-family:var(--sans);font-weight:300;font-size:clamp(64px,8vw,100px);line-height:0.9;color:var(--cream);margin-bottom:20px;letter-spacing:-0.04em;font-variation-settings:"opsz" 144;}
+.proof-stat-num span{color:var(--amber-hi);}
+.proof-stat-desc{font-size:15px;line-height:1.6;color:rgba(240,242,245,0.65);margin-bottom:24px;}
+.proof-cta-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber-hi);border-bottom:1px solid rgba(245,175,61,0.4);padding-bottom:3px;transition:gap 0.3s;}
+.proof-cta-link:hover{gap:14px;}
+
+/* ─── ADJACENT SERVICES ──────────────────────────── */
+.adjacent{background:var(--cream-warm);padding:120px 0;}
+.adj-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;}
+.adj-card{background:var(--paper);border:1px solid var(--line);padding:40px 36px;border-radius:4px;transition:all 0.3s;display:flex;flex-direction:column;}
+.adj-card:hover{background:var(--navy);transform:translateY(-4px);}
+.adj-card .num{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--amber);margin-bottom:16px;}
+.adj-card:hover .num{color:var(--amber-hi);}
+.adj-card h4{font-family:var(--sans);font-weight:500;font-size:22px;line-height:1.15;margin-bottom:12px;letter-spacing:-0.01em;color:var(--navy);transition:color 0.3s;font-variation-settings:"opsz" 144;}
+.adj-card:hover h4{color:var(--cream);}
+.adj-card p{font-size:15px;line-height:1.6;color:var(--muted);margin-bottom:20px;flex:1;transition:color 0.3s;}
+.adj-card:hover p{color:rgba(240,242,245,0.65);}
+.adj-card .lnk{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;display:inline-flex;align-items:center;gap:8px;color:var(--navy);transition:color 0.3s;}
+.adj-card:hover .lnk{color:var(--amber-hi);}
+
+/* ─── CTA SECTION ───────────────────────────────── */
+.cta-section{background:var(--navy-deep);padding:120px 0;position:relative;overflow:hidden;}
+.cta-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(245,175,61,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(245,175,61,0.03) 1px,transparent 1px);background-size:40px 40px;}
+.cta-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;position:relative;}
+.cta-section h2{font-family:var(--sans);font-weight:300;font-size:clamp(36px,4.5vw,56px);line-height:1.05;letter-spacing:-0.025em;color:var(--cream);font-variation-settings:"opsz" 144;margin-bottom:20px;}
+.cta-section h2 em{font-family:var(--serif);font-style:italic;color:var(--amber-hi);font-weight:300;font-variation-settings:"opsz" 144;}
+.cta-section p{font-size:17px;line-height:1.7;color:rgba(240,242,245,0.6);margin-bottom:32px;}
+.cta-actions{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-amber{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:var(--amber);color:var(--navy);font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border-radius:var(--radius);transition:background 0.2s,transform 0.2s;}
+.btn-amber:hover{background:var(--amber-hi);transform:translateY(-2px);}
+.btn-line-cream{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border:1px solid var(--line-cream);color:var(--cream);font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;border-radius:var(--radius);transition:border-color 0.2s;}
+.btn-line-cream:hover{border-color:rgba(240,242,245,0.4);}
+.cta-checklist{background:rgba(255,255,255,0.04);border:1px solid var(--line-cream);border-radius:4px;padding:32px;}
+.cta-checklist h5{font-size:13px;font-weight:500;color:var(--cream);margin-bottom:16px;letter-spacing:0.05em;text-transform:uppercase;font-family:var(--mono);}
+.cta-check-items{display:flex;flex-direction:column;gap:12px;}
+.cta-check-item{display:flex;align-items:start;gap:12px;font-size:15px;color:rgba(240,242,245,0.75);line-height:1.5;}
+.cta-check-item::before{content:'✓';color:var(--green-ok);font-family:var(--mono);font-size:12px;font-weight:600;flex-shrink:0;margin-top:2px;}
+
+/* ─── FOOTER ────────────────────────────────────── */
+footer{background:var(--navy-deep);border-top:1px solid var(--line-cream);padding:80px 0 40px;}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:64px;margin-bottom:64px;}
+.foot-brand h3{font-family:var(--sans);font-weight:400;font-size:20px;color:rgba(240,242,245,0.9);margin:24px 0 12px;font-variation-settings:"opsz" 144;}
+.foot-brand p{font-size:14px;line-height:1.65;color:rgba(240,242,245,0.45);max-width:320px;}
+.foot-col h5{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(240,242,245,0.4);margin-bottom:20px;font-family:var(--mono);}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.foot-col li a{font-size:14px;color:rgba(240,242,245,0.6);transition:color 0.2s;}
+.foot-col li a:hover{color:var(--cream);}
+.foot-col address{font-style:normal;font-size:14px;line-height:1.75;color:rgba(240,242,245,0.5);}
+.foot-col address a{color:rgba(240,242,245,0.65);transition:color 0.2s;}
+.foot-col address a:hover{color:var(--cream);}
+.foot-bot{border-top:1px solid var(--line-cream);padding-top:32px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(240,242,245,0.35);}
+.foot-bot a{color:rgba(240,242,245,0.35);transition:color 0.2s;}
+.foot-bot a:hover{color:rgba(240,242,245,0.7);}
+.foot-social{margin-top:20px;}
+.foot-social-label{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(240,242,245,0.3);margin-bottom:12px;font-family:var(--mono);}
+.foot-social-icons{display:flex;gap:12px;}
+.foot-social-icons a{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid rgba(240,242,245,0.12);color:rgba(240,242,245,0.4);transition:all 0.2s;}
+.foot-social-icons a:hover{border-color:var(--amber-hi);color:var(--amber-hi);}
+.foot-social-icons svg{width:14px;height:14px;}
+
+/* ─── RESPONSIVE ────────────────────────────────── */
+@media(max-width:1080px){
+  .hero-grid{grid-template-columns:1fr;gap:48px;}
+  .hero-right{display:none;}
+  .problem-grid,.proof-grid,.cta-inner{grid-template-columns:1fr;gap:40px;}
+  .radar-layout{grid-template-columns:1fr;gap:40px;}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:40px;}
+}
+@media(max-width:768px){
+  .includes-grid{grid-template-columns:1fr;}
+  .adj-grid{grid-template-columns:1fr;}
+  .includes-intro-grid{grid-template-columns:1fr;}
+  .hero-stat-grid{grid-template-columns:1fr;gap:24px;}
+  .hero-stat{border-right:none;border-bottom:1px solid var(--line-cream);padding:0 0 24px;}
+  .hero-stat:last-child{border-bottom:none;padding-bottom:0;}
+  .proc-step{grid-template-columns:1fr;gap:12px;}
+  .foot-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .nav-links,.nav-cta{display:none;}
+  .container{padding:0 20px;}
+  .hero{padding:80px 0 0;}
+}
+@media(max-width:480px){
+}
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-lockup">
+        <span class="logo-text"><span class="logo-cap">P</span>roteam</span>
+        <span class="logo-advisory">Advisory Solutions LLP</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-mega">
+        <a href="services.html" class="active">Services <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="mega-menu" role="menu" aria-label="Services">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <a href="services.html#sam" class="mega-head">Software Asset Management</a>
+              <ul>
+                <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+                <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+                <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ham" class="mega-head">Hardware Asset Management</a>
+              <ul>
+                <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+                <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#finops" class="mega-head">Cloud FinOps</a>
+              <ul>
+                <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+                <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ai-transformation" class="mega-head">AI Transformation Services</a>
+              <ul>
+                <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+                <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#itam-tech" class="mega-head">ITAM Technology</a>
+              <ul>
+                <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+                <li><a href="service-itam-flexera.html">Flexera</a></li>
+                <li><a href="service-itam-snow.html">Snow</a></li>
+                <li><a href="service-itam-zylo.html">Zylo</a></li>
+                <li><a href="service-itam-aspera.html">Aspera</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Free Consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <ul class="mobile-nav-links">
+    <li><a href="index.html">Home <span>&rarr;</span></a></li>
+    <li class="has-sub">
+      <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="m-svc-sub">
+        Services
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul id="m-svc-sub" class="sub-menu">
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-sam-sub">
+            Software Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-sam-sub" class="sub-menu-2">
+            <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+            <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+            <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ham-sub">
+            Hardware Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ham-sub" class="sub-menu-2">
+            <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+            <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-finops-sub">
+            Cloud FinOps
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-finops-sub" class="sub-menu-2">
+            <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+            <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ai-sub">
+            AI Transformation Services
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ai-sub" class="sub-menu-2">
+            <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+            <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-itam-sub">
+            ITAM Technology
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-itam-sub" class="sub-menu-2">
+            <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+            <li><a href="service-itam-flexera.html">Flexera</a></li>
+            <li><a href="service-itam-snow.html">Snow</a></li>
+            <li><a href="service-itam-zylo.html">Zylo</a></li>
+            <li><a href="service-itam-aspera.html">Aspera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="case-studies.html">Case Studies <span>&rarr;</span></a></li>
+    <li><a href="about.html">About <span>&rarr;</span></a></li>
+    <li><a href="insights.html">Insights <span>&rarr;</span></a></li>
+    <li><a href="contact.html">Contact <span>&rarr;</span></a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta">Book Free Consultation &rarr;</a>
+  <div class="mobile-nav-contact">
+    <a href="tel:+919676889797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      +91 9676 889 797
+    </a>
+    <a href="mailto:vpatel@proteamadvisory.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      vpatel@proteamadvisory.com
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Animated background -->
+  <div class="hero-bg-canvas" aria-hidden="true">
+    <div class="scan-line"></div>
+    <!-- Cloud cost grid SVG -->
+    <svg width="100%" height="100%" style="position:absolute;inset:0;opacity:0.06;" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <pattern id="cloudgrid" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+          <path d="M0 60 L30 60 M90 60 L120 60 M60 0 L60 30 M60 90 L60 120" stroke="#F5AF3D" stroke-width="1" fill="none"/>
+          <circle cx="60" cy="60" r="4" fill="none" stroke="#F5AF3D" stroke-width="1"/>
+          <circle cx="60" cy="60" r="1.5" fill="#F5AF3D"/>
+          <path d="M30 60 L30 90 L60 90" stroke="#F5AF3D" stroke-width="0.5" fill="none" stroke-dasharray="4 4"/>
+          <path d="M60 30 L90 30 L90 60" stroke="#F5AF3D" stroke-width="0.5" fill="none" stroke-dasharray="4 4"/>
+          <circle cx="30" cy="90" r="2" fill="none" stroke="#F5AF3D" stroke-width="0.5"/>
+          <circle cx="90" cy="30" r="2" fill="none" stroke="#F5AF3D" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#cloudgrid)"/>
+    </svg>
+    <!-- Drift particles -->
+    <div class="particle" style="left:15%;top:20%;--dx:-40px;--dy:-80px;--dur:9s;--delay:0s;"></div>
+    <div class="particle p-amber" style="left:40%;top:60%;--dx:60px;--dy:-120px;--dur:12s;--delay:2s;"></div>
+    <div class="particle p-green" style="left:70%;top:30%;--dx:-30px;--dy:-60px;--dur:7s;--delay:4s;"></div>
+    <div class="particle" style="left:85%;top:70%;--dx:-80px;--dy:-100px;--dur:11s;--delay:1s;"></div>
+    <div class="particle p-amber" style="left:25%;top:80%;--dx:50px;--dy:-140px;--dur:14s;--delay:3s;"></div>
+    <div class="particle" style="left:55%;top:10%;--dx:-20px;--dy:90px;--dur:10s;--delay:5s;"></div>
+  </div>
+
+  <div class="container">
+    <div class="hero-grid">
+      <!-- LEFT SIDE -->
+      <div class="hero-left reveal">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="sep">/</span>
+          <a href="services.html">Services</a>
+          <span class="sep">/</span>
+          <span class="current">FinOps Maturity</span>
+        </div>
+
+        <div class="page-hero-eyebrow">FinOps Foundation · Peer-Benchmarked · Service 11</div>
+
+        <h1>FinOps maturity <em>assessment &amp; transformation</em>.</h1>
+
+        <p class="hero-lede">Map your FinOps practice against the FinOps Foundation framework — crawl, walk, run. Six capabilities, four personas. Benchmark against peers, identify high-leverage gaps, and execute a sequenced 12–18 month transformation that delivers visible cost reduction every quarter.</p>
+
+        <div class="hero-actions">
+          <a href="contact.html" class="btn-primary">Book free consultation →</a>
+          <a href="case-studies.html" class="btn-outline">See case studies</a>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: MATURITY DASHBOARD TERMINAL -->
+      <div class="hero-right reveal">
+        <div class="maturity-terminal">
+          <div class="terminal-bar">
+            <div class="terminal-dot td-red"></div>
+            <div class="terminal-dot td-yellow"></div>
+            <div class="terminal-dot td-green"></div>
+            <span class="terminal-title">FinOps Maturity · Live Assessment</span>
+          </div>
+          <div class="terminal-body">
+
+            <!-- Phase progress bar -->
+            <div class="phase-indicator">
+              <div class="phase-label">Current maturity phase — client: fintech Q2 2025</div>
+              <div class="phase-track">
+                <div class="phase-node crawl"></div>
+                <div class="phase-node walk"></div>
+                <div class="phase-node run"></div>
+              </div>
+              <div class="phase-labels">
+                <span>Crawl ✓</span>
+                <span class="active-phase">Walk ← active</span>
+                <span>Run</span>
+              </div>
+            </div>
+
+            <!-- Capability cards stream -->
+            <div class="capability-stream" id="capStream">
+              <div class="cap-card">
+                <div class="cap-dot cd-green"></div>
+                <div class="cap-body">
+                  <div class="cap-title">Understanding usage &amp; cost</div>
+                  <div class="cap-sub">tagging · allocation · showback</div>
+                </div>
+                <span class="cap-badge cb-walk">Walk</span>
+              </div>
+              <div class="cap-card">
+                <div class="cap-dot cd-amber"></div>
+                <div class="cap-body">
+                  <div class="cap-title">Cloud rate optimisation</div>
+                  <div class="cap-sub">RI · savings plans · committed use</div>
+                </div>
+                <span class="cap-badge cb-crawl">Crawl</span>
+              </div>
+              <div class="cap-card">
+                <div class="cap-dot cd-green"></div>
+                <div class="cap-body">
+                  <div class="cap-title">Organisational alignment</div>
+                  <div class="cap-sub">personas · RACI · incentives</div>
+                </div>
+                <span class="cap-badge cb-walk">Walk</span>
+              </div>
+            </div>
+
+            <!-- AI scoring badge + overall score -->
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div class="ai-badge">
+                <span style="color:var(--amber-hi);">◆</span>
+                AI scoring active<span class="ai-cursor"></span>
+              </div>
+              <div class="score-badge">
+                Overall: <strong style="margin-left:4px;">2.3 / 3.0</strong>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAT STRIP -->
+    <div class="hero-stat-strip reveal">
+      <div class="hero-stat-grid">
+        <div class="hero-stat">
+          <div class="hstat-num"><span>6</span></div>
+          <div class="hstat-lbl">Capability dimensions scored — across the FinOps Foundation framework, from usage understanding to cloud usage optimisation.</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hstat-num"><span>4</span></div>
+          <div class="hstat-lbl">Personas aligned — engineering, finance, business, and FinOps practitioner. Each gets a clear mandate.</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hstat-num"><span>20–35</span>%</div>
+          <div class="hstat-lbl">Average cloud spend reduction over the first 18 months of structured FinOps transformation, across engagements.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section class="problem-section">
+  <div class="container">
+    <div class="problem-grid">
+      <div class="reveal">
+        <div class="section-eyebrow">The problem we solve</div>
+        <h2>Tooling is the easy part. <em>Operating model</em> is the hard part.</h2>
+
+        <!-- Operating model flow diagram -->
+        <div class="model-flow" style="margin-top:40px;">
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:rgba(245,175,61,0.6);margin-bottom:20px;">FINOPS OPERATING MODEL GAP</div>
+          <div class="flow-nodes">
+            <div class="flow-node">
+              <div class="fnode-icon i-query">📊</div>
+              <div class="fnode-text">
+                <div class="fnode-label">Tooling deployed — dashboards live</div>
+                <div class="fnode-sub">cost visibility · billing data · anomaly alerts</div>
+              </div>
+              <span class="fnode-badge sla">Month 1</span>
+            </div>
+            <div class="flow-connector"></div>
+            <div class="flow-node active">
+              <div class="fnode-icon i-ai">⚠</div>
+              <div class="fnode-text">
+                <div class="fnode-label">Cost behaviour unchanged</div>
+                <div class="fnode-sub">engineers · finance · ownership unclear</div>
+              </div>
+              <span class="fnode-badge warn">Gap identified</span>
+            </div>
+            <div class="flow-connector"></div>
+            <div class="flow-node resolved">
+              <div class="fnode-icon i-spec">✓</div>
+              <div class="fnode-text">
+                <div class="fnode-label">Operating model transformation</div>
+                <div class="fnode-sub">personas · RACI · maturity roadmap</div>
+              </div>
+              <span class="fnode-badge sla">Walk → Run</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <p>Most enterprises buy FinOps tooling first and design the operating model second. The dashboards arrive faster than the discipline. Six months in, cost visibility is excellent — and cost behaviour hasn't changed. Engineers still don't own the bill. Finance still doesn't understand the engineering levers. The FinOps team still lacks a clear mandate.</p>
+        <p>The fix isn't more tooling. The fix is <strong>operating-model maturity</strong> — clarity on who owns what, what gets measured, how decisions get made, and how cost ownership flows through the organisation. The FinOps Foundation framework codifies this into a model: <strong>six capability domains</strong>, <strong>four personas</strong>, and <strong>three maturity phases</strong>.</p>
+        <p>Our maturity assessment scores you against the framework, benchmarks you against industry peers, identifies the 4–6 capability gaps with the highest leverage, and designs a sequenced 12–18 month transformation. <strong>The goal is the next phase — not a perfect operating model.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MATURITY RADAR / CAPABILITY SCORING -->
+<section class="radar-section">
+  <div class="container">
+    <div class="reveal" style="max-width:720px;">
+      <div class="section-eyebrow">Six capability dimensions</div>
+      <h2 class="section-title">Scored against the <em>FinOps Foundation</em>.</h2>
+      <p class="section-lede">Every capability domain is scored crawl / walk / run with evidence captured. Benchmarked against organisations of similar cloud spend and sector. You see exactly where you are and where the leverage is.</p>
+    </div>
+
+    <div class="radar-layout reveal">
+      <!-- SVG Radar chart -->
+      <div class="radar-viz">
+        <svg id="radarChart" viewBox="0 0 360 360" width="360" height="360" style="overflow:visible;">
+          <!-- Background rings -->
+          <g opacity="0.15">
+            <polygon points="180,60 271,120 271,240 180,300 89,240 89,120" fill="none" stroke="rgba(245,175,61,0.5)" stroke-width="1"/>
+            <polygon points="180,93 248,133 248,213 180,253 112,213 112,133" fill="none" stroke="rgba(245,175,61,0.4)" stroke-width="1"/>
+            <polygon points="180,126 225,146 225,194 180,214 135,194 135,146" fill="none" stroke="rgba(245,175,61,0.3)" stroke-width="1"/>
+          </g>
+          <!-- Axis lines -->
+          <g opacity="0.2" stroke="rgba(245,175,61,0.4)" stroke-width="1">
+            <line x1="180" y1="180" x2="180" y2="60"/>
+            <line x1="180" y1="180" x2="271" y2="120"/>
+            <line x1="180" y1="180" x2="271" y2="240"/>
+            <line x1="180" y1="180" x2="180" y2="300"/>
+            <line x1="180" y1="180" x2="89" y2="240"/>
+            <line x1="180" y1="180" x2="89" y2="120"/>
+          </g>
+          <!-- Data polygon (animated) -->
+          <polygon id="radarData" points="180,80 261,128 262,230 180,272 104,234 108,132" fill="rgba(245,175,61,0.12)" stroke="var(--amber-hi)" stroke-width="2" stroke-linejoin="round" opacity="0"/>
+          <!-- Data points -->
+          <g id="radarDots" opacity="0">
+            <circle cx="180" cy="80" r="5" fill="var(--amber-hi)"/>
+            <circle cx="261" cy="128" r="5" fill="var(--amber-hi)"/>
+            <circle cx="262" cy="230" r="4" fill="var(--signal-hi)"/>
+            <circle cx="180" cy="272" r="5" fill="var(--amber-hi)"/>
+            <circle cx="104" cy="234" r="4" fill="var(--signal-hi)"/>
+            <circle cx="108" cy="132" r="3" fill="#FF6B6B"/>
+          </g>
+          <!-- Labels -->
+          <g font-family="'Geist Mono',monospace" font-size="10" fill="rgba(240,242,245,0.6)" text-anchor="middle">
+            <text x="180" y="48">Usage &amp; Cost</text>
+            <text x="290" y="112">Performance</text>
+            <text x="290" y="255">Real-time Decisions</text>
+            <text x="180" y="320">Org Alignment</text>
+            <text x="70" y="255">Rate Optimisation</text>
+            <text x="70" y="112">Usage Optimisation</text>
+          </g>
+          <!-- Phase labels -->
+          <g font-family="'Geist Mono',monospace" font-size="9" fill="rgba(245,175,61,0.4)">
+            <text x="186" y="300" text-anchor="start">Walk</text>
+            <text x="186" y="257" text-anchor="start">Run</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Capability score bars -->
+      <div class="capability-score-list">
+        <div class="cap-score-item reveal">
+          <div class="cap-score-header">
+            <span class="cap-score-name">Understanding usage &amp; cost</span>
+            <span class="cap-score-val">Walk (2.0 / 3.0)</span>
+          </div>
+          <div class="cap-score-bar"><div class="cap-score-fill" data-width="67%" style="width:0"></div></div>
+        </div>
+        <div class="cap-score-item reveal">
+          <div class="cap-score-header">
+            <span class="cap-score-name">Performance tracking &amp; benchmarking</span>
+            <span class="cap-score-val">Walk (2.2 / 3.0)</span>
+          </div>
+          <div class="cap-score-bar"><div class="cap-score-fill" data-width="73%" style="width:0"></div></div>
+        </div>
+        <div class="cap-score-item reveal">
+          <div class="cap-score-header">
+            <span class="cap-score-name">Real-time decision making</span>
+            <span class="cap-score-val">Walk (1.8 / 3.0)</span>
+          </div>
+          <div class="cap-score-bar"><div class="cap-score-fill" data-width="60%" style="width:0"></div></div>
+        </div>
+        <div class="cap-score-item reveal">
+          <div class="cap-score-header">
+            <span class="cap-score-name">Organisational alignment</span>
+            <span class="cap-score-val">Walk (2.3 / 3.0)</span>
+          </div>
+          <div class="cap-score-bar"><div class="cap-score-fill" data-width="77%" style="width:0"></div></div>
+        </div>
+        <div class="cap-score-item reveal">
+          <div class="cap-score-header">
+            <span class="cap-score-name">Cloud rate optimisation</span>
+            <span class="cap-score-val" style="color:#FF8A80;">Crawl (1.2 / 3.0)</span>
+          </div>
+          <div class="cap-score-bar"><div class="cap-score-fill" data-width="40%" style="width:0;background:linear-gradient(90deg,#FF6B6B,#FF8A80);"></div></div>
+        </div>
+        <div class="cap-score-item reveal">
+          <div class="cap-score-header">
+            <span class="cap-score-name">Cloud usage optimisation</span>
+            <span class="cap-score-val" style="color:#FF8A80;">Crawl (1.4 / 3.0)</span>
+          </div>
+          <div class="cap-score-bar"><div class="cap-score-fill" data-width="47%" style="width:0;background:linear-gradient(90deg,#FF6B6B,#FF8A80);"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section class="includes">
+  <div class="container">
+    <div class="includes-intro-grid">
+      <div class="reveal">
+        <div class="section-eyebrow">What's included</div>
+        <h2 class="section-title">Six workstreams. <em>One target operating model.</em></h2>
+      </div>
+      <div class="reveal">
+        <p class="section-lede">Six-capability scoring, four-persona alignment, peer benchmark, transformation roadmap. Optional execution support — so value arrives every quarter, not just at the end.</p>
+      </div>
+    </div>
+
+    <div class="includes-grid reveal-stagger">
+      <div class="inc-item">
+        <div class="inc-num">// 01</div>
+        <div class="inc-icon">📋</div>
+        <h4>Current-state maturity assessment</h4>
+        <p>Scoring across the six FinOps Foundation capabilities — usage &amp; cost, performance tracking, real-time decisions, organisational alignment, cloud rate optimisation, and cloud usage optimisation. Crawl / walk / run scoring with evidence captured.</p>
+      </div>
+      <div class="inc-item">
+        <div class="inc-num">// 02</div>
+        <div class="inc-icon">👥</div>
+        <h4>Persona alignment review</h4>
+        <p>Assessment of how the four FinOps personas — engineering, finance, business, and FinOps practitioner — are currently engaged. Where ownership is unclear, where incentives misalign, and where the right conversations aren't happening.</p>
+      </div>
+      <div class="inc-item">
+        <div class="inc-num">// 03</div>
+        <div class="inc-icon">📊</div>
+        <h4>Industry benchmark</h4>
+        <p>Anonymised comparison against organisations of similar cloud spend and sector. Particularly valuable for identifying capability gaps that are below industry average and creating disproportionate cost or risk exposure.</p>
+      </div>
+      <div class="inc-item">
+        <div class="inc-num">// 04</div>
+        <div class="inc-icon">🏗</div>
+        <h4>Target operating model</h4>
+        <p>Design of the FinOps function you want — sized to your cloud spend, integrated with engineering and finance, with clear interfaces into procurement and platform teams. RACI, headcount, reporting cadence, and tooling stack.</p>
+      </div>
+      <div class="inc-item">
+        <div class="inc-num">// 05</div>
+        <div class="inc-icon">🗺</div>
+        <h4>Transformation roadmap</h4>
+        <p>Sequenced 12–18 month plan with quarterly milestones, dependency mapping, business case per workstream, and clear governance. Designed to deliver visible value every quarter — not just at the end of an 18-month programme.</p>
+      </div>
+      <div class="inc-item">
+        <div class="inc-num">// 06</div>
+        <div class="inc-icon">🔄</div>
+        <h4>Execution oversight (optional)</h4>
+        <p>Many clients ask us to stay engaged through the transformation. Quarterly steering, monthly delivery reviews, and on-call advisory through the inevitable mid-programme pivots and reprioritisations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS STEPS -->
+<section class="process">
+  <div class="container">
+    <div class="reveal" style="max-width:720px;">
+      <div class="section-eyebrow">How we work</div>
+      <h2 class="section-title">A four-stage assessment. <em>Then a transformation</em>, if you want one.</h2>
+      <p class="section-lede">The assessment runs 4–6 weeks. The transformation roadmap is delivered with it. Execution support is optional and quoted separately.</p>
+    </div>
+
+    <div class="process-steps reveal-stagger">
+      <div class="proc-step">
+        <div class="proc-num">// STEP 01</div>
+        <h4>Discover &amp; scope</h4>
+        <div>
+          <p>Free consultation. We agree scope — enterprise-wide or focused on a specific cloud platform, business unit, or persona. We identify stakeholders across engineering, finance, and FinOps and agree the success metrics.</p>
+          <div class="proc-badge">No commitment · 30 minutes</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">// STEP 02</div>
+        <h4>Assess &amp; benchmark</h4>
+        <div>
+          <p>Two-to-four weeks of structured interviews across the four personas, tool and billing data extraction, process walkthroughs. We score against the six FinOps Foundation capabilities and benchmark against industry peers.</p>
+          <div class="proc-badge">Six capabilities scored · evidence captured · 2–4 weeks</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">// STEP 03</div>
+        <h4>Design &amp; sequence</h4>
+        <div>
+          <p>Target operating model design, capability gap analysis, business case modelling. We sequence the transformation into 4–6 workstreams with quarterly milestones and persona ownership clearly defined.</p>
+          <div class="proc-badge">Roadmap delivered · business case per workstream</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">// STEP 04</div>
+        <h4>Execute &amp; report</h4>
+        <div>
+          <p>Optional ongoing engagement. Quarterly steering meetings, monthly delivery reviews, on-call advisory. We stay until the next FinOps maturity phase is reached and measurable in both spend and behaviour terms.</p>
+          <div class="proc-badge">Value delivered each quarter · not just at programme end</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="container">
+    <div class="reveal" style="margin-bottom:56px;">
+      <div class="section-eyebrow">Proof</div>
+      <h2 class="section-title">A <em>recent engagement</em>.</h2>
+    </div>
+    <div class="proof-grid">
+      <div class="reveal">
+        <div class="proof-quote">
+          A high-growth fintech moved from FinOps <em>crawl phase to mature walk phase</em> inside 13 months — and reduced unit cloud cost per active user by 28% over the same period.
+        </div>
+        <div class="proof-attribution">
+          <div class="proof-avatar">SW</div>
+          <div>
+            <div class="proof-name">Shwetank</div>
+            <div class="proof-role">SAM Lifecycle Management Lead · Proteam Advisory · FinOps transformation, fintech sector</div>
+          </div>
+        </div>
+      </div>
+      <div class="proof-stat-card reveal">
+        <div class="proof-stat-inner">
+          <div class="proof-stat-label">Unit cost reduction · fintech sector</div>
+          <div class="proof-stat-num"><span>−28%</span></div>
+          <div class="proof-stat-desc">A US-headquartered fintech engaged us after their CFO asked why cloud cost was scaling faster than revenue. We assessed maturity, redesigned the engineering–finance interface, and supported execution over 13 months. Unit cost per active user dropped 28% while revenue grew 42%.</div>
+          <a href="case-studies.html" class="proof-cta-link">Read more case studies →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADJACENT SERVICES -->
+<section class="adjacent">
+  <div class="container">
+    <div class="reveal" style="max-width:720px;">
+      <div class="section-eyebrow">Adjacent services</div>
+      <h2 class="section-title">Often deployed <em>alongside</em>.</h2>
+      <p class="section-lede">FinOps maturity work usually leads into one of these — depending on which gaps are most acute after the assessment.</p>
+    </div>
+    <div class="adj-grid">
+      <a href="service-finops-helpdesk.html" class="adj-card reveal">
+        <div class="num">// 10</div>
+        <h4>Cloud Cost Helpdesk Services</h4>
+        <p>If the assessment finds gaps in day-to-day decisions — RI/SP coverage, anomaly response, allocation calls — the helpdesk fills them while you build internal capacity for the walk or run phase.</p>
+        <span class="lnk">Learn more →</span>
+      </a>
+      <a href="service-cloud-finops.html" class="adj-card reveal">
+        <div class="num">// 09</div>
+        <h4>Cloud FinOps</h4>
+        <p>For structural cost-optimisation work — commitment portfolios, BYOL strategy, rate negotiation — the broader FinOps engagement typically runs in parallel with the transformation programme.</p>
+        <span class="lnk">Learn more →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="reveal">
+        <div class="section-eyebrow" style="color:var(--amber-hi);">Ready to talk</div>
+        <h2>Want to know <em>where your FinOps ceiling is</em>?</h2>
+        <p>The free FinOps consultation is exactly that. A senior consultant will spend 30 minutes with you walking through your current operating model, biggest cost surprises of the last year, and how engineering and finance currently work together — and tell you whether a maturity assessment is the right next step.</p>
+        <div class="cta-actions">
+          <a href="contact.html" class="btn-amber">Book free consultation</a>
+          <a href="case-studies.html" class="btn-line-cream">See more case studies</a>
+        </div>
+      </div>
+      <div class="cta-checklist reveal">
+        <h5>What you'll get</h5>
+        <div class="cta-check-items">
+          <div class="cta-check-item">30-minute call with a senior FinOps transformation specialist.</div>
+          <div class="cta-check-item">Quick self-scoring against the six FinOps Foundation capabilities.</div>
+          <div class="cta-check-item">Indicative benchmark range against your industry.</div>
+          <div class="cta-check-item">Transformation roadmap structure and approximate timeline.</div>
+          <div class="cta-check-item">Honest assessment of whether maturity work is your highest-leverage move right now.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" style="color:var(--cream);">
+          <span class="logo-lockup">
+            <span class="logo-text" style="color:var(--cream);"><span class="logo-cap">P</span>roteam</span>
+            <span class="logo-advisory">Advisory Solutions LLP</span>
+          </span>
+        </a>
+        <h3>HAM &amp; SAM specialists. Nothing else.</h3>
+        <p>An independent IT Asset Management consultancy serving enterprises across India, the UK, the US, and the Middle East.</p>
+        <div class="foot-social">
+          <div class="foot-social-label">Follow us on</div>
+          <div class="foot-social-icons">
+            <a href="https://in.linkedin.com/company/proteam-advisory" aria-label="LinkedIn" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/proteamadv" aria-label="X (Twitter)" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H21l-7.39 8.45L22.5 21h-6.83l-5.34-6.99L3.5 21H0l7.91-9.04L0.5 3h7l4.83 6.4L17.53 3zm-2.39 16h2.06L7.05 4.85H4.83L15.14 19z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/proteamadvisory/" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://www.youtube.com/channel/UCaajUe2N_6AFw3dvPmH1b7A" aria-label="YouTube" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+            <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#sam">Software Asset Management</a></li>
+          <li><a href="services.html#ham">Hardware Asset Management</a></li>
+          <li><a href="services.html#finops">Cloud FinOps</a></li>
+          <li><a href="services.html#ai-transformation">AI Transformation Services</a></li>
+          <li><a href="services.html#itam-tech">ITAM Technology</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="case-studies.html">Case Studies</a></li>
+          <li><a href="insights.html">Insights</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Get in touch</h5>
+        <address>
+          Suite #309–312<br>
+          KTC Illumination Towers<br>
+          Madhapur, Hyderabad<br>
+          Telangana, India<br><br>
+          <a href="tel:+919676889797">+91 9676 889 797</a><br>
+          <a href="mailto:vpatel@proteamadvisory.com">vpatel@proteamadvisory.com</a>
+        </address>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div>© 2026 Proteam Advisory. All rights reserved.</div>
+      <div style="display:flex;gap:24px;">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── SCROLL REVEAL ── */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => obs.observe(el));
+
+/* ── RADAR CHART ANIMATION ── */
+const radarObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const data = document.getElementById('radarData');
+      const dots = document.getElementById('radarDots');
+      if (data) { data.style.transition = 'opacity 0.8s ease'; data.style.opacity = '1'; }
+      if (dots) { dots.style.transition = 'opacity 0.8s ease 0.4s'; dots.style.opacity = '1'; }
+      radarObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+const radarSection = document.querySelector('.radar-section');
+if (radarSection) radarObs.observe(radarSection);
+
+/* ── CAPABILITY SCORE BAR ANIMATIONS ── */
+const scoreObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const fill = e.target.querySelector('.cap-score-fill');
+      if (fill) {
+        setTimeout(() => {
+          fill.style.width = fill.dataset.width;
+          fill.style.transition = 'width 1.1s ease';
+        }, 200);
+      }
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.cap-score-item').forEach(el => scoreObs.observe(el));
+
+/* ── MOBILE MENU (with accordion sub-menus) ── */
+(function() {
+  const toggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  if (!toggle || !mobileNav) return;
+  const body = document.body;
+
+  function openMenu() {
+    mobileNav.classList.add('is-open');
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    mobileNav.classList.remove('is-open');
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    body.style.overflow = '';
+}
+
+  toggle.addEventListener('click', () => mobileNav.classList.contains('is-open') ? closeMenu() : openMenu());
+
+  // Close on actual link clicks (not sub-menu toggle buttons)
+  mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) closeMenu(); });
+
+  // Accordion for nested sub-menus
+  mobileNav.querySelectorAll('.sub-toggle, .sub-toggle-2').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('aria-controls');
+      const target = id ? document.getElementById(id) : btn.nextElementSibling;
+      if (!target) return;
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      target.classList.toggle('is-open', !expanded);
+    });
+  });
+})();
+
+/* ── LIVE CAPABILITY TICKER ── */
+(function() {
+  const capabilities = [
+    { title: 'Anomaly management', sub: 'detection · alerting · response', phase: 'Walk', cls: 'cb-walk', dot: 'cd-green' },
+    { title: 'Commitment-based discounts', sub: 'RI · savings plans · CUD', phase: 'Crawl', cls: 'cb-crawl', dot: 'cd-amber' },
+    { title: 'Resource utilisation', sub: 'rightsizing · waste · idle', phase: 'Run', cls: 'cb-run', dot: 'cd-blue' },
+    { title: 'Budget management', sub: 'forecasting · alerts · variance', phase: 'Walk', cls: 'cb-walk', dot: 'cd-green' },
+    { title: 'Showback & chargeback', sub: 'allocation · billing · reporting', phase: 'Crawl', cls: 'cb-crawl', dot: 'cd-amber' },
+  ];
+  let ci = 0;
+  const stream = document.getElementById('capStream');
+  if (!stream) return;
+  setInterval(() => {
+    const c = capabilities[ci % capabilities.length];
+    ci++;
+    const card = document.createElement('div');
+    card.className = 'cap-card';
+    card.style.animationDelay = '0s';
+    card.innerHTML = `<div class="cap-dot ${c.dot}"></div><div class="cap-body"><div class="cap-title">${c.title}</div><div class="cap-sub">${c.sub}</div></div><span class="cap-badge ${c.cls}">${c.phase}</span>`;
+    stream.insertBefore(card, stream.firstChild);
+    if (stream.children.length > 4) stream.removeChild(stream.lastChild);
+  }, 6000);
+})();
+
+/* ── SMOOTH SCROLL ── */
+document.querySelectorAll("a[href^='#']").forEach(link => {
+  link.addEventListener("click", e => {
+    const id = link.getAttribute("href");
+    if (id.length > 1) { const tgt = document.querySelector(id); if (tgt) { e.preventDefault(); tgt.scrollIntoView({ behavior: "smooth", block: "start" }); } }
+  });
+});
+</script>
+
+<script src="sammy-chatbot.js"></script>
+<script>
+/* Desktop mega-menu: JS hover with close-delay */
+(function () {
+  var CLOSE_DELAY = 150;
+  document.querySelectorAll(".nav-links .has-mega").forEach(function (li) {
+    var timer = null;
+    function openMenu() { clearTimeout(timer); li.classList.add("mega-open"); }
+    function scheduleClose() { timer = setTimeout(function () { li.classList.remove("mega-open"); }, CLOSE_DELAY); }
+    li.addEventListener("mouseenter", openMenu);
+    li.addEventListener("mouseleave", scheduleClose);
+    var menu = li.querySelector(".mega-menu");
+    if (menu) {
+      menu.addEventListener("mouseenter", openMenu);
+      menu.addEventListener("mouseleave", scheduleClose);
+    }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") li.classList.remove("mega-open"); });
+  });
+})();
+</script>
+</body>
+</html>

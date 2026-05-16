@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAM Audit Defence Services — Proteam Advisory</title>
+<meta name="description" content="When a software vendor sends an audit notice, the clock starts. AI-powered audit defence across IBM, Oracle, Microsoft, SAP — savings measured in tens of millions." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<style>
+/* ============================================================
+   AUDIT DEFENCE — Page-specific styles
+   Theme: Forensic command-centre / rapid-response
+   ============================================================ */
+
+/* ---- Radar hero canvas ---- */
+#radar-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* ---- Urgency badge ---- */
+.urgency-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(220, 60, 60, 0.10);
+  border: 1px solid rgba(220, 60, 60, 0.28);
+  border-radius: 20px;
+  padding: 4px 12px 4px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #F5C022;
+  white-space: nowrap;
+}
+.urgency-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #F5C022;
+  box-shadow: 0 0 8px rgba(220,60,60,0.7);
+  animation: urgency-blink 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes urgency-blink {
+  0%,100% { opacity:1; box-shadow:0 0 8px rgba(220,60,60,0.7); }
+  50%      { opacity:0.4; box-shadow:0 0 3px rgba(220,60,60,0.3); }
+}
+
+/* ---- AI badge (same as baselining for consistency) ---- */
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(45, 91, 255, 0.08);
+  border: 1px solid rgba(45, 91, 255, 0.22);
+  border-radius: 20px;
+  padding: 4px 10px 4px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.ai-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--amber-bright);
+  box-shadow: 0 0 8px var(--amber-bright);
+  animation: ai-pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes ai-pulse {
+  0%,100% { opacity:1; box-shadow:0 0 8px var(--amber-bright); }
+  50%      { opacity:0.5; box-shadow:0 0 3px var(--amber-bright); }
+}
+.ai-badge-dark {
+  background: rgba(72,112,255,0.12);
+  border-color: rgba(72,112,255,0.3);
+  color: var(--amber-bright);
+}
+.ai-badge-dark::before {
+  background: var(--amber-bright);
+  box-shadow: 0 0 8px rgba(72,112,255,0.8);
+}
+
+/* ---- Stat row ---- */
+.svc-detail-hero .stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+.svc-detail-hero .stat-row .stat-num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--amber);
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+  font-variation-settings: "opsz" 144;
+}
+.svc-detail-hero .stat-row .stat-lbl {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--navy-soft);
+}
+@media (max-width: 768px) {
+  .svc-detail-hero .stat-row { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ---- Overview ---- */
+.svc-overview {
+  background: var(--paper);
+  padding: 110px 0;
+}
+.svc-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.svc-overview-grid h2 {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  margin-bottom: 24px;
+  font-variation-settings: "opsz" 144;
+}
+.svc-overview-grid h2 em { font-family: var(--serif); font-variation-settings: "opsz" 144; font-style: italic; color: var(--amber); font-weight: 300; }
+.svc-overview-grid p { font-size: 17px; line-height: 1.7; color: var(--navy-soft); margin-bottom: 18px; }
+.svc-overview-grid p strong { color: var(--navy); font-weight: 600; }
+@media (max-width: 960px) {
+  .svc-overview-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* ---- Alert ticker band ---- */
+.alert-band {
+  background: #053B45;
+  border-top: 1px solid rgba(220,60,60,0.3);
+  border-bottom: 1px solid rgba(220,60,60,0.3);
+  padding: 18px 0;
+  overflow: hidden;
+  position: relative;
+}
+.alert-band-track {
+  display: flex;
+  gap: 48px;
+  align-items: center;
+  animation: band-scroll 22s linear infinite;
+  width: max-content;
+}
+@keyframes band-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.alert-band-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(220,60,60,0.7);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.alert-band-item::before {
+  content: '▸';
+  color: rgba(220,60,60,0.5);
+  font-size: 9px;
+}
+.alert-band-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(220,60,60,0.5);
+  padding: 0 24px;
+  border-right: 1px solid rgba(220,60,60,0.25);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   DEFENCE COMMAND SECTION  (signature animated section)
+   Visual: 4-stage horizontal defence timeline with exposure gauge
+   ================================================================ */
+.defence-command {
+  background: var(--navy-deep);
+  padding: 120px 0 130px;
+  position: relative;
+  overflow: hidden;
+}
+.defence-command::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+/* Threat-red glow behind gauge */
+.defence-command::after {
+  content: '';
+  position: absolute;
+  top: 30%; left: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(200,40,40,0.08) 0%, transparent 65%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+.defence-command .container { position: relative; z-index: 1; }
+.defence-command .section-title { color: var(--cream); }
+.defence-command .section-eyebrow { color: #F5C022; }
+.defence-command .section-eyebrow::before { background: #F5C022; }
+.defence-command .section-lede { color: rgba(240,242,245,0.72); }
+
+/* The main diagram wrapper */
+.defence-diagram {
+  margin-top: 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* === Top: Exposure reduction bar === */
+.exposure-bar-wrap {
+  background: rgba(240,242,245,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  padding: 24px 36px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.exposure-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,242,245,0.5);
+  flex-shrink: 0;
+  min-width: 140px;
+}
+.exposure-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.07);
+  border-radius: var(--radius-sm);
+  position: relative;
+  overflow: visible;
+  min-width: 200px;
+}
+.exposure-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 92%;
+  background: linear-gradient(90deg, #F5C022 0%, #F5C022 50%, #ff7070 100%);
+  border-radius: var(--radius-sm);
+  animation: exposure-reduce 6s ease-in-out infinite alternate;
+}
+@keyframes exposure-reduce {
+  0%   { width: 92%; background: linear-gradient(90deg, #F5C022 0%, #F5C022 60%, #ff7070 100%); }
+  100% { width: 18%; background: linear-gradient(90deg, #03AED2 0%, #03AED2 60%, #68D2E8 100%); }
+}
+.exposure-markers {
+  position: absolute;
+  top: 14px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.exposure-marker {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(240,242,245,0.35);
+  text-align: center;
+}
+.exposure-readout {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(240,242,245,0.6);
+  flex-shrink: 0;
+  letter-spacing: 0.08em;
+}
+
+/* === Stage cards === */
+.stages-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  background: rgba(240,242,245,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-bottom: none;
+}
+.stage-card {
+  padding: 36px 28px;
+  position: relative;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  transition: background 0.3s;
+}
+.stage-card:last-child { border-right: none; }
+.stage-card:hover { background: rgba(240,242,245,0.05); }
+
+/* Animated fill on card-1 (active by default) */
+.stage-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--amber-bright);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+.stage-card:hover::before { transform: scaleX(1); }
+/* Active stage gets permanent underline */
+.stage-card.active::before { transform: scaleX(1); background: #F5C022; }
+
+.stage-num {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #F5C022;
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.stage-card:not(.active) .stage-num { color: rgba(240,242,245,0.35); }
+.stage-title {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.25;
+  color: var(--cream);
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+  font-variation-settings: "opsz" 144;
+}
+.stage-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--amber-bright);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.stage-time::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--amber-bright);
+  box-shadow: 0 0 6px rgba(72,112,255,0.7);
+}
+.stage-card.active .stage-time { color: #F5C022; }
+.stage-card.active .stage-time::before { background: #F5C022; box-shadow: 0 0 6px rgba(220,60,60,0.7); animation: urgency-blink 1.2s ease-in-out infinite; }
+.stage-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(240,242,245,0.6);
+}
+.stage-card:hover .stage-desc { color: rgba(240,242,245,0.8); }
+
+/* Connector arrow between stages */
+.stage-connector {
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  background: var(--navy-deep);
+  border: 1px solid rgba(72,112,255,0.35);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--amber-bright);
+  font-size: 11px;
+}
+
+/* === Bottom: AI analysis stream === */
+.analysis-stream {
+  background: rgba(5, 14, 28, 0.9);
+  border: 1px solid rgba(72,112,255,0.2);
+  border-radius: 0 0 4px 4px;
+  padding: 20px 28px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: rgba(72,112,255,0.75);
+  position: relative;
+  overflow: hidden;
+  min-height: 80px;
+}
+.analysis-stream::before {
+  content: 'AI ANALYSIS STREAM';
+  position: absolute;
+  top: 10px; right: 20px;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba(72,112,255,0.35);
+}
+.stream-cursor {
+  display: inline-block;
+  width: 7px; height: 13px;
+  background: var(--amber-bright);
+  animation: blink-cursor 0.9s steps(1) infinite;
+  vertical-align: middle;
+  margin-left: 3px;
+}
+@keyframes blink-cursor { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+
+/* Info panels below diagram */
+.defence-panels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+.defence-panel {
+  background: rgba(240,242,245,0.04);
+  border: 1px solid rgba(72,112,255,0.2);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.defence-panel:hover {
+  background: rgba(240,242,245,0.07);
+  border-color: rgba(72,112,255,0.45);
+}
+.defence-panel-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber-bright);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.defence-panel p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(240,242,245,0.78);
+}
+
+@media (max-width: 900px) {
+  .stages-row { grid-template-columns: 1fr 1fr; }
+  .stage-connector { display: none; }
+  .defence-panels { grid-template-columns: 1fr; }
+}
+@media (max-width: 580px) {
+  .stages-row { grid-template-columns: 1fr; }
+}
+
+/* ================================================================
+   WHAT'S INCLUDED — Interactive workstream command panel
+   Layout: left rail (6 steps) + right detail panel + flow spine
+   ================================================================ */
+.includes {
+  background: var(--navy-deep);
+  padding: 120px 0 130px;
+  position: relative;
+  overflow: hidden;
+}
+.includes::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events: none;
+}
+.includes::after {
+  content: '';
+  position: absolute;
+  top: -15%; right: -10%;
+  width: 640px; height: 640px;
+  background: radial-gradient(circle, rgba(45,91,255,0.07) 0%, transparent 65%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+.includes .container { position: relative; z-index: 1; }
+.includes .section-title { color: var(--cream); }
+.includes .section-eyebrow { color: var(--amber-bright); }
+.includes .section-eyebrow::before { background: var(--amber-bright); }
+.includes .section-lede { color: rgba(240,242,245,0.65); }
+
+.workstream-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 0;
+  margin-top: 56px;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 500px;
+}
+
+/* ---- Left rail ---- */
+.workstream-rail {
+  background: rgba(5,14,28,0.65);
+  border-right: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.workstream-rail::before {
+  content: '';
+  position: absolute;
+  left: 27px;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: rgba(255,255,255,0.06);
+  pointer-events: none;
+}
+.workstream-rail-fill {
+  position: absolute;
+  left: 27px;
+  top: 0;
+  width: 1px;
+  background: linear-gradient(180deg, var(--amber-bright) 0%, rgba(72,112,255,0.15) 100%);
+  transition: height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.workstream-tab {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 26px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  position: relative;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.25s ease;
+  font-family: inherit;
+}
+.workstream-tab:last-child { border-bottom: none; }
+.workstream-tab:hover { background: rgba(255,255,255,0.025); }
+.workstream-tab.active { background: rgba(45,91,255,0.08); }
+.workstream-tab.active::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--amber-bright);
+}
+
+.ws-node {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.16);
+  flex-shrink: 0;
+  margin-top: 5px;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  position: relative;
+  z-index: 2;
+}
+.workstream-tab.active .ws-node {
+  background: var(--amber-bright);
+  border-color: var(--amber-bright);
+  box-shadow: 0 0 12px rgba(72,112,255,0.7);
+}
+.workstream-tab.done .ws-node {
+  background: rgba(72,112,255,0.45);
+  border-color: rgba(72,112,255,0.6);
+  box-shadow: none;
+}
+
+.ws-tab-content { flex: 1; min-width: 0; }
+.ws-tab-num {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(240,242,245,0.28);
+  margin-bottom: 4px;
+  transition: color 0.25s;
+}
+.workstream-tab.active .ws-tab-num { color: var(--amber-bright); }
+.workstream-tab.done .ws-tab-num { color: rgba(72,112,255,0.55); }
+.ws-tab-title {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.3;
+  color: rgba(240,242,245,0.45);
+  letter-spacing: -0.005em;
+  font-variation-settings: "opsz" 144;
+  transition: color 0.25s;
+}
+.workstream-tab.active .ws-tab-title { color: var(--cream); }
+.workstream-tab.done .ws-tab-title { color: rgba(240,242,245,0.38); }
+.ws-tab-badge {
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(72,112,255,0.6);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s 0.1s, transform 0.3s 0.1s;
+}
+.workstream-tab.active .ws-tab-badge { opacity: 1; transform: translateY(0); }
+
+/* ---- Right detail panel ---- */
+.workstream-panel {
+  background: rgba(30,43,60,0.4);
+  position: relative;
+  overflow: hidden;
+}
+.ws-panel-scan {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(72,112,255,0.22), transparent);
+  animation: panel-scan 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes panel-scan {
+  0%   { top: 0%; opacity: 0; }
+  6%   { opacity: 1; }
+  94%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.ws-panel-slide {
+  position: absolute;
+  inset: 0;
+  padding: 52px 56px;
+  opacity: 0;
+  transform: translateX(22px);
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+}
+.ws-panel-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  position: relative;
+}
+
+.ws-panel-corner {
+  position: absolute;
+  top: 20px; right: 28px;
+  font-family: var(--mono);
+  font-size: 88px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.022);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  pointer-events: none;
+  user-select: none;
+}
+.ws-panel-num {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--amber-bright);
+  margin-bottom: 16px;
+}
+.ws-panel-title {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.1;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  font-variation-settings: "opsz" 144;
+}
+.ws-panel-title em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--amber-bright);
+  font-weight: 300;
+  font-variation-settings: "opsz" 144;
+}
+.ws-panel-body {
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: rgba(240,242,245,0.68);
+  margin-bottom: 28px;
+}
+.ws-detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 28px;
+  flex: 1;
+}
+.ws-detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(240,242,245,0.58);
+}
+.ws-detail-item::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--amber-bright);
+  flex-shrink: 0;
+  margin-top: 6px;
+  opacity: 0.55;
+}
+.ws-panel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(45,91,255,0.1);
+  border: 1px solid rgba(45,91,255,0.25);
+  border-radius: 20px;
+  padding: 6px 14px 6px 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber-bright);
+  align-self: flex-start;
+  margin-top: auto;
+}
+.ws-panel-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--amber-bright);
+  box-shadow: 0 0 8px rgba(72,112,255,0.7);
+  animation: ai-pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* Auto-cycle dots */
+.ws-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 36px;
+}
+.ws-dot {
+  height: 3px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: background 0.35s, width 0.35s;
+  border: none;
+  width: 20px;
+}
+.ws-dot.active {
+  background: var(--amber-bright);
+  width: 32px;
+}
+.ws-cycle-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(240,242,245,0.25);
+  margin-left: 8px;
+}
+
+@media (max-width: 1024px) {
+  .workstream-layout { grid-template-columns: 290px 1fr; }
+  .ws-panel-slide { padding: 40px 40px; }
+}
+@media (max-width: 800px) {
+  .workstream-layout { grid-template-columns: 1fr; min-height: auto; }
+  .workstream-rail { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .workstream-rail::before, .workstream-rail-fill { display: none; }
+  .ws-panel-slide { position: relative; padding: 32px 24px; transform: none !important; }
+  .ws-panel-slide:not(.active) { display: none; }
+  .ws-panel-corner { display: none; }
+}
+
+/* ---- Process ---- */
+.svc-process {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.svc-process::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.svc-process .container { position: relative; }
+.svc-process .section-title { color: var(--cream); }
+.svc-process .section-eyebrow { color: var(--amber-bright); }
+.svc-process .section-eyebrow::before { background: var(--amber-bright); }
+.svc-process .section-lede { color: rgba(240,242,245,0.7); }
+
+.svc-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 56px;
+  border-top: 1px solid var(--line-cream);
+}
+.svc-step {
+  border-bottom: 1px solid var(--line-cream);
+  padding: 40px 0;
+  display: grid;
+  grid-template-columns: 80px 280px 1fr;
+  gap: 40px;
+  align-items: start;
+  transition: padding 0.3s ease;
+}
+.svc-step:hover { padding-left: 16px; }
+.svc-step .num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 56px;
+  line-height: 0.9;
+  color: var(--amber-bright);
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 144;
+}
+.svc-step h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 1.15;
+  color: var(--cream);
+  letter-spacing: -0.015em;
+  font-variation-settings: "opsz" 144;
+  margin-bottom: 8px;
+}
+.svc-step p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(240,242,245,0.75);
+}
+@media (max-width: 960px) {
+  .svc-step { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* ---- Proof ---- */
+.proof {
+  background: var(--paper);
+  padding: 110px 0;
+}
+.proof-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 64px;
+  align-items: center;
+}
+.proof-quote {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 42px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--navy);
+  font-variation-settings: "opsz" 144;
+}
+.proof-quote em { font-family: var(--serif); font-variation-settings: "opsz" 144; font-style: italic; color: var(--amber); font-weight: 400; }
+.proof-attribution {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.proof-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--amber-bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  font-style: italic;
+  font-size: 20px;
+  font-variation-settings: "opsz" 144;
+}
+.proof-name { font-weight: 600; color: var(--navy); }
+.proof-role { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.proof-stat-card {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 56px 48px;
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+}
+.proof-stat-card::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -30%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, var(--amber) 0%, transparent 70%);
+  opacity: 0.18;
+  border-radius: 50%;
+}
+.proof-stat-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber-bright); margin-bottom: 24px; position: relative; }
+.proof-stat-num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(72px, 9vw, 120px);
+  line-height: 0.9;
+  color: var(--cream);
+  margin-bottom: 24px;
+  letter-spacing: -0.04em;
+  position: relative;
+  font-variation-settings: "opsz" 144;
+}
+.proof-stat-num span { color: var(--amber-bright); }
+.proof-stat-desc { font-size: 15px; line-height: 1.6; color: rgba(240,242,245,0.75); margin-bottom: 32px; position: relative; }
+.proof-stat-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber-bright);
+  border-bottom: 1px solid var(--amber-bright);
+  padding-bottom: 4px;
+  position: relative;
+  transition: gap 0.3s ease;
+}
+.proof-stat-link:hover { gap: 16px; }
+@media (max-width: 960px) { .proof-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+/* ---- Adjacent ---- */
+.other-svc {
+  background: var(--cream);
+  padding: 110px 0;
+}
+.other-svc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+.other-svc-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 40px 36px;
+  border-radius: var(--radius);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+.other-svc-card:hover { background: var(--navy); color: var(--cream); transform: translateY(-4px); }
+.other-svc-card .num { font-family: var(--sans); font-style: italic; color: var(--amber); font-size: 14px; margin-bottom: 16px; }
+.other-svc-card:hover .num { color: var(--amber-bright); }
+.other-svc-card h4 { font-family: var(--sans); font-weight: 500; font-size: 24px; line-height: 1.15; margin-bottom: 12px; letter-spacing: -0.01em; color: var(--navy); transition: color 0.3s; font-variation-settings: "opsz" 144; }
+.other-svc-card:hover h4 { color: var(--cream); }
+.other-svc-card p { font-size: 15px; line-height: 1.6; color: var(--navy-soft); margin-bottom: 20px; flex: 1; transition: color 0.3s; }
+.other-svc-card:hover p { color: rgba(240,242,245,0.75); }
+.other-svc-card .lnk { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; color: var(--navy); transition: color 0.3s; }
+.other-svc-card:hover .lnk { color: var(--amber-bright); }
+@media (max-width: 768px) { .other-svc-grid { grid-template-columns: 1fr; } }
+
+/* ---- Vendor Coverage ---- */
+.vendor-coverage {
+  background: var(--navy-deep);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.vendor-coverage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+}
+.vendor-coverage .container { position: relative; z-index: 1; }
+.vendor-coverage .section-title { color: var(--cream); }
+.vendor-coverage .section-eyebrow { color: #F5C022; }
+.vendor-coverage .section-eyebrow::before { background: #F5C022; }
+.vendor-coverage .section-lede { color: rgba(240,242,245,0.65); }
+
+.vendor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  margin-top: 56px;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.vendor-card {
+  background: rgba(5,14,28,0.7);
+  padding: 44px 40px;
+  position: relative;
+  transition: background 0.35s ease;
+}
+.vendor-card:hover { background: rgba(45,91,255,0.06); }
+.vendor-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 40px; right: 40px;
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+}
+.vendor-card:nth-child(3)::after,
+.vendor-card:nth-child(4)::after { display: none; }
+
+.vendor-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.vendor-abbr {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #F5C022;
+  background: rgba(220,60,60,0.08);
+  border: 1px solid rgba(220,60,60,0.22);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  flex-shrink: 0;
+}
+.vendor-name {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 20px;
+  color: var(--cream);
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 144;
+}
+.vendor-card p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(240,242,245,0.62);
+  margin-bottom: 20px;
+}
+.vendor-challenges {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.vendor-challenge {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: rgba(72,112,255,0.85);
+}
+.vendor-challenge::before {
+  content: '▸';
+  color: rgba(72,112,255,0.5);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+@media (max-width: 860px) {
+  .vendor-grid { grid-template-columns: 1fr; }
+  .vendor-card:nth-child(3)::after { display: block; }
+  .vendor-card:nth-child(4)::after { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .urgency-badge::before, .ai-badge::before,
+  .exposure-fill, .stream-cursor,
+  .alert-band-track { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-lockup">
+        <span class="logo-text"><span class="logo-cap">P</span>roteam</span>
+        <span class="logo-advisory">Advisory Solutions LLP</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-mega">
+        <a href="services.html" class="active">Services <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="mega-menu" role="menu" aria-label="Services">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <a href="services.html#sam" class="mega-head">Software Asset Management</a>
+              <ul>
+                <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+                <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+                <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ham" class="mega-head">Hardware Asset Management</a>
+              <ul>
+                <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+                <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#finops" class="mega-head">Cloud FinOps</a>
+              <ul>
+                <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+                <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#ai-transformation" class="mega-head">AI Transformation Services</a>
+              <ul>
+                <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+                <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+              </ul>
+            </div>
+            <div class="mega-col">
+              <a href="services.html#itam-tech" class="mega-head">ITAM Technology</a>
+              <ul>
+                <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+                <li><a href="service-itam-flexera.html">Flexera</a></li>
+                <li><a href="service-itam-snow.html">Snow</a></li>
+                <li><a href="service-itam-zylo.html">Zylo</a></li>
+                <li><a href="service-itam-aspera.html">Aspera</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Free Consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <ul class="mobile-nav-links">
+    <li><a href="index.html">Home <span>&rarr;</span></a></li>
+    <li class="has-sub">
+      <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="m-svc-sub">
+        Services
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul id="m-svc-sub" class="sub-menu">
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-sam-sub">
+            Software Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-sam-sub" class="sub-menu-2">
+            <li><a href="service-sam-baselining.html">SAM Baselining &amp; Managed Services</a></li>
+            <li><a href="service-sam-maturity.html">SAM Maturity Assessment &amp; Transformation</a></li>
+            <li><a href="service-audit-defence.html">SAM Audit Defense</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ham-sub">
+            Hardware Asset Management
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ham-sub" class="sub-menu-2">
+            <li><a href="service-ham-maturity.html">HAM Capability Assessment &amp; Modernization</a></li>
+            <li><a href="service-ham-helpdesk.html">Hardware Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-finops-sub">
+            Cloud FinOps
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-finops-sub" class="sub-menu-2">
+            <li><a href="service-finops-maturity.html">FinOps Strategy &amp; Enablement</a></li>
+            <li><a href="service-finops-helpdesk.html">Cloud Cost Helpdesk Services</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-ai-sub">
+            AI Transformation Services
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-ai-sub" class="sub-menu-2">
+            <li><a href="service-ai-spend.html">AI Spend Management</a></li>
+            <li><a href="service-ai-adoption.html">AI Adoption &amp; Value Delivery</a></li>
+          </ul>
+        </li>
+        <li class="has-sub-2">
+          <button class="sub-toggle-2" type="button" aria-expanded="false" aria-controls="m-itam-sub">
+            ITAM Technology
+            <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="m-itam-sub" class="sub-menu-2">
+            <li><a href="service-itam-servicenow.html">ServiceNow</a></li>
+            <li><a href="service-itam-flexera.html">Flexera</a></li>
+            <li><a href="service-itam-snow.html">Snow</a></li>
+            <li><a href="service-itam-zylo.html">Zylo</a></li>
+            <li><a href="service-itam-aspera.html">Aspera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="case-studies.html">Case Studies <span>&rarr;</span></a></li>
+    <li><a href="about.html">About <span>&rarr;</span></a></li>
+    <li><a href="insights.html">Insights <span>&rarr;</span></a></li>
+    <li><a href="contact.html">Contact <span>&rarr;</span></a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta">Book Free Consultation &rarr;</a>
+  <div class="mobile-nav-contact">
+    <a href="tel:+919676889797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      +91 9676 889 797
+    </a>
+    <a href="mailto:vpatel@proteamadvisory.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      vpatel@proteamadvisory.com
+    </a>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero svc-detail-hero">
+  <canvas id="radar-canvas"></canvas>
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="services.html">Services</a>
+      <span class="sep">/</span>
+      <span class="current">Audit Defence</span>
+    </div>
+    <div class="page-hero-grid">
+      <div>
+        <div class="page-hero-eyebrow">Software Asset Management · 03</div>
+        <h1>Audit <em>defence</em> services.</h1>
+      </div>
+      <div>
+        <p class="page-hero-lede">
+          When a software vendor sends an audit notice, the clock starts. We've defended thousands of audits — and reduced exposure by tens of millions per engagement. AI-forensic analysis. Specialist negotiation. Every time.
+        </p>
+        <div style="margin-top:24px; display:flex; gap:10px; flex-wrap:wrap;">
+          <span class="urgency-badge">72-hr Response</span>
+          <span class="ai-badge">AI Forensic Analysis</span>
+          <span class="ai-badge">Methodology Challenge</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-row reveal">
+      <div>
+        <div class="stat-num">$40M+</div>
+        <div class="stat-lbl">Largest single audit defence saving — IBM ECM, US investment bank.</div>
+      </div>
+      <div>
+        <div class="stat-num">$1.25M+</div>
+        <div class="stat-lbl">Saved in less than two weeks during an IBM audit for a UK IP management firm.</div>
+      </div>
+      <div>
+        <div class="stat-num">8 weeks</div>
+        <div class="stat-lbl">Typical timeline from engagement to negotiated audit settlement.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALERT BAND -->
+<div class="alert-band">
+  <div class="alert-band-track">
+    <span class="alert-band-label">AUDIT TRIGGERS</span>
+    <span class="alert-band-item">IBM Software Audit</span>
+    <span class="alert-band-item">Oracle License Review</span>
+    <span class="alert-band-item">Microsoft True-Up Dispute</span>
+    <span class="alert-band-item">SAP Indirect Access Claim</span>
+    <span class="alert-band-item">VMware Compliance Notice</span>
+    <span class="alert-band-item">Broadcom ELA Audit</span>
+    <span class="alert-band-item">SaaS Over-Deployment</span>
+    <span class="alert-band-item">Post-M&amp;A Licence Audit</span>
+    <!-- duplicate -->
+    <span class="alert-band-label">AUDIT TRIGGERS</span>
+    <span class="alert-band-item">IBM Software Audit</span>
+    <span class="alert-band-item">Oracle License Review</span>
+    <span class="alert-band-item">Microsoft True-Up Dispute</span>
+    <span class="alert-band-item">SAP Indirect Access Claim</span>
+    <span class="alert-band-item">VMware Compliance Notice</span>
+    <span class="alert-band-item">Broadcom ELA Audit</span>
+    <span class="alert-band-item">SaaS Over-Deployment</span>
+    <span class="alert-band-item">Post-M&amp;A Licence Audit</span>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section class="svc-overview">
+  <div class="container">
+    <div class="svc-overview-grid">
+      <div class="reveal">
+        <div class="section-eyebrow">The problem we solve</div>
+        <h2>An audit notice is a <em>negotiation</em>, not an inspection.</h2>
+      </div>
+      <div class="reveal">
+        <p>Most audits begin with a vendor — or their appointed third-party auditor — claiming significant non-compliance. The numbers cited in the initial position paper are rarely the numbers you end up paying. <strong>Everything between is negotiation.</strong></p>
+        <p>That negotiation hinges on three things: how thoroughly you understand your contracts, how accurately you can measure your deployment, and how confidently you can challenge the auditor's methodology. <strong>That's where most internal teams get into trouble</strong> — not because they're incapable, but because each of those three skills is its own discipline.</p>
+        <p>We've been on both sides of the table. We know how vendor licensing teams build their cases. <strong>Our AI forensic engine analyses contracts and deployment data in parallel</strong> — surfacing methodology divergences and challenge points before the auditor's position paper even lands. We know how to negotiate a settlement that protects your bottom line and your operating relationship with the vendor.</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:24px;">
+          <span class="ai-badge">AI contract forensics</span>
+          <span class="ai-badge">Automated methodology audit</span>
+          <span class="ai-badge">Independent measurement engine</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VENDOR COVERAGE -->
+<section class="vendor-coverage">
+  <div class="container">
+    <div class="reveal" style="max-width: 720px;">
+      <div class="section-eyebrow">Vendor specialisations</div>
+      <h2 class="section-title">We know their <em>playbook</em>.</h2>
+      <p class="section-lede">Every major software vendor audits differently. Their methodologies, their appointed auditors, and the specific pressure points they exploit are known quantities to us — because we've defended against every one of them.</p>
+    </div>
+
+    <div class="vendor-grid reveal-stagger">
+
+      <div class="vendor-card">
+        <div class="vendor-logo-row">
+          <span class="vendor-abbr">IBM</span>
+          <span class="vendor-name">IBM Software</span>
+        </div>
+        <p>IBM audits — particularly around ILMT/BigFix sub-capacity reporting, ECM, and Passport Advantage contractual terms — generate some of the largest exposure claims in enterprise software. IBM's appointed auditors routinely apply sub-capacity rules incorrectly and conflate PVU counts across virtualised environments.</p>
+        <div class="vendor-challenges">
+          <span class="vendor-challenge">ILMT deployment gaps and sub-capacity reconciliation</span>
+          <span class="vendor-challenge">ECM product version and metric misclassification</span>
+          <span class="vendor-challenge">Passport Advantage contract schedule interpretation</span>
+          <span class="vendor-challenge">Authorised User vs. PVU metric disputes</span>
+        </div>
+      </div>
+
+      <div class="vendor-card">
+        <div class="vendor-logo-row">
+          <span class="vendor-abbr">ORC</span>
+          <span class="vendor-name">Oracle</span>
+        </div>
+        <p>Oracle licence reviews are systematically aggressive, leveraging the complexity of virtualisation licensing rules, ULA certification, and processor metric definitions to maximise initial exposure claims. The gap between the opening position and a settled figure is frequently 60–80%.</p>
+        <div class="vendor-challenges">
+          <span class="vendor-challenge">VMware / cloud virtualisation — Oracle's hard partition rules</span>
+          <span class="vendor-challenge">Java SE licensing — per-employee metric challenges</span>
+          <span class="vendor-challenge">ULA certification scope and product inclusion disputes</span>
+          <span class="vendor-challenge">Indirect access and integration point claims</span>
+        </div>
+      </div>
+
+      <div class="vendor-card">
+        <div class="vendor-logo-row">
+          <span class="vendor-abbr">MSFT</span>
+          <span class="vendor-name">Microsoft</span>
+        </div>
+        <p>Microsoft true-ups, SAM engagement follow-ons, and post-EA True-Up disputes most often turn on device vs. user assignment rules, hybrid benefit eligibility, and M365 licensing tier conflicts — areas where the complexity of Microsoft's licensing framework creates genuine ambiguity that can be challenged.</p>
+        <div class="vendor-challenges">
+          <span class="vendor-challenge">M365 / EMS licence tier over-assignment challenges</span>
+          <span class="vendor-challenge">Azure Hybrid Benefit and BYOL eligibility</span>
+          <span class="vendor-challenge">SQL Server virtualisation and core factor table disputes</span>
+          <span class="vendor-challenge">True-Up vs. MPSA reconciliation methodology</span>
+        </div>
+      </div>
+
+      <div class="vendor-card">
+        <div class="vendor-logo-row">
+          <span class="vendor-abbr">SAP</span>
+          <span class="vendor-name">SAP</span>
+        </div>
+        <p>SAP indirect access claims — where third-party systems connecting to SAP are deemed to require named user licences — represent some of the most commercially dangerous audit territory in enterprise software. SAP's licence metric complexity across S/4HANA, BTP, and legacy modules creates extensive challenge opportunity.</p>
+        <div class="vendor-challenges">
+          <span class="vendor-challenge">Indirect / digital access claim methodology challenges</span>
+          <span class="vendor-challenge">Named user reclassification and role consolidation</span>
+          <span class="vendor-challenge">S/4HANA transition — legacy metric mapping disputes</span>
+          <span class="vendor-challenge">BTP and cloud extension licensing scope</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DEFENCE COMMAND DIAGRAM -->
+<section class="defence-command">
+  <div class="container">
+    <div class="reveal" style="max-width: 720px;">
+      <div class="section-eyebrow">The defence command model</div>
+      <h2 class="section-title">Four stages. <em>One objective: close the audit clean.</em></h2>
+      <p class="section-lede">From the moment the notice arrives to post-settlement hardening — every action is sequenced, time-boxed, and AI-assisted. The exposure gauge tracks our progress in real time.</p>
+    </div>
+
+    <div class="defence-diagram reveal">
+      <!-- Exposure reduction bar -->
+      <div class="exposure-bar-wrap">
+        <span class="exposure-label">Exposure level</span>
+        <div class="exposure-track">
+          <div class="exposure-fill"></div>
+          <div class="exposure-markers">
+            <span class="exposure-marker">NOTICE</span>
+            <span class="exposure-marker">MEASURED</span>
+            <span class="exposure-marker">CHALLENGED</span>
+            <span class="exposure-marker">SETTLED</span>
+          </div>
+        </div>
+        <span class="exposure-readout">↓ REDUCING</span>
+      </div>
+
+      <!-- 4 stage cards -->
+      <div class="stages-row">
+        <div class="stage-card active">
+          <div class="stage-num">Stage 01</div>
+          <div class="stage-time">72 hours</div>
+          <div class="stage-title">Triage</div>
+          <div class="stage-desc">Scope assessment, contractual basis review, auditor identity verified, and exposure modelled — before any data leaves your environment.</div>
+          <div class="stage-connector">→</div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">Stage 02</div>
+          <div class="stage-time">Weeks 1–3</div>
+          <div class="stage-title">Independent Measurement</div>
+          <div class="stage-desc">Forensic-grade parallel measurement using AI-assisted deployment analysis. Our baseline is ready before the auditor's numbers land.</div>
+          <div class="stage-connector">→</div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">Stage 03</div>
+          <div class="stage-time">Weeks 3–7</div>
+          <div class="stage-title">Challenge &amp; Negotiate</div>
+          <div class="stage-desc">AI methodology analysis identifies every divergence from contract language. We challenge in writing, line by line, and negotiate directly with the vendor's audit team.</div>
+          <div class="stage-connector">→</div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">Stage 04</div>
+          <div class="stage-time">Week 8+</div>
+          <div class="stage-title">Settle &amp; Harden</div>
+          <div class="stage-desc">Audit closed. Automated controls designed to prevent recurrence. Your next audit cycle finds far less to complain about.</div>
+        </div>
+      </div>
+
+      <!-- AI analysis stream terminal -->
+      <div class="analysis-stream" id="analysisStream">
+        <span id="streamText"></span><span class="stream-cursor"></span>
+      </div>
+    </div>
+
+    <!-- Info panels -->
+    <div class="defence-panels reveal-stagger" style="margin-top:0;">
+      <div class="defence-panel">
+        <div class="defence-panel-label">AI Forensic Engine</div>
+        <p>Machine learning cross-references contract language against auditor methodology claims — surfacing divergences that human review would take weeks to find.</p>
+      </div>
+      <div class="defence-panel">
+        <div class="defence-panel-label">Independent Measurement</div>
+        <p>Automated deployment measurement runs in parallel with the vendor's own audit process — giving us a forensic baseline to challenge their numbers before they're even shared.</p>
+      </div>
+      <div class="defence-panel">
+        <div class="defence-panel-label">Automated Hardening</div>
+        <p>Post-settlement, we deploy automated licence controls and continuous monitoring — so compliance gaps are detected and resolved before the next audit cycle begins.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section class="includes">
+  <div class="container">
+    <div class="reveal" style="max-width: 720px;">
+      <div class="section-eyebrow">What's included</div>
+      <h2 class="section-title">Six work-streams. <em>One outcome.</em></h2>
+      <p class="section-lede">Every licence audit defence engagement covers these areas — adapted in scale and depth to your environment, contracts, and timeline.</p>
+    </div>
+
+    <div class="workstream-layout reveal">
+      <!-- Left: step rail -->
+      <div class="workstream-rail" id="wsRail">
+        <div class="workstream-rail-fill" id="wsSpine"></div>
+
+        <button class="workstream-tab active" data-ws="0">
+          <div class="ws-node"></div>
+          <div class="ws-tab-content">
+            <div class="ws-tab-num">Work-stream 01</div>
+            <div class="ws-tab-title">Notice review &amp; strategy</div>
+            <div class="ws-tab-badge">AI scope analysis</div>
+          </div>
+        </button>
+        <button class="workstream-tab" data-ws="1">
+          <div class="ws-node"></div>
+          <div class="ws-tab-content">
+            <div class="ws-tab-num">Work-stream 02</div>
+            <div class="ws-tab-title">Independent measurement</div>
+            <div class="ws-tab-badge">Automated forensic measurement</div>
+          </div>
+        </button>
+        <button class="workstream-tab" data-ws="2">
+          <div class="ws-node"></div>
+          <div class="ws-tab-content">
+            <div class="ws-tab-num">Work-stream 03</div>
+            <div class="ws-tab-title">Methodology challenge</div>
+            <div class="ws-tab-badge">AI methodology comparison</div>
+          </div>
+        </button>
+        <button class="workstream-tab" data-ws="3">
+          <div class="ws-node"></div>
+          <div class="ws-tab-content">
+            <div class="ws-tab-num">Work-stream 04</div>
+            <div class="ws-tab-title">Position-paper response</div>
+            <div class="ws-tab-badge">AI-assisted drafting</div>
+          </div>
+        </button>
+        <button class="workstream-tab" data-ws="4">
+          <div class="ws-node"></div>
+          <div class="ws-tab-content">
+            <div class="ws-tab-num">Work-stream 05</div>
+            <div class="ws-tab-title">Direct vendor negotiation</div>
+            <div class="ws-tab-badge">Negotiation intelligence</div>
+          </div>
+        </button>
+        <button class="workstream-tab" data-ws="5">
+          <div class="ws-node"></div>
+          <div class="ws-tab-content">
+            <div class="ws-tab-num">Work-stream 06</div>
+            <div class="ws-tab-title">Post-audit hardening</div>
+            <div class="ws-tab-badge">Automated control deployment</div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Right: detail panel -->
+      <div class="workstream-panel" id="wsPanel">
+        <div class="ws-panel-scan"></div>
+
+        <!-- Slide 0 -->
+        <div class="ws-panel-slide active" data-ws="0">
+          <div class="ws-panel-corner">01</div>
+          <div class="ws-panel-num">Work-stream 01 · Day 0–3</div>
+          <h3 class="ws-panel-title">Notice review &amp; <em>strategy</em>.</h3>
+          <p class="ws-panel-body">The day the audit notice arrives, we review the scope, the contractual basis the vendor is invoking, and the appointed auditor's methodology. We agree a defence strategy with you before any data leaves your environment.</p>
+          <div class="ws-detail-list">
+            <div class="ws-detail-item">Scope verification — what products and entities are in scope, and whether the audit right is validly invoked</div>
+            <div class="ws-detail-item">Auditor identity review — who is conducting the audit, and what methodology they typically apply</div>
+            <div class="ws-detail-item">AI-assisted contract analysis — licence metrics, schedule terms, and contractual limitations on audit scope</div>
+            <div class="ws-detail-item">Initial risk model — exposure range estimated before any data is shared with the auditor</div>
+          </div>
+          <span class="ws-panel-badge">AI scope analysis</span>
+          <div class="ws-dots" id="wsDots0"></div>
+        </div>
+
+        <!-- Slide 1 -->
+        <div class="ws-panel-slide" data-ws="1">
+          <div class="ws-panel-corner">02</div>
+          <div class="ws-panel-num">Work-stream 02 · Weeks 1–3</div>
+          <h3 class="ws-panel-title">Independent <em>measurement</em>.</h3>
+          <p class="ws-panel-body">We run our own deployment measurement in parallel with the vendor's — using AI-assisted forensic tools to process infrastructure data at scale. When the auditor's numbers land, we have an independent baseline ready to compare against — and to challenge from.</p>
+          <div class="ws-detail-list">
+            <div class="ws-detail-item">Automated infrastructure discovery across on-premise, cloud, and virtualised environments</div>
+            <div class="ws-detail-item">Licence metric application — we apply the same rules the auditor will, using your actual contract definition</div>
+            <div class="ws-detail-item">Forensic-grade output — a defensible baseline our consultants can present directly to the auditor</div>
+            <div class="ws-detail-item">Gap analysis — where our numbers diverge from the auditor's, we identify the specific cause</div>
+          </div>
+          <span class="ws-panel-badge">Automated forensic measurement</span>
+          <div class="ws-dots" id="wsDots1"></div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="ws-panel-slide" data-ws="2">
+          <div class="ws-panel-corner">03</div>
+          <div class="ws-panel-num">Work-stream 03 · Weeks 2–5</div>
+          <h3 class="ws-panel-title">Methodology <em>challenge</em>.</h3>
+          <p class="ws-panel-body">Vendors routinely apply licensing metrics that diverge from the actual contract language. Our AI engine forensically compares the auditor's methodology against your contracts and surfaces every point of divergence — which our consultants then challenge in writing, line by line.</p>
+          <div class="ws-detail-list">
+            <div class="ws-detail-item">AI contract-vs-methodology cross-reference — every clause compared against auditor claims</div>
+            <div class="ws-detail-item">Metric version disputes — auditors frequently apply newer, more aggressive metrics than the contract specifies</div>
+            <div class="ws-detail-item">Virtualisation and sub-capacity rule challenges — the most common source of inflated IBM and Oracle claims</div>
+            <div class="ws-detail-item">Written challenge documentation — formal, evidence-backed position delivered to the auditor</div>
+          </div>
+          <span class="ws-panel-badge">AI methodology comparison</span>
+          <div class="ws-dots" id="wsDots2"></div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="ws-panel-slide" data-ws="3">
+          <div class="ws-panel-corner">04</div>
+          <div class="ws-panel-num">Work-stream 04 · Weeks 3–6</div>
+          <h3 class="ws-panel-title">Position-paper <em>response</em>.</h3>
+          <p class="ws-panel-body">We draft your formal response to the auditor's findings. Each non-compliance claim is analysed individually — accepted where the evidence is clear, partially contested where the methodology is arguable, or rejected where the contract doesn't support the claim.</p>
+          <div class="ws-detail-list">
+            <div class="ws-detail-item">Finding-by-finding analysis — each auditor claim categorised and evidence-weighted</div>
+            <div class="ws-detail-item">AI-generated counter-position data — automated calculation of the corrected exposure under our methodology</div>
+            <div class="ws-detail-item">Contractual reasoning — every rejection or partial challenge backed by specific clause references</div>
+            <div class="ws-detail-item">Settlement anchor — our response sets the opening position for negotiation at the lowest defensible figure</div>
+          </div>
+          <span class="ws-panel-badge">AI-assisted drafting</span>
+          <div class="ws-dots" id="wsDots3"></div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="ws-panel-slide" data-ws="4">
+          <div class="ws-panel-corner">05</div>
+          <div class="ws-panel-num">Work-stream 05 · Weeks 5–8</div>
+          <h3 class="ws-panel-title">Direct vendor <em>negotiation</em>.</h3>
+          <p class="ws-panel-body">Where useful, we engage directly with the vendor's audit team — separating the contractual dispute from your wider commercial relationship. We know how these teams operate and what they're authorised to settle for. The goal is a clean close at the lowest defensible figure.</p>
+          <div class="ws-detail-list">
+            <div class="ws-detail-item">Direct engagement with the vendor's audit leads — bypassing the third-party auditor where advantageous</div>
+            <div class="ws-detail-item">Commercial relationship protection — the audit dispute is kept separate from renewal and ELA discussions</div>
+            <div class="ws-detail-item">Settlement authority intelligence — we know what settlement ranges vendor teams are authorised to accept</div>
+            <div class="ws-detail-item">Structured close — settlement terms documented and signed off before the engagement concludes</div>
+          </div>
+          <span class="ws-panel-badge">Negotiation intelligence</span>
+          <div class="ws-dots" id="wsDots4"></div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="ws-panel-slide" data-ws="5">
+          <div class="ws-panel-corner">06</div>
+          <div class="ws-panel-num">Work-stream 06 · Post-settlement</div>
+          <h3 class="ws-panel-title">Post-audit <em>hardening</em>.</h3>
+          <p class="ws-panel-body">Once the audit settles, we fix the upstream process gaps that allowed exposure to build in the first place. Automated controls, continuous AI-powered monitoring, and licence alerting prevent the same issues recurring — so the next audit cycle starts from a defensible baseline.</p>
+          <div class="ws-detail-list">
+            <div class="ws-detail-item">Root cause analysis — the compliance gaps the audit revealed, mapped to specific process failures</div>
+            <div class="ws-detail-item">Automated licence controls — deployment guardrails that prevent exposure drifting above entitlements</div>
+            <div class="ws-detail-item">Continuous AI monitoring — real-time alerting when licence positions move outside defined thresholds</div>
+            <div class="ws-detail-item">Audit-ready baseline — a defensible licence position maintained year-round, not rebuilt under pressure</div>
+          </div>
+          <span class="ws-panel-badge">Automated control deployment</span>
+          <div class="ws-dots" id="wsDots5"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="container">
+    <div class="reveal" style="margin-bottom: 56px;">
+      <div class="section-eyebrow">Proof</div>
+      <h2 class="section-title">A <em>recent engagement</em>.</h2>
+    </div>
+    <div class="proof-grid">
+      <div class="reveal">
+        <div class="proof-quote">
+          "Within 8 weeks, we negotiated <em>over $40 million in immediate cost savings</em> for a US investment bank facing IBM ECM non-compliance findings — after their internal team's 5-month effort had stalled."
+        </div>
+        <div class="proof-attribution">
+          <div class="proof-avatar">VD</div>
+          <div>
+            <div class="proof-name">Viswam Dhavej</div>
+            <div class="proof-role">Founding &amp; Managing Partner · Proteam Advisory · IBM audit defence</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proof-stat-card reveal">
+        <div class="proof-stat-label">Audit exposure neutralised</div>
+        <div class="proof-stat-num"><span>$40M+</span></div>
+        <div class="proof-stat-desc">A leading US multinational investment bank brought us in after five months of failed audit defence. We engaged directly with IBM's auditors and negotiated a settlement using AI-assisted contract forensics and independent measurement.</div>
+        <a href="case-studies.html" class="proof-stat-link">Read full case study →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADJACENT SERVICES -->
+<section class="other-svc">
+  <div class="container">
+    <div class="reveal" style="max-width: 720px;">
+      <div class="section-eyebrow">Adjacent services</div>
+      <h2 class="section-title">Often deployed <em>alongside</em>.</h2>
+      <p class="section-lede">Audit defence rarely stands alone. The strongest defence is built before the audit notice arrives — and the cleanest settlement is sustained by what comes after.</p>
+    </div>
+
+    <div class="other-svc-grid">
+      <a href="service-sam-baselining.html" class="other-svc-card reveal">
+        <div class="num">— 01</div>
+        <h4>SAM Baselining &amp; Managed Services</h4>
+        <p>The best audit defence is being permanently audit-ready. Our managed SAM service maintains a defensible licence baseline year-round — so the next vendor audit finds nothing to complain about.</p>
+        <span class="lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="service-sam-maturity.html" class="other-svc-card reveal">
+        <div class="num">— 02</div>
+        <h4>SAM Maturity Assessment &amp; Transformation</h4>
+        <p>Audit findings expose SAM programme weaknesses. Our maturity assessment identifies exactly where your programme needs strengthening — and builds the roadmap to get there.</p>
+        <span class="lnk">Learn more <svg width="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="reveal">
+        <div class="section-eyebrow" style="color: var(--amber-bright);">Audit notice on your desk?</div>
+        <h2>Don't go in <em>without specialists</em>.</h2>
+        <p>If you've received an audit notice — or you're hearing rumblings that one is coming — the first 72 hours matter. Book a call now. We'll review the notice, talk through the vendor's likely position, and tell you whether you need our help or your internal team can handle it.</p>
+        <div class="cta-actions">
+          <a href="contact.html" class="btn-amber">Speak to a specialist</a>
+          <a href="case-studies.html" class="btn-line">See defence case studies</a>
+        </div>
+      </div>
+      <div class="cta-detail reveal">
+        <h4>What you'll get</h4>
+        <ul class="cta-list">
+          <li>30-minute call with a senior audit defence consultant.</li>
+          <li>Honest read on the vendor's likely position and exposure range.</li>
+          <li>Recommended response strategy for the next 30 days.</li>
+          <li>Clear view of whether external help is needed at all.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="logo" style="color: var(--cream);">
+          <span class="logo-lockup">
+            <span class="logo-text" style="color:var(--cream);"><span class="logo-cap">P</span>roteam</span>
+            <span class="logo-advisory" style="color:rgba(240,242,245,0.7);">Advisory Solutions LLP</span>
+          </span>
+        </a>
+        <h3>SAM specialists. Nothing else.</h3>
+        <p>An independent Software Asset Management consultancy serving enterprises across India, the UK, the US, and the Middle East.</p>
+        <div class="foot-social">
+          <div class="foot-social-label">Follow us on</div>
+          <div class="foot-social-icons">
+            <a href="https://in.linkedin.com/company/proteam-advisory" aria-label="LinkedIn" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/proteamadv" aria-label="X (Twitter)" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H21l-7.39 8.45L22.5 21h-6.83l-5.34-6.99L3.5 21H0l7.91-9.04L0.5 3h7l4.83 6.4L17.53 3zm-2.39 16h2.06L7.05 4.85H4.83L15.14 19z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/proteamadvisory/" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://www.youtube.com/channel/UCaajUe2N_6AFw3dvPmH1b7A" aria-label="YouTube" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#sam">Software Asset Management</a></li>
+          <li><a href="services.html#ham">Hardware Asset Management</a></li>
+          <li><a href="services.html#finops">Cloud FinOps</a></li>
+          <li><a href="services.html#ai-transformation">AI Transformation Services</a></li>
+          <li><a href="services.html#itam-tech">ITAM Technology</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="case-studies.html">Case Studies</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="insights.html">Insights</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="careers.html">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Get in touch</h5>
+        <address>
+          Suite #309&ndash;312<br>
+          KTC Illumination Towers<br>
+          Madhapur, Hyderabad<br>
+          Telangana, India<br><br>
+          <a href="tel:+919676889797">+91 9676 889 797</a><br>
+          <a href="mailto:vpatel@proteamadvisory.com">vpatel@proteamadvisory.com</a>
+        </address>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div>&copy; 2026 Proteam Advisory. All rights reserved.</div>
+      <div style="display:flex; gap:24px; flex-wrap:wrap;">
+        <a href="privacy.html">Privacy</a><a href="terms.html">Terms of Use</a><a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---- Radar hero canvas ---- */
+(function() {
+  const canvas = document.getElementById('radar-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, angle = 0, blips = [];
+  const vendors = ['IBM','ORC','SAP','MSFT','VMW','BRD','SFC','ADO'];
+
+  function resize() {
+    const hero = canvas.parentElement;
+    W = canvas.width  = hero.offsetWidth;
+    H = canvas.height = hero.offsetHeight;
+  }
+
+  function addBlip() {
+    const r = 60 + Math.random() * (Math.min(W, H) * 0.38);
+    const a = Math.random() * Math.PI * 2;
+    blips.push({
+      x: W * 0.72 + Math.cos(a) * r,
+      y: H * 0.5  + Math.sin(a) * r,
+      alpha: 0.85,
+      label: vendors[Math.floor(Math.random() * vendors.length)],
+      born: angle
+    });
+    if (blips.length > 10) blips.shift();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const cx = W * 0.72, cy = H * 0.5;
+    const maxR = Math.min(W * 0.45, H * 0.85);
+
+    // Concentric rings
+    ctx.strokeStyle = 'rgba(220,60,60,0.12)';
+    ctx.lineWidth = 1;
+    [0.25, 0.5, 0.75, 1].forEach(f => {
+      ctx.beginPath();
+      ctx.arc(cx, cy, maxR * f, 0, Math.PI * 2);
+      ctx.stroke();
+    });
+
+    // Cross-hairs
+    ctx.strokeStyle = 'rgba(220,60,60,0.07)';
+    ctx.beginPath(); ctx.moveTo(cx - maxR, cy); ctx.lineTo(cx + maxR, cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, cy - maxR); ctx.lineTo(cx, cy + maxR); ctx.stroke();
+
+    // Sweep gradient
+    const sweep = ctx.createConicalGradient
+      ? ctx.createConicalGradient(angle, cx, cy)
+      : null;
+    if (sweep) {
+      sweep.addColorStop(0, 'rgba(220,60,60,0.18)');
+      sweep.addColorStop(0.18, 'rgba(220,60,60,0)');
+      ctx.fillStyle = sweep;
+      ctx.beginPath(); ctx.arc(cx, cy, maxR, 0, Math.PI * 2); ctx.fill();
+    } else {
+      // Fallback: simple wedge
+      ctx.save();
+      ctx.fillStyle = 'rgba(220,60,60,0.1)';
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, maxR, angle, angle + 0.45);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Sweep arm
+    ctx.strokeStyle = 'rgba(220,60,60,0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(angle) * maxR, cy + Math.sin(angle) * maxR);
+    ctx.stroke();
+
+    // Blips
+    blips.forEach(b => {
+      const ageDeg = angle - b.born;
+      const fade = Math.max(0, b.alpha - Math.abs(ageDeg) * 0.3);
+      if (fade <= 0) return;
+      ctx.fillStyle = `rgba(220,60,60,${fade * 0.8})`;
+      ctx.beginPath(); ctx.arc(b.x, b.y, 3.5, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = `rgba(220,60,60,${fade * 0.35})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(b.x, b.y, 8, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = `rgba(220,60,60,${fade * 0.65})`;
+      ctx.font = '500 9px "Geist Mono", monospace';
+      ctx.fillText(b.label, b.x + 11, b.y + 4);
+    });
+
+    // Tick
+    const prev = angle;
+    angle += 0.018;
+    if (Math.floor(prev / (Math.PI * 0.4)) !== Math.floor(angle / (Math.PI * 0.4))) addBlip();
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+})();
+
+/* ---- AI analysis stream typewriter ---- */
+(function() {
+  const el = document.getElementById('streamText');
+  if (!el) return;
+  const lines = [
+    '> Initialising forensic scan... contract corpus loaded [247 documents]',
+    '> Cross-referencing IBM ECM metrics against contract Schedule A... 3 divergences found',
+    '> Running deployment reconciliation: 14,821 installs mapped against 12,400 entitlements',
+    '> Methodology anomaly detected: auditor applying metric v4.2 — contract specifies v3.8',
+    '> Challenge point logged: estimated exposure reduction £2.4M',
+    '> Generating position-paper response... AI draft ready for consultant review',
+  ];
+  let lineIdx = 0, charIdx = 0, displayed = '';
+  function type() {
+    const current = lines[lineIdx];
+    if (charIdx < current.length) {
+      displayed += current[charIdx++];
+      el.textContent = displayed;
+    } else {
+      // Pause then start next line
+      setTimeout(() => {
+        displayed += '\n';
+        lineIdx = (lineIdx + 1) % lines.length;
+        charIdx = 0;
+        if (lineIdx === 0) displayed = '';
+        // Keep last 3 lines visible
+        const parts = displayed.split('\n').filter(Boolean);
+        if (parts.length > 3) displayed = parts.slice(-3).join('\n') + '\n';
+        type();
+      }, 900);
+      return;
+    }
+    setTimeout(type, 22);
+  }
+  type();
+})();
+
+/* ---- Workstream interactive panel ---- */
+(function() {
+  const tabs = document.querySelectorAll('.workstream-tab');
+  const slides = document.querySelectorAll('.ws-panel-slide');
+  const spine = document.getElementById('wsSpine');
+  const TOTAL = tabs.length;
+  let current = 0;
+  let timer = null;
+  const CYCLE_MS = 4200;
+
+  // Build navigation dots inside each slide
+  slides.forEach((slide, si) => {
+    const dotsEl = slide.querySelector('.ws-dots');
+    if (!dotsEl) return;
+    for (let i = 0; i < TOTAL; i++) {
+      const d = document.createElement('button');
+      d.className = 'ws-dot' + (i === si ? ' active' : '');
+      d.setAttribute('aria-label', 'Go to work-stream ' + (i + 1));
+      d.addEventListener('click', () => { stopCycle(); activate(i); });
+      dotsEl.appendChild(d);
+    }
+    // Add auto-cycle label
+    const lbl = document.createElement('span');
+    lbl.className = 'ws-cycle-label';
+    lbl.textContent = 'auto-cycling';
+    dotsEl.appendChild(lbl);
+  });
+
+  function updateSpine(idx) {
+    if (!spine) return;
+    const rail = document.getElementById('wsRail');
+    if (!rail) return;
+    const railH = rail.offsetHeight;
+    const tabH = railH / TOTAL;
+    // Spine fills up to the bottom of the active tab
+    const fillPx = tabH * (idx + 1);
+    spine.style.height = fillPx + 'px';
+  }
+
+  function activate(idx) {
+    current = idx;
+    tabs.forEach((t, i) => {
+      t.classList.toggle('active', i === idx);
+      t.classList.toggle('done', i < idx);
+    });
+    slides.forEach((s, i) => {
+      s.classList.toggle('active', i === idx);
+    });
+    // Sync all dot groups
+    document.querySelectorAll('.ws-dot').forEach((d, di) => {
+      const slideIdx = Math.floor(di / TOTAL);
+      const dotPos   = di % TOTAL;
+      d.classList.toggle('active', dotPos === idx);
+    });
+    updateSpine(idx);
+  }
+
+  function startCycle() {
+    timer = setInterval(() => {
+      activate((current + 1) % TOTAL);
+    }, CYCLE_MS);
+  }
+
+  function stopCycle() {
+    clearInterval(timer);
+    timer = null;
+    // Hide auto-cycle labels
+    document.querySelectorAll('.ws-cycle-label').forEach(l => l.style.display = 'none');
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => { stopCycle(); activate(i); });
+  });
+
+  // Initialise
+  activate(0);
+  updateSpine(0);
+  startCycle();
+
+  // Pause on hover
+  const layout = document.querySelector('.workstream-layout');
+  if (layout) {
+    layout.addEventListener('mouseenter', stopCycle);
+    layout.addEventListener('mouseleave', () => { if (!timer) startCycle(); });
+  }
+})();
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => obs.observe(el));
+
+/* ---- Mobile menu ---- */
+(function() {
+  const toggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  if (!toggle || !mobileNav) return;
+  const body = document.body;
+  function openMenu() {
+    mobileNav.classList.add('is-open');
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    mobileNav.classList.remove('is-open');
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    body.style.overflow = '';
+}
+  toggle.addEventListener('click', () => mobileNav.classList.contains('is-open') ? closeMenu() : openMenu());
+  mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) closeMenu(); });
+  mobileNav.querySelectorAll('.sub-toggle, .sub-toggle-2').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('aria-controls');
+      const target = id ? document.getElementById(id) : btn.nextElementSibling;
+      if (!target) return;
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      target.classList.toggle('is-open', !expanded);
+    });
+  });
+})();
+</script>
+
+<script src="sammy-chatbot.js"></script>
+<script>
+/* Desktop mega-menu: JS hover with close-delay */
+(function () {
+  var CLOSE_DELAY = 150;
+  document.querySelectorAll(".nav-links .has-mega").forEach(function (li) {
+    var timer = null;
+    function openMenu() { clearTimeout(timer); li.classList.add("mega-open"); }
+    function scheduleClose() { timer = setTimeout(function () { li.classList.remove("mega-open"); }, CLOSE_DELAY); }
+    li.addEventListener("mouseenter", openMenu);
+    li.addEventListener("mouseleave", scheduleClose);
+    var menu = li.querySelector(".mega-menu");
+    if (menu) {
+      menu.addEventListener("mouseenter", openMenu);
+      menu.addEventListener("mouseleave", scheduleClose);
+    }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") li.classList.remove("mega-open"); });
+  });
+})();
+</script>
+</body>
+</html>
